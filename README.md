@@ -7,25 +7,20 @@ LET'S SOPT 38기 합동세미나 iOS 2조 듀레일 🚅
 | <img width="511" height="683" alt="듀레일 프로필1" src="https://github.com/user-attachments/assets/7deba07d-b9f3-44b0-98f8-3c55307f61d2" /> | <img width="499" height="666" alt="듀레일 프로필3" src="https://github.com/user-attachments/assets/3bb81cd7-81a3-4278-9f11-35f01a756305" /> | <img width="494" height="658" alt="듀레일 프로필4-2" src="https://github.com/user-attachments/assets/07cd8edd-3060-403c-8770-dc4be7eb4c05" /> | <img width="493" height="658" alt="듀레일 프로필4" src="https://github.com/user-attachments/assets/da51bdb4-d0de-4fb5-a560-69f5e634e69a" /> |
 | `iOS Lead Developer` | `iOS Developer` | `iOS Developer` | `iOS Developer` |
 
-## 🍈 시연 영상
 
-| **승차권&좌석 조회** | **승차권 정보 확인** | **열차 내 물품 휴대 기준** | 
-| :---: | :---: | :---: | 
-|  |  |  | 
+## 🛠️ Stack
 
-## 🛠️ Library & Stack
-
-| 기술 | 설명 |
-|-----------|------|
-| **UIKit** | 안정적이고 레퍼런스가 풍부하며 실무 적합한 UI 프레임워크 |
-| **MVC** | View·Controller 중심 구조로 직관적인 흐름 구성 및 소규모 프로젝트에 적합 |
-| **** |API 연결 도구 추가 예정 |
-| **Git, GitHub** | 브랜치 전략 기반 협업, PR·코드리뷰 활용 |
-| **Figma, Notion** | 디자인·기능 흐름 시각화 및 문서화 협업 |
+| Category | Library / Framework | Description |
+|-----------|-----------|------|
+| **UI Framework** | **UIKit** | 안정적인 생태계와 풍부한 레퍼런스를 활용한 UI 구현 |
+| **Layout** | **SnapKit** | 코드 기반의 Auto Layout을 직관적이고 간결하게 적용 |
+| **Utility** | **Then** |선언적 코드 작성을 통한 UI 초기화 로직의 응집도 최적화 |
+| **Architecture** | **MVC** | 단기간 개발 및 프로젝트 규모를 고려한 생산성 중심의 아키텍처 채택 |
+| **Networking** | **Alamofire** | URLSession 기반의 효율적이고 안정적인 HTTP 통신 구현 |
 
 
 ## 🌱 Git Flow
-<img width="2911" height="1795" alt="image" src="https://github.com/user-attachments/assets/7e897cea-f4a8-4ffa-995d-2c8c7f4ec69a" />
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/7e897cea-f4a8-4ffa-995d-2c8c7f4ec69a" />
 
 - 작업의 기본 브랜치는 `develop` 브랜치로 설정합니다.
 - 이슈 번호에 맞는 `feature` 브랜치를 `develop`에서 분기하여 작업을 진행하고, 작업이 끝나면 PR을 `develop` 브랜치로 올립니다.
@@ -55,8 +50,4 @@ feat/#1
 
 ```
 [feat] #1 - 메인 UI 구현
-```
-## 📁 Foldering
-```
-
 ```
