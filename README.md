@@ -4,7 +4,7 @@ LET'S SOPT 38기 합동세미나 iOS 2조 듀레일 🚅
 ##  iOS Developer
 | **김수민** | **김세령** | **김경택** | **장지인** |
 | :---: | :---: | :---: | :---: |
-| <img width="511" height="683" alt="듀레일 프로필1" src="https://github.com/user-attachments/assets/7deba07d-b9f3-44b0-98f8-3c55307f61d2" /> | <img width="499" height="666" alt="듀레일 프로필3" src="https://github.com/user-attachments/assets/3bb81cd7-81a3-4278-9f11-35f01a756305" /> | <img width="494" height="658" alt="듀레일 프로필2" src="https://github.com/user-attachments/assets/59afe0ac-e5c8-4566-8ce1-b097affbcbdc" /> | <img width="494" height="658" alt="듀레일 프로필4-2" src="https://github.com/user-attachments/assets/07cd8edd-3060-403c-8770-dc4be7eb4c05" /> |
+| <img width="511" height="683" alt="듀레일 프로필1" src="https://github.com/user-attachments/assets/7deba07d-b9f3-44b0-98f8-3c55307f61d2" /> | <img width="499" height="666" alt="듀레일 프로필3" src="https://github.com/user-attachments/assets/3bb81cd7-81a3-4278-9f11-35f01a756305" /> | <img width="494" height="658" alt="듀레일 프로필4-2" src="https://github.com/user-attachments/assets/07cd8edd-3060-403c-8770-dc4be7eb4c05" /> | <img width="493" height="658" alt="듀레일 프로필4" src="https://github.com/user-attachments/assets/da51bdb4-d0de-4fb5-a560-69f5e634e69a" /> |
 | `` | `` | `` | `` |
 
 ## 🍈 시연 영상
