@@ -4,7 +4,7 @@
 ##  iOS Developer
 | **[김수민](https://github.com/gleamminn)** | **[김경택](https://github.com/mansuiki)** | **[김세령](https://github.com/ser0kim)** | **[장지인](https://github.com/jiinjang)** |
 | :---: | :---: | :---: | :---: |
-| <img width="300" alt="듀레일 프로필1" src="https://github.com/user-attachments/assets/7deba07d-b9f3-44b0-98f8-3c55307f61d2" /> | <img width="300" alt="듀레일 프로필3" src="https://github.com/user-attachments/assets/3bb81cd7-81a3-4278-9f11-35f01a756305" /> | <img width="300" alt="듀레일 프로필4-2" src="https://github.com/user-attachments/assets/07cd8edd-3060-403c-8770-dc4be7eb4c05" /> | <img width="300" alt="듀레일 프로필4" src="https://github.com/user-attachments/assets/da51bdb4-d0de-4fb5-a560-69f5e634e69a" /> |
+| <img width="300" alt="듀레일 프로필1" src="https://github.com/user-attachments/assets/7deba07d-b9f3-44b0-98f8-3c55307f61d2" /> | <img width="300" alt="듀레일 프로필3" src="https://github.com/user-attachments/assets/07cd8edd-3060-403c-8770-dc4be7eb4c05" /> | <img width="300" alt="듀레일 프로필4-2" src="https://github.com/user-attachments/assets/3bb81cd7-81a3-4278-9f11-35f01a756305" /> | <img width="300" alt="듀레일 프로필4" src="https://github.com/user-attachments/assets/da51bdb4-d0de-4fb5-a560-69f5e634e69a" /> |
 | `iOS Lead Developer` | `iOS Developer` | `iOS Developer` | `iOS Developer` |
 
 
@@ -21,8 +21,11 @@
 ## 💺 Git Flow
 <img width="600" alt="image" src="https://github.com/user-attachments/assets/7e897cea-f4a8-4ffa-995d-2c8c7f4ec69a" />
 
-- 작업의 기본 브랜치는 `develop` 브랜치로 설정합니다.
-- 이슈 번호에 맞는 `feature` 브랜치를 `develop`에서 분기하여 작업을 진행하고, 작업이 끝나면 PR을 `develop` 브랜치로 올립니다.
+```
+작업의 기본 브랜치는 `develop` 브랜치로 설정합니다.
+
+이슈 번호에 맞는 `feature` 브랜치를 `develop`에서 분기하여 작업을 진행하고, 작업이 끝나면 PR을 `develop` 브랜치로 올립니다.
+```
 
 ## 🚄 Convention
 ### Branch
