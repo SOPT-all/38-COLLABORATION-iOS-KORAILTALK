@@ -96,3 +96,27 @@ final class TopNavigationBar : BaseUIView {
     }
 }
 
+// MARK: - Custom Methods
+
+extension TopNavigationBar {
+    private func setAction() {
+        backButton.addTarget(
+            self,
+            action: #selector(backButtonDidTap),
+            for: .touchUpInside
+        )
+    }
+    
+    func configure(
+        title: String,
+        showsRefreshButton: Bool = false
+    ) {
+        titleLabel.text = title
+        refreshButton.isHidden = !showsRefreshButton
+    }
+    
+    @objc
+    private func backButtonDidTap() {
+        backButtonAction?()
+    }
+}
