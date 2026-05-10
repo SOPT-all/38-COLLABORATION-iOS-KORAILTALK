@@ -46,6 +46,5 @@ extension UIFont {
         var lineHeight: CGFloat {
             return size
         }
-        
     }
 }
