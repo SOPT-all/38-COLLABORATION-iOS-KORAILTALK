@@ -43,6 +43,9 @@ final class TabbarController: UITabBarController {
         title: "나의 티켓"
     )
     
+    private lazy var buttons = [
+        homeTab, benefitTab, travelTab, ticketTab
+    ]
     
     private lazy var customTabBar = UIStackView().then {
         $0.axis = .horizontal
@@ -64,6 +67,13 @@ final class TabbarController: UITabBarController {
         customBar.addSubview(customTabBar)
         
         setLayout()
+        setAction()
+        setTabBar()
+        
+        updateButtonStates(index: 0)
+        
+        travelTab.isEnabled = false
+        benefitTab.isEnabled = false
     }
     
     // MARK: - Private Methods
@@ -80,4 +90,47 @@ final class TabbarController: UITabBarController {
             $0.bottom.equalToSuperview().inset(18)
         }
     }
+    
+    private func setAction() {
+        [homeTab,ticketTab].forEach{$0.addTarget(self,action: #selector(buttonDidTap),for: .touchUpInside)}
+    }
+    
+    private func setTabBar() {
+
+        let myticketViewController = UINavigationController(
+            rootViewController: MyTicketViewController()
+        )
+
+        let trainSearchViewController = UINavigationController(
+            rootViewController: TrainSearchViewController()
+        )
+
+        viewControllers = [
+            myticketViewController,
+            trainSearchViewController
+        ]
+    }
+    
+    
+    @objc
+    private func buttonDidTap(_ sender: UIButton) {
+        if sender == homeTab {
+            selectedIndex = 0
+            updateButtonStates(index: 0)
+            
+        }
+        
+        else if sender == ticketTab {
+            selectedIndex = 1
+            updateButtonStates(index: 1)
+        }
+    }
+    
+    // MARK: - Custom Method
+    
+    private func updateButtonStates(index: Int){
+        homeTab.isSelected = (index == 0)
+        ticketTab.isSelected = (index == 1)
+    }
 }
+
