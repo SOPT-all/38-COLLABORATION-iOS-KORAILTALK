@@ -32,4 +32,18 @@ extension UIView {
         layer.borderWidth = borderWidth
         layer.borderColor = borderColor.cgColor
     }
+    
+    var parentViewController: UIViewController? {
+        var responder: UIResponder? = self
+        
+        while let nextResponder = responder?.next {
+            responder = nextResponder
+            
+            if let viewController = nextResponder as? UIViewController {
+                return viewController
+            }
+        }
+        
+        return nil
+    }
 }
