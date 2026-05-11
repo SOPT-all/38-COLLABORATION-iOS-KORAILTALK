@@ -17,6 +17,7 @@ class BaseUIView: UIView {
         setStyle()
         setUI()
         setLayout()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -35,4 +36,6 @@ class BaseUIView: UIView {
     func setUI() {}
     
     func setLayout() {}
+    
+    func setAddTarget() {}
 }
