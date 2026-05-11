@@ -28,13 +28,13 @@ final class TopNavigationBar : BaseUIView {
         backgroundColor = .systemBlue
         
         backButton.do {
-            let image = UIImage(systemName: "")
+            let image = UIImage(systemName: "ic_back")
             $0.setImage(image, for: .normal)
             $0.tintColor = .white
         }
         
         titleLabel.do {
-            $0.font = .systemFont(ofSize: 20, weight: .bold)
+            $0.font = .pretendard(.header1)
             $0.textColor = .white
         }
         
@@ -45,13 +45,13 @@ final class TopNavigationBar : BaseUIView {
         }
         
         refreshButton.do {
-            let image = UIImage(systemName: "")
+            let image = UIImage(systemName: "ic_refresh")
             $0.setImage(image, for: .normal)
             $0.tintColor = .white
         }
         
         menuButton.do {
-            let image = UIImage(systemName: "")
+            let image = UIImage(systemName: "ic_menu")
             $0.setImage(image, for: .normal)
             $0.tintColor = .white
         }
