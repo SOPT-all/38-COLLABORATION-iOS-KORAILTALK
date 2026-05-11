@@ -101,7 +101,6 @@ final class TabbarController: UITabBarController {
     }
     
     private func setTabBar() {
-
         let myticketViewController = UINavigationController(
             rootViewController: MyTicketViewController()
         )

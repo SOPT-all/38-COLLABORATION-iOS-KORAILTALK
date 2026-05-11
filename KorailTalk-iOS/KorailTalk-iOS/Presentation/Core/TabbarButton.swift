@@ -25,9 +25,7 @@ final class TabbarButton: UIButton{
         self.normalImaage = normalImage
         self.selectedImage = selectedImage
         self.buttonTitle = title
-        
         super.init(frame: .zero)
-        
         setStyle()
     }
     
@@ -44,7 +42,7 @@ final class TabbarButton: UIButton{
         config.imagePlacement = .top
         config.imagePadding = 0
         config.titleLineBreakMode = .byClipping
-        
+
         tintColor = .clear
         configuration = config
         configurationUpdateHandler = { button in
