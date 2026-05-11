@@ -28,7 +28,7 @@ final class TicketConfirmationViewController: BaseUIViewController {
     }
     
     // MARK: - Public Methods
-
+    
     
     override func setUI() {
         view.addSubview(navigationBar)
@@ -45,8 +45,12 @@ final class TicketConfirmationViewController: BaseUIViewController {
     
     func setNavigationBar() {
         navigationBar.configure(
-            title: "승차권 정보 확인",
-            showsRefreshButton: false
+            title: "승차권 조회",
+            showsRefreshButton: true
         )
+        
+        navigationBar.backButtonAction = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
     }
 }

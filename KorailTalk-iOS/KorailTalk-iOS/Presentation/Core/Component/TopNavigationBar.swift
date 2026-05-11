@@ -12,6 +12,8 @@ import Then
 
 final class TopNavigationBar : BaseUIView {
     
+    var backButtonAction: (() -> Void)?
+    
     // MARK: - UI Components
     
     private let backButton = UIButton()
@@ -97,9 +99,7 @@ final class TopNavigationBar : BaseUIView {
 extension TopNavigationBar {
     private func setAction() {
         backButton.addTarget(
-            self,
-            action: #selector(backButtonDidTap),
-            for: .touchUpInside
+            self, action: #selector(backButtonDidTap), for: .touchUpInside
         )
     }
     
@@ -113,10 +113,6 @@ extension TopNavigationBar {
     
     @objc
     private func backButtonDidTap() {
-        if let navigationController = parentViewController?.navigationController {
-            navigationController.popViewController(animated: true)
-        } else {
-            parentViewController?.dismiss(animated: true)
-        }
+        backButtonAction?()
     }
 }
