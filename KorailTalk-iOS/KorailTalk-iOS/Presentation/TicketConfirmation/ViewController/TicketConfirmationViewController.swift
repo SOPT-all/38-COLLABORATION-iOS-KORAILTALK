@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import Then
 
 final class TicketConfirmationViewController: BaseUIViewController {
     
@@ -20,15 +21,23 @@ final class TicketConfirmationViewController: BaseUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        
+        setStyle()
         setUI()
         setLayout()
-        setNavigationBar()
     }
     
-    // MARK: - Public Methods
+    // MARK: - Custom Methods
     
+    override func setStyle() {
+        view.backgroundColor = .white
+        
+        navigationBar.do {
+            $0.configure(title: "승차권 정보 조회", showsRefreshButton: true)
+            $0.backButtonAction = { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
     
     override func setUI() {
         view.addSubview(navigationBar)
@@ -38,19 +47,6 @@ final class TicketConfirmationViewController: BaseUIViewController {
         navigationBar.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(110)
-        }
-    }
-    
-    // MARK: - Custom Method
-    
-    func setNavigationBar() {
-        navigationBar.configure(
-            title: "승차권 조회",
-            showsRefreshButton: true
-        )
-        
-        navigationBar.backButtonAction = { [weak self] in
-            self?.navigationController?.popViewController(animated: true)
         }
     }
 }
