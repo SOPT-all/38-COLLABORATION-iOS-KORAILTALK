@@ -11,7 +11,7 @@ import SnapKit
 
 final class TicketConfirmationViewController: BaseUIViewController {
     
-    // MARK: - UI
+    // MARK: - Property
     
     private let navigationBar = TopNavigationBar()
     
@@ -41,12 +41,12 @@ final class TicketConfirmationViewController: BaseUIViewController {
         }
     }
     
-    // MARK: - Custom Methods
+    // MARK: - Custom Method
     
     func setNavigationBar() {
         navigationBar.configure(
-            title: "좌석 조회",
-            showsRefreshButton: true
+            title: "승차권 정보 확인",
+            showsRefreshButton: false
         )
     }
 }
