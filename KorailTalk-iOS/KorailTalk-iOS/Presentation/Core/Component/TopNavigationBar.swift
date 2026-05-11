@@ -12,6 +12,8 @@ import Then
 
 final class TopNavigationBar : BaseUIView {
     
+    // MARK: - Property
+    
     var backButtonAction: (() -> Void)?
     
     // MARK: - UI Components
@@ -22,7 +24,7 @@ final class TopNavigationBar : BaseUIView {
     private let refreshButton = UIButton()
     private let menuButton = UIButton()
     
-    // MARK: - Public Methods
+    // MARK: - Custom Methods
     
     override func setStyle() {
         backgroundColor = .primary600
@@ -55,15 +57,8 @@ final class TopNavigationBar : BaseUIView {
     }
     
     override func setUI() {
-        
         addSubviews(backButton, titleLabel, rightStackView)
-        
-        rightStackView.addArrangedSubviews(
-            refreshButton,
-            menuButton
-        )
-        
-        setAction()
+        rightStackView.addArrangedSubviews(refreshButton, menuButton)
     }
     
     override func setLayout() {
@@ -92,27 +87,24 @@ final class TopNavigationBar : BaseUIView {
         }
         
     }
-}
-
-// MARK: - Custom Methods
-
-extension TopNavigationBar {
-    private func setAction() {
-        backButton.addTarget(
-            self, action: #selector(backButtonDidTap), for: .touchUpInside
-        )
+    
+    override func setAddTarget() {
+        backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
     }
     
-    func configure(
-        title: String,
-        showsRefreshButton: Bool = false
-    ) {
+    // MARK: - Public Method
+
+    func configure(title: String, showsRefreshButton: Bool = false) {
         titleLabel.text = title
         refreshButton.isHidden = !showsRefreshButton
     }
+    
+    // MARK: - Action
     
     @objc
     private func backButtonDidTap() {
         backButtonAction?()
     }
 }
+
+

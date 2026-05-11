@@ -21,6 +21,11 @@ class BaseUIViewController: UIViewController {
         setDelegate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // MARK: - Setup Methods
     
     func setStyle() {
@@ -37,4 +42,5 @@ class BaseUIViewController: UIViewController {
     func setAddTarget() {}
     
     func setDelegate() {}
+    
 }
