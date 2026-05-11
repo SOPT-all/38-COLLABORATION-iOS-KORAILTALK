@@ -14,8 +14,6 @@ final class TopNavigationBar : BaseUIView {
     
     // MARK: - Properties
     
-    var backButtonAction: (() -> Void)?
-    
     private let backButton = UIButton()
     private let titleLabel = UILabel()
     private let rightStackView = UIStackView()
@@ -25,16 +23,16 @@ final class TopNavigationBar : BaseUIView {
     // MARK: - Public Methods
     
     override func setStyle() {
-        backgroundColor = .systemBlue
+        backgroundColor = .primary600
         
         backButton.do {
-            let image = UIImage(systemName: "ic_back")
+            let image = UIImage(named: "ic_back")
             $0.setImage(image, for: .normal)
             $0.tintColor = .white
         }
         
         titleLabel.do {
-            $0.font = .pretendard(.header1)
+            $0.font = .pretendard(.header2)
             $0.textColor = .white
         }
         
@@ -45,25 +43,26 @@ final class TopNavigationBar : BaseUIView {
         }
         
         refreshButton.do {
-            let image = UIImage(systemName: "ic_refresh")
+            let image = UIImage(named: "ic_refresh")
             $0.setImage(image, for: .normal)
             $0.tintColor = .white
         }
         
         menuButton.do {
-            let image = UIImage(systemName: "ic_menu")
+            let image = UIImage(named: "ic_menu")
             $0.setImage(image, for: .normal)
             $0.tintColor = .white
         }
     }
     
     override func setUI() {
-        addSubview(backButton)
-        addSubview(titleLabel)
-        addSubview(rightStackView)
         
-        rightStackView.addArrangedSubview(refreshButton)
-        rightStackView.addArrangedSubview(menuButton)
+        addSubviews(backButton, titleLabel, rightStackView)
+        
+        rightStackView.addArrangedSubviews(
+            refreshButton,
+            menuButton
+        )
         
         setAction()
     }
@@ -117,6 +116,10 @@ extension TopNavigationBar {
     
     @objc
     private func backButtonDidTap() {
-        backButtonAction?()
+        if let navigationController = parentViewController?.navigationController {
+            navigationController.popViewController(animated: true)
+        } else {
+            parentViewController?.dismiss(animated: true)
+        }
     }
 }
