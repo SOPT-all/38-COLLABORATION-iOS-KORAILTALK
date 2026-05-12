@@ -40,7 +40,7 @@ extension CAGradientLayer {
         let layer = Self()
         layer.colors = [
             UIColor(hex: 0xFFFFFF).cgColor,
-            UIColor(hex: 0xCEE3FF).cgColor,
+            UIColor(hex: 0xCEE3FF).cgColor
         ]
         layer.locations = [0, 1]
         layer.startPoint = CGPoint(x: 0, y: 0.5)
