@@ -1,17 +1,3 @@
-//
-//  수정TabBarController.swift
-//  KorailTalk-iOS
-//
-//  Created by 장지인 on 5/12/26.
-//
-
-//
-//  WatchaTabBarController.swift
-//  Watcha-Clone
-//
-//  Created by mandoo on 4/29/26.
-//
-
 import UIKit
 
 enum KorailTab: Int, CaseIterable {
@@ -124,16 +110,12 @@ final class RealTabbarController: UITabBarController {
         let offset = UIOffset(horizontal: 0, vertical: 5)
         itemAppearance.normal.titlePositionAdjustment = offset
         itemAppearance.selected.titlePositionAdjustment = offset
-        itemAppearance.normal.iconColor = .clear
-        itemAppearance.selected.iconColor = .clear
         
         barAppearance.stackedLayoutAppearance = itemAppearance
         
         tabBar.standardAppearance = barAppearance
         tabBar.scrollEdgeAppearance = barAppearance
         tabBar.layer.cornerRadius = 0
-        tabBar.tintColor = .clear
-        tabBar.unselectedItemTintColor = .clear
     }
 }
 
@@ -149,14 +131,19 @@ final class CustomTabbar: UITabBar{
         
         setStyle()
     }
+    
     private func setStyle(){
         backgroundColor = .white
-        layer.cornerRadius = 0
+        layer.cornerRadius = 10
+        layer.maskedCorners = [
+            .layerMinXMinYCorner,
+            .layerMaxXMinYCorner
+        ]
         layer.masksToBounds = false
         
-        layer.shadowColor = UIColor.neutral300.cgColor
+        layer.shadowColor = UIColor.primary100.cgColor
         layer.shadowOpacity = 1
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 8
+        layer.shadowOffset = CGSize(width: 0, height: 1)
+        layer.shadowRadius = 8.3
     }
 }
