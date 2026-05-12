@@ -29,10 +29,7 @@ class BaseUIViewController: UIViewController {
     // MARK: - Setup Methods
     
     func setStyle() {
-        
-        // TODO: - Color Asset 추가 후 색상 변경
-        
-        view.backgroundColor = .white
+        view.backgroundColor = .surfaceDefault
     }
     
     func setUI() {}
