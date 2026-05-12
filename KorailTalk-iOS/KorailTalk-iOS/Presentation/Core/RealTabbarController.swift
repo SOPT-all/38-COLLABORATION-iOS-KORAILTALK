@@ -15,7 +15,7 @@
 import UIKit
 
 enum KorailTab: Int, CaseIterable {
-    case home = 0
+    case home
     case benefit
     case travel
     case myticket
@@ -88,15 +88,6 @@ final class RealTabbarController: UITabBarController {
         self.navigationItem.setHidesBackButton(true, animated: true)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        var tabBarFrame = tabBar.frame
-        tabBarFrame.size.height = 91
-        tabBarFrame.origin.y = view.frame.size.height - 99
-        tabBar.frame = tabBarFrame
-    }
-    
     // MARK: - Private Methods
     
     private func setTabBar() {
@@ -104,12 +95,10 @@ final class RealTabbarController: UITabBarController {
             let rootViewController = tab.viewController
             let navigationViewController = UINavigationController(rootViewController: rootViewController)
             
-            //let icon = (tab == .home) ? tab.image.withRenderingMode(.alwaysTemplate) : tab.image
-            
             navigationViewController.tabBarItem = UITabBarItem(
                 title: tab.title,
-                image: tab.image,
-                selectedImage: tab.selectedImage
+                image: tab.image.withRenderingMode(.alwaysOriginal),
+                selectedImage: tab.selectedImage.withRenderingMode(.alwaysOriginal)
             )
             
             return navigationViewController
@@ -128,27 +117,33 @@ final class RealTabbarController: UITabBarController {
         barAppearance.backgroundColor = .white
         
         let itemAppearance = UITabBarItemAppearance()
-        
-        itemAppearance.normal.iconColor = .white
-        
+                
         itemAppearance.normal.titleTextAttributes = [.font: UIFont.pretendard(.caption1), .foregroundColor: UIColor.black]
         itemAppearance.selected.titleTextAttributes = [.font: UIFont.pretendard(.caption1), .foregroundColor: UIColor.black]
         
         let offset = UIOffset(horizontal: 0, vertical: 5)
         itemAppearance.normal.titlePositionAdjustment = offset
         itemAppearance.selected.titlePositionAdjustment = offset
+        itemAppearance.normal.iconColor = .clear
+        itemAppearance.selected.iconColor = .clear
         
         barAppearance.stackedLayoutAppearance = itemAppearance
-        barAppearance.inlineLayoutAppearance = itemAppearance
-        barAppearance.compactInlineLayoutAppearance = itemAppearance
         
         tabBar.standardAppearance = barAppearance
         tabBar.scrollEdgeAppearance = barAppearance
         tabBar.layer.cornerRadius = 0
+        tabBar.tintColor = .clear
+        tabBar.unselectedItemTintColor = .clear
     }
 }
 
 final class CustomTabbar: UITabBar{
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var tabBarSize = super.sizeThatFits(size)
+        tabBarSize.height = 91
+        return tabBarSize
+    }
+    
     override func layoutSubviews(){
         super.layoutSubviews()
         
