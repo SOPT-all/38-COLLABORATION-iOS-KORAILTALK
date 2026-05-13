@@ -78,25 +78,20 @@ final class FareOptionButton: UIButton {
             self.backgroundColor = .neutral200
             self.layer.borderWidth = 1
             self.layer.borderColor = UIColor.neutral300.cgColor
+            optionLabel.textColor = .neutral300
+            fareLabel.textColor = .neutral300
         }
     }
     
     private func setButtonLable() {
         optionLabel.do{
             $0.font = .pretendard(.body2)
-            $0.textColor = .secondary700
             $0.textAlignment = .center
             $0.text = fareOptionButtonType.option
-            if fareOptionButtonType == .soldout {
-                $0.textColor = .neutral300
-            } else {
-                $0.textColor = .secondary700
-            }
         }
         
         fareLabel.do{
             $0.font = .pretendard(.body4)
-            $0.textColor = .neutral700
             $0.textAlignment = .center
             if let fare = fareOptionButtonType.fare {
                 $0.text = "\(fare)원"
@@ -127,8 +122,23 @@ final class FareOptionButton: UIButton {
         if isPressed {
             self.layer.borderColor = UIColor.primary400.cgColor
             self.backgroundColor = .primary400
+            optionLabel.textColor = .white
+            fareLabel.textColor = .neutral200
+            if fareOptionButtonType != .soldout{
+                optionLabel.textColor = .white
+            }
+            else{
+                optionLabel.textColor = .neutral100
+            }
         } else {
             self.layer.borderColor = UIColor.secondary700.cgColor
+            self.backgroundColor = .white
+            fareLabel.textColor = .neutral700
+            if fareOptionButtonType != .soldout {
+                optionLabel.textColor = .secondary700
+            }else {
+                optionLabel.textColor = .neutral300
+            }
         }
     }
 }
