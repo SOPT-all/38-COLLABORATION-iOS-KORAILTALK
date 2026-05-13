@@ -5,4 +5,11 @@
 //  Created by mandoo on 5/10/26.
 //
 
-import Foundation
+import UIKit
+
+class TrainSearchViewController: BaseUIViewController{
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .blue
+    }
+}
