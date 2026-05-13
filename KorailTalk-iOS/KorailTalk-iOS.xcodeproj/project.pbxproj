@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		778FF0612FB4BEBA00AFF730 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 778FF0602FB4BEBA00AFF730 /* .swiftlint.yml */; };
 		77F442F52FB0AC05002ED903 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77F442F42FB0AC05002ED903 /* SnapKit */; };
 		77F442F82FB0AC10002ED903 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 77F442F72FB0AC10002ED903 /* Then */; };
-		77F4435F2FB0C45E002ED903 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 77F4435E2FB0C45E002ED903 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		778FF0602FB4BEBA00AFF730 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		77F442A82FB07EEE002ED903 /* KorailTalk-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KorailTalk-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		77F4435E2FB0C45E002ED903 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -54,7 +54,7 @@
 		77F4429F2FB07EEE002ED903 = {
 			isa = PBXGroup;
 			children = (
-				77F4435E2FB0C45E002ED903 /* .swiftlint.yml */,
+				778FF0602FB4BEBA00AFF730 /* .swiftlint.yml */,
 				77F442AA2FB07EEE002ED903 /* KorailTalk-iOS */,
 				77F442A92FB07EEE002ED903 /* Products */,
 			);
@@ -78,7 +78,7 @@
 				77F442A42FB07EEE002ED903 /* Sources */,
 				77F442A52FB07EEE002ED903 /* Frameworks */,
 				77F442A62FB07EEE002ED903 /* Resources */,
-				77F4435D2FB0C40E002ED903 /* ShellScript */,
+				778FEF8D2FB4B82400AFF730 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -139,14 +139,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77F4435F2FB0C45E002ED903 /* .swiftlint.yml in Resources */,
+				778FF0612FB4BEBA00AFF730 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		77F4435D2FB0C40E002ED903 /* ShellScript */ = {
+		778FEF8D2FB4B82400AFF730 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -184,6 +184,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "KorailTalk-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -214,6 +215,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "KorailTalk-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -274,7 +276,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -337,7 +339,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
