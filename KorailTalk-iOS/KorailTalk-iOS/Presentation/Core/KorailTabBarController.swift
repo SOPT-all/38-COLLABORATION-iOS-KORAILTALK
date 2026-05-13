@@ -20,33 +20,22 @@ final class KorailTabBarController: UITabBarController {
         
         self.delegate = self
         
+        setValue(KorailTabBar(), forKey: "tabBar")
         setTabBar()
         setAppearance()
         setBackgroundView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationItem.setHidesBackButton(true, animated: true)
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let customTabBarHeight: CGFloat = 91
-        
-        var tabBarFrame = tabBar.frame
-        tabBarFrame.size.height = customTabBarHeight
-        tabBarFrame.origin.y = view.frame.size.height - customTabBarHeight
-        
-        tabBar.frame = tabBarFrame
-        
         backgroundView.frame = tabBar.bounds
         
-        tabBar.itemPositioning = .automatic
+        tabBar.itemPositioning = .centered
         tabBar.itemSpacing = 20
         
         tabBar.items?.forEach { item in
-            item.imageInsets = UIEdgeInsets(top: 7.5, left: 0, bottom: -7.5, right: 0)
+            item.imageInsets = UIEdgeInsets(top: 8, left: 0, bottom: -8, right: 0)
         }
     }
     
@@ -82,7 +71,7 @@ final class KorailTabBarController: UITabBarController {
         itemAppearance.normal.titleTextAttributes = [.font: UIFont.pretendard(.body2), .foregroundColor: UIColor.neutral900]
         itemAppearance.selected.titleTextAttributes = [.font: UIFont.pretendard(.body2), .foregroundColor: UIColor.neutral900]
         
-        let titleOffset = UIOffset(horizontal: 0, vertical: 10.5)
+        let titleOffset = UIOffset(horizontal: 0, vertical: 12)
         itemAppearance.normal.titlePositionAdjustment = titleOffset
         itemAppearance.selected.titlePositionAdjustment = titleOffset
         
@@ -103,7 +92,7 @@ final class KorailTabBarController: UITabBarController {
         backgroundView.layer.shadowColor = UIColor.primary100.cgColor
         backgroundView.layer.shadowOffset = CGSize(width: 0, height: -4)
         backgroundView.layer.shadowOpacity = 1
-        backgroundView.layer.shadowRadius = 8.3
+        backgroundView.layer.shadowRadius = 8
         backgroundView.layer.masksToBounds = false
         
         tabBar.insertSubview(backgroundView, at: 0)
