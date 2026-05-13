@@ -21,13 +21,15 @@ class BaseUIViewController: UIViewController {
         setDelegate()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // MARK: - Setup Methods
     
     func setStyle() {
-        
-        // TODO: - Color Asset 추가 후 색상 변경
-        
-        view.backgroundColor = .white
+        view.backgroundColor = .surfaceDefault
     }
     
     func setUI() {}
@@ -37,4 +39,5 @@ class BaseUIViewController: UIViewController {
     func setAddTarget() {}
     
     func setDelegate() {}
+    
 }

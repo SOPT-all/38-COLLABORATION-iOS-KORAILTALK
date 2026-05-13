@@ -17,6 +17,7 @@ class BaseUIView: UIView {
         setStyle()
         setUI()
         setLayout()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -26,13 +27,12 @@ class BaseUIView: UIView {
     // MARK: - Setup Methods
     
     func setStyle() {
-        
-        // TODO: - Color Asset 추가 후 색상 변경
-        
-        backgroundColor = .white
+        backgroundColor = .surfaceDefault
     }
     
     func setUI() {}
     
     func setLayout() {}
+    
+    func setAddTarget() {}
 }
