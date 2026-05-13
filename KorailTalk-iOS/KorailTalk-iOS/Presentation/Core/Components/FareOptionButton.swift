@@ -25,8 +25,8 @@ enum FareOptionButtonType {
         }
     }
     
-    var fare: Int?{
-        switch self{
+    var fare: Int? {
+        switch self {
         case .standard: return 34700
         case .special: return 61700
         case .soldout: return nil
@@ -42,6 +42,12 @@ final class FareOptionButton: UIButton {
     internal let optionLabel = UILabel()
     private let fareLabel = UILabel()
     private let stackView = UIStackView()
+    
+    override var isHighlighted: Bool {
+        didSet {
+            updateColor(isSelected: isSelected)
+        }
+    }
     
     // MARK: - Initializer
     
@@ -70,10 +76,12 @@ final class FareOptionButton: UIButton {
         case .standard:
             self.layer.borderWidth = 1
             self.backgroundColor = .white
-            updateColor(isPressed: true)
+            updateColor(isSelected: false)
+            
         case .special:
             self.layer.borderWidth = 1
-            updateColor(isPressed: true)
+            updateColor(isSelected: false)
+            
         case .soldout:
             self.backgroundColor = .neutral200
             self.layer.borderWidth = 1
@@ -84,13 +92,13 @@ final class FareOptionButton: UIButton {
     }
     
     private func setButtonLable() {
-        optionLabel.do{
+        optionLabel.do {
             $0.font = .pretendard(.body2)
             $0.textAlignment = .center
             $0.text = fareOptionButtonType.option
         }
         
-        fareLabel.do{
+        fareLabel.do {
             $0.font = .pretendard(.body4)
             $0.textAlignment = .center
             if let fare = fareOptionButtonType.fare {
@@ -100,34 +108,33 @@ final class FareOptionButton: UIButton {
             }
         }
         
-        stackView.do{
+        stackView.do {
             $0.axis = .vertical
             $0.alignment = .center
             $0.spacing = 1
         }
     }
     
-    private func setButtonLayout(){
-        stackView.snp.makeConstraints{
+    private func setButtonLayout() {
+        stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
         }
     }
     
-    private func setUI(){
+    private func setUI() {
         addSubview(stackView)
-        stackView.addArrangedSubviews(optionLabel,fareLabel)
+        stackView.addArrangedSubviews(optionLabel, fareLabel)
     }
     
-    private func updateColor(isPressed: Bool) {
-        if isPressed {
+    private func updateColor(isSelected: Bool) {
+        if isSelected {
             self.layer.borderColor = UIColor.primary400.cgColor
             self.backgroundColor = .primary400
             optionLabel.textColor = .white
             fareLabel.textColor = .neutral200
-            if fareOptionButtonType != .soldout{
+            if fareOptionButtonType != .soldout {
                 optionLabel.textColor = .white
-            }
-            else{
+            } else {
                 optionLabel.textColor = .neutral100
             }
         } else {
@@ -136,7 +143,7 @@ final class FareOptionButton: UIButton {
             fareLabel.textColor = .neutral700
             if fareOptionButtonType != .soldout {
                 optionLabel.textColor = .secondary700
-            }else {
+            } else {
                 optionLabel.textColor = .neutral300
             }
         }

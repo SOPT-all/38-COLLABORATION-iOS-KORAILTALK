@@ -7,7 +7,7 @@
 
 import UIKit
 
-/*class TableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {
     
     private let trainNameLabel = UILabel()
     private let departureTimeLabel = UILabel()
@@ -28,4 +28,3 @@ import UIKit
     }
 
 }
-*/
