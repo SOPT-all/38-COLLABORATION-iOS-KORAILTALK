@@ -90,7 +90,7 @@ final class StationTag: BaseUIView {
     
     // MARK: - Public Method
     
-    public func setTagTitle(_ title: String?) {
+    func setTagTitle(_ title: String?) {
         titleLabel.text = title
     }
 }

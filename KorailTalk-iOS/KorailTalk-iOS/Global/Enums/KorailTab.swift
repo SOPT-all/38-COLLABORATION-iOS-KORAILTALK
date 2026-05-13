@@ -40,7 +40,7 @@ enum KorailTab: Int, CaseIterable {
     }
     
     var selectedImage: UIImage? {
-        switch self{
+        switch self {
         case .home:
             return .icHomeActive
         case .benefit, .travel:
