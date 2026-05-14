@@ -63,8 +63,8 @@ final class TopNavigationBar: BaseUIView {
     
     override func setLayout() {
         backButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(7)
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(8)
+            $0.leading.equalToSuperview().inset(4)
+            $0.bottom.equalToSuperview().inset(8)
             $0.size.equalTo(44)
         }
         
@@ -74,7 +74,7 @@ final class TopNavigationBar: BaseUIView {
         }
         
         rightStackView.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(7)
+            $0.trailing.equalToSuperview().inset(4)
             $0.centerY.equalTo(backButton)
         }
         

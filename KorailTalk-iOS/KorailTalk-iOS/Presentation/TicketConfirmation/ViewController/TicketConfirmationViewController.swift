@@ -12,6 +12,7 @@ import Then
 
 final class TicketConfirmationViewController: BaseUIViewController {
     
+<<<<<<< HEAD
     // MARK: - Property
     
     private let navigationBar = TopNavigationBar()
@@ -59,4 +60,6 @@ final class TicketConfirmationViewController: BaseUIViewController {
             $0.width.equalTo(92)
         }
     }
+=======
+>>>>>>> develop
 }
