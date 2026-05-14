@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		77F442F52FB0AC05002ED903 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77F442F42FB0AC05002ED903 /* SnapKit */; };
 		77F442F82FB0AC10002ED903 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 77F442F72FB0AC10002ED903 /* Then */; };
-		77F4435F2FB0C45E002ED903 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 77F4435E2FB0C45E002ED903 /* .swiftlint.yml */; };
+		D4ED51742FB4B989003C55E9 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4ED51732FB4B989003C55E9 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		77F442A82FB07EEE002ED903 /* KorailTalk-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "KorailTalk-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		77F4435E2FB0C45E002ED903 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D4ED51732FB4B989003C55E9 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -54,7 +54,7 @@
 		77F4429F2FB07EEE002ED903 = {
 			isa = PBXGroup;
 			children = (
-				77F4435E2FB0C45E002ED903 /* .swiftlint.yml */,
+				D4ED51732FB4B989003C55E9 /* .swiftlint.yml */,
 				77F442AA2FB07EEE002ED903 /* KorailTalk-iOS */,
 				77F442A92FB07EEE002ED903 /* Products */,
 			);
@@ -78,7 +78,7 @@
 				77F442A42FB07EEE002ED903 /* Sources */,
 				77F442A52FB07EEE002ED903 /* Frameworks */,
 				77F442A62FB07EEE002ED903 /* Resources */,
-				77F4435D2FB0C40E002ED903 /* ShellScript */,
+				D4ED51722FB4B824003C55E9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -139,16 +139,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77F4435F2FB0C45E002ED903 /* .swiftlint.yml in Resources */,
+				D4ED51742FB4B989003C55E9 /* .swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		77F4435D2FB0C40E002ED903 /* ShellScript */ = {
+		D4ED51722FB4B824003C55E9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
