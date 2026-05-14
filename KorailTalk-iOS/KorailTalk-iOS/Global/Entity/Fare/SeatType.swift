@@ -1,14 +1,3 @@
-struct TrainFare {
-    let general: SeatFare
-    let special: SeatFare?
-}
-
-struct SeatFare {
-    let type: SeatType
-    let price: Int
-    let isAvailable: Bool
-}
-
 enum SeatType {
     case general
     case special

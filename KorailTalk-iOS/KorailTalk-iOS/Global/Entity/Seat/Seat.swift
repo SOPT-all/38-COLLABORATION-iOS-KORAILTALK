@@ -7,9 +7,3 @@ struct Seat: Identifiable {
         number
     }
 }
-
-enum SeatState {
-    case available
-    case selected
-    case reserved
-}
