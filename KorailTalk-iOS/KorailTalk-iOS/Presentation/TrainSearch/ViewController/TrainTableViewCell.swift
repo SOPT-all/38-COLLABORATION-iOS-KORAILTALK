@@ -12,6 +12,8 @@ import Then
 
 final class TrainTableViewCell: UITableViewCell {
     
+    // MARK: - UI Components
+    
     private let trainNameLabel = UILabel()
     private let departureTimeLabel = UILabel()
     private let arrivalTimeLabel = UILabel()
@@ -26,6 +28,8 @@ final class TrainTableViewCell: UITableViewCell {
     private let specialButton = FareOptionButton(fareOption: FareOption(seatType: .special, status: .available, fare: 70000))
     private let fareButtonStackView = UIStackView()
     
+    // MARK: - Initializer
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -37,10 +41,14 @@ final class TrainTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Life Cycle
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    // MARK: - Custom Methods
     
     private func setUI() {
         benefitStackView.addArrangedSubviews(benefitImageView, benefitLabel)
@@ -104,11 +112,6 @@ final class TrainTableViewCell: UITableViewCell {
             $0.alignment = .fill
         }
         
-        //테스트용
-        trainNameLabel.text = "KTX"
-        departureTimeLabel.text = "08:00"
-        arrivalTimeLabel.text = "10:14"
-        durationLabel.text = "약 2시간 14분 소요"
         backgroundColor = .clear
         containerVeiw.layer.cornerRadius = 26
         contentView.layer.masksToBounds = true
@@ -159,6 +162,8 @@ final class TrainTableViewCell: UITableViewCell {
         
     }
     
+    // MARK: - Public Methods
+    
     func configure(benefitText: String?) {
         if let benefitText {
             benefitLabel.text = benefitText
@@ -168,3 +173,6 @@ final class TrainTableViewCell: UITableViewCell {
         }
     }
 }
+
+// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 구현
+// TODO: - 버튼 클릭 액션 처리를 위한 클로저 또는 Delegate 패턴 추가
