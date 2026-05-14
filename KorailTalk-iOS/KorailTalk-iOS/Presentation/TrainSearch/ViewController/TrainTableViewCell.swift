@@ -57,7 +57,7 @@ final class TrainTableViewCell: UITableViewCell {
 
         contentView.addSubview(containerVeiw)
         
-        containerVeiw.addSubviews(trainNameLabel, departureTimeLabel,  arrowImageView, arrivalTimeLabel, durationLabel, benefitStackView, fareButtonStackView)
+        containerVeiw.addSubviews(trainNameLabel, departureTimeLabel, arrowImageView, arrivalTimeLabel, durationLabel, benefitStackView, fareButtonStackView)
     }
     
     private func setStyle() {
