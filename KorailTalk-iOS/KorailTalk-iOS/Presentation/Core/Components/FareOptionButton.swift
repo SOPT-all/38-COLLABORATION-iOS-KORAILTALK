@@ -10,18 +10,17 @@ import UIKit
 import SnapKit
 import Then
 
-enum FareOptionButtonType {
-    case standard, special, soldout
+enum SeatType {
+    case standard, special
     
     var radius: CGFloat {
         return 8
     }
     
-    var option: String? {
+    var title: String {
         switch self {
         case .standard: return "일반석"
         case .special: return "특별석"
-        case .soldout: return "매진"
         }
     }
     
@@ -29,16 +28,26 @@ enum FareOptionButtonType {
         switch self {
         case .standard: return 34700
         case .special: return 61700
-        case .soldout: return nil
         }
     }
+}
+
+enum SeatStatus {
+    case available
+    case soldout
+}
+
+struct FareOption {
+    let seatType: SeatType
+    let status: SeatStatus
+    let fare: Int?
 }
 
 final class FareOptionButton: UIButton {
     
     // MARK: - Properties
     
-    private let fareOptionButtonType: FareOptionButtonType
+    private let fareOption: FareOption
     internal let optionLabel = UILabel()
     private let fareLabel = UILabel()
     private let stackView = UIStackView()
@@ -51,8 +60,8 @@ final class FareOptionButton: UIButton {
     
     // MARK: - Initializer
     
-    init(type: FareOptionButtonType, title: String? = nil) {
-        self.fareOptionButtonType = type
+    init(fareOption: FareOption) {
+        self.fareOption = fareOption
         super.init(frame: .zero)
         setUI()
         setButtonStyle()
@@ -69,22 +78,16 @@ final class FareOptionButton: UIButton {
     }
     
     private func setButtonStyle() {
-        self.layer.cornerRadius = fareOptionButtonType.radius
+        self.layer.cornerRadius = fareOption.seatType.radius
         self.clipsToBounds = true
+        layer.borderWidth = 1
         
-        switch fareOptionButtonType {
-        case .standard:
-            self.layer.borderWidth = 1
-            self.backgroundColor = .white
-            updateColor(isSelected: false)
-            
-        case .special:
-            self.layer.borderWidth = 1
+        switch fareOption.status {
+        case .available:
             updateColor(isSelected: false)
             
         case .soldout:
             self.backgroundColor = .neutral200
-            self.layer.borderWidth = 1
             self.layer.borderColor = UIColor.neutral300.cgColor
             optionLabel.textColor = .neutral300
             fareLabel.textColor = .neutral300
@@ -95,13 +98,19 @@ final class FareOptionButton: UIButton {
         optionLabel.do {
             $0.font = .pretendard(.body2)
             $0.textAlignment = .center
-            $0.text = fareOptionButtonType.option
+            $0.text = fareOption.seatType.title
+            if fareOption.status == .soldout {
+                $0.text = "매진"
+            } else {
+                $0.text = fareOption.seatType.title
+            }
         }
         
         fareLabel.do {
             $0.font = .pretendard(.body4)
             $0.textAlignment = .center
-            if let fare = fareOptionButtonType.fare {
+            if fareOption.status == .available,
+               let fare = fareOption.fare {
                 $0.text = "\(fare)원"
             } else {
                 $0.text = nil
@@ -132,7 +141,7 @@ final class FareOptionButton: UIButton {
             self.backgroundColor = .primary400
             optionLabel.textColor = .white
             fareLabel.textColor = .neutral200
-            if fareOptionButtonType != .soldout {
+            if fareOption.status == .soldout {
                 optionLabel.textColor = .white
             } else {
                 optionLabel.textColor = .neutral100
@@ -141,7 +150,7 @@ final class FareOptionButton: UIButton {
             self.layer.borderColor = UIColor.secondary700.cgColor
             self.backgroundColor = .white
             fareLabel.textColor = .neutral700
-            if fareOptionButtonType != .soldout {
+            if fareOption.status != .soldout {
                 optionLabel.textColor = .secondary700
             } else {
                 optionLabel.textColor = .neutral300
