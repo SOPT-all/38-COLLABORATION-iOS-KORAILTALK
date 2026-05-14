@@ -69,10 +69,6 @@ final class FareOptionButton: UIButton {
         setButtonLayout()
     }
     
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 80, height: 52)
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -127,6 +123,10 @@ final class FareOptionButton: UIButton {
     private func setButtonLayout() {
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
+        }
+        
+        self.snp.makeConstraints {
+            $0.height.equalTo(52)
         }
     }
     
