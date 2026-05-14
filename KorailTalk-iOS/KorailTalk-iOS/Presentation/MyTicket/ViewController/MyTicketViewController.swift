@@ -7,9 +7,6 @@
 
 import UIKit
 
-class MyTicketViewController: BaseUIViewController{
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .yellow
-    }
+class MyTicketViewController: BaseUIViewController {
+    
 }
