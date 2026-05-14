@@ -65,10 +65,6 @@ final class LuggagePolicyView: BaseUIView {
             let itemView = ProhibitedItemView()
             itemView.configure(prohibitedItem: item)
             itemStackView.addArrangedSubview(itemView)
-            
-            itemView.snp.makeConstraints {
-                $0.height.equalTo(85)
-            }
         }
     }
     
