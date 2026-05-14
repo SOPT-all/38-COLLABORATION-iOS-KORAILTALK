@@ -7,12 +7,22 @@
 
 import UIKit
 
+import SnapKit
+
 class BaseUIViewController: UIViewController {
     
-    // MARK: - Initializer
+    // MARK: - Properties
+    
+    let navigationBar = TopNavigationBar()
+    
+    // MARK: - Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        baseSetUI()
+        baseSetLayout()
+        baseSetAddTarget()
         
         setStyle()
         setUI()
@@ -28,6 +38,24 @@ class BaseUIViewController: UIViewController {
     
     // MARK: - Setup Methods
     
+    private func baseSetUI() {
+        view.addSubview(navigationBar)
+    }
+    
+    private func baseSetLayout() {
+        navigationBar.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(statusBarHeight + 60)
+        }
+    }
+    
+    private func baseSetAddTarget() {
+        navigationBar.backButtonAction = { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func setStyle() {
         view.backgroundColor = .surfaceDefault
     }
@@ -39,5 +67,4 @@ class BaseUIViewController: UIViewController {
     func setAddTarget() {}
     
     func setDelegate() {}
-    
 }
