@@ -42,9 +42,9 @@ final class PaymentBottomSheetView: BaseUIView {
             $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             
             $0.layer.shadowColor = UIColor.neutral300.cgColor
-            $0.layer.shadowOffset = CGSize(width: 0, height: -2)
-            $0.layer.shadowOpacity = 1
-            $0.layer.shadowRadius = 8
+            $0.layer.shadowOffset = CGSize(width: 0, height: -1)
+            $0.layer.shadowOpacity = 0.7
+            $0.layer.shadowRadius = 5
             $0.layer.masksToBounds = false
         }
         
