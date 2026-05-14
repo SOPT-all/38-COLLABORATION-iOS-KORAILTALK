@@ -90,9 +90,9 @@ final class KorailTabBarController: UITabBarController {
         backgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         backgroundView.layer.shadowColor = UIColor.primary100.cgColor
-        backgroundView.layer.shadowOffset = CGSize(width: 0, height: -4)
-        backgroundView.layer.shadowOpacity = 1
-        backgroundView.layer.shadowRadius = 8
+        backgroundView.layer.shadowOffset = CGSize(width: 0, height: -2)
+        backgroundView.layer.shadowOpacity = 0.8
+        backgroundView.layer.shadowRadius = 5
         backgroundView.layer.masksToBounds = false
         
         tabBar.insertSubview(backgroundView, at: 0)
