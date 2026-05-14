@@ -13,13 +13,13 @@ extension UIFont {
     }
     
     enum Pretendard {
-        case header1, header2, header3
+        case header1, header2, header3, header4
         case body1, body2, body3, body4
         case caption1, caption2, caption3
         
         var weight: String {
             switch self {
-            case .header1, .header2, .header3:
+            case .header1, .header2, .header3, .header4:
                 "Pretendard-SemiBold"
             case .body1, .body2, .body3, .caption1:
                 "Pretendard-Medium"
@@ -32,6 +32,7 @@ extension UIFont {
             switch self {
             case .header1: 24
             case .header2, .body1: 20
+            case .header4: 18
             case .header3, .body2: 16
             case .body3, .body4: 14
             case .caption1, .caption2: 12
