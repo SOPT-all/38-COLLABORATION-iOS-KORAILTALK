@@ -7,9 +7,5 @@
 
 import UIKit
 
-class TrainSearchViewController: BaseUIViewController{
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .blue
-    }
+class TrainSearchViewController: BaseUIViewController {
 }
