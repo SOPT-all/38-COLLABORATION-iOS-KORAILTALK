@@ -22,25 +22,25 @@ final class SeatSelectionViewController: BaseUIViewController {
     private func showPaymentBottomSheet() {
         guard paymentBottomView == nil else { return }
         
-        let paymentbottomSheetView = PaymentBottomSheetView()
+        let paymentBottomSheetView = PaymentBottomSheetView()
         
-        view.addSubview(paymentbottomSheetView)
+        view.addSubview(paymentBottomSheetView)
         
-        paymentbottomSheetView.snp.makeConstraints {
+        paymentBottomSheetView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
             $0.height.equalTo(150)
         }
         
-        paymentbottomSheetView.show()
-        paymentBottomView = paymentbottomSheetView
+        paymentBottomSheetView.show()
+        paymentBottomView = paymentBottomSheetView
     }
     
     @objc
     private func hidePaymentBottomSheet() {
-        guard let paymentbottomSheetView = paymentBottomView else { return }
+        guard let paymentBottomSheetView = paymentBottomView else { return }
         
-        paymentbottomSheetView.hide { [weak self] in
-            paymentbottomSheetView.removeFromSuperview()
+        paymentBottomSheetView.hide { [weak self] in
+            paymentBottomSheetView.removeFromSuperview()
             self?.paymentBottomView = nil
         }
     }
