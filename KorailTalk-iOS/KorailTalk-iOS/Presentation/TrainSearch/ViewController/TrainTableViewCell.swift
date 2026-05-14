@@ -20,6 +20,11 @@ final class TrainTableViewCell: UITableViewCell {
     private let benefitImageView = UIImageView()
     private let benefitLabel = UILabel()
     private let benefitStackView = UIStackView()
+    private let containerVeiw = UIView()
+    
+    private let standardButton = FareOptionButton(fareOption: FareOption(seatType: .standard, status: .available, fare: 34600))
+    private let specialButton = FareOptionButton(fareOption: FareOption(seatType: .special, status: .available, fare: 70000))
+    private let fareButtonStackView = UIStackView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,7 +44,12 @@ final class TrainTableViewCell: UITableViewCell {
     
     private func setUI() {
         benefitStackView.addArrangedSubviews(benefitImageView, benefitLabel)
-        contentView.addSubviews(trainNameLabel, departureTimeLabel, arrowImageView, arrivalTimeLabel, durationLabel,  benefitStackView)
+        
+        fareButtonStackView.addArrangedSubviews(standardButton, specialButton)
+
+        contentView.addSubview(containerVeiw)
+        
+        containerVeiw.addSubviews(trainNameLabel, departureTimeLabel,  arrowImageView, arrivalTimeLabel, durationLabel, benefitStackView, fareButtonStackView)
     }
     
     private func setStyle() {
@@ -71,32 +81,52 @@ final class TrainTableViewCell: UITableViewCell {
             $0.image = .icArrow
         }
         
-        benefitStackView.do{
+        benefitStackView.do {
             $0.axis = .horizontal
             $0.alignment = .leading
             $0.spacing = 3
         }
         
-        benefitImageView.do{
+        benefitImageView.do {
             $0.image = .icMoney
             $0.contentMode = .scaleAspectFit
         }
         
-        benefitLabel.do{
+        benefitLabel.do {
             $0.font = .pretendard(.caption2)
             $0.textColor = .neutral700
             $0.text = "5% 적립"
         }
+        
+        fareButtonStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 8
+            $0.alignment = .fill
+        }
+        
+        //테스트용
+        trainNameLabel.text = "KTX"
+        departureTimeLabel.text = "08:00"
+        arrivalTimeLabel.text = "10:14"
+        durationLabel.text = "약 2시간 14분 소요"
+        backgroundColor = .clear
+        containerVeiw.layer.cornerRadius = 26
+        contentView.layer.masksToBounds = true
+        contentView.backgroundColor = .clear
+        containerVeiw.backgroundColor = .white
     }
     
     private func setLayout() {
+        containerVeiw.snp.makeConstraints {
+            $0.edges.equalTo(contentView).inset(UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
+        }
         trainNameLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(13)
             $0.top.equalToSuperview().offset(14)
         }
         
         departureTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(trainNameLabel.snp.bottom).offset(14)
+            $0.top.equalTo(trainNameLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview().offset(13)
         }
         
@@ -107,18 +137,26 @@ final class TrainTableViewCell: UITableViewCell {
         
         arrivalTimeLabel.snp.makeConstraints {
             $0.centerY.equalTo(departureTimeLabel)
-            $0.leading.equalTo(departureTimeLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(arrowImageView.snp.trailing).offset(8)
         }
         
         durationLabel.snp.makeConstraints {
             $0.top.equalTo(arrivalTimeLabel.snp.bottom).offset(8)
             $0.leading.equalToSuperview().inset(13)
+            $0.bottom.equalToSuperview().inset(19)
         }
         
-        benefitStackView.snp.makeConstraints{
-            $0.top.equalToSuperview().inset(14)
+        benefitStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(13)
             $0.trailing.equalToSuperview().inset(13)
         }
+        
+        fareButtonStackView.snp.makeConstraints {
+            $0.top.equalTo(benefitStackView.snp.bottom).offset(8)
+            $0.trailing.equalToSuperview().inset(13)
+            $0.bottom.equalToSuperview().inset(19)
+        }
+        
     }
     
     func configure(benefitText: String?) {
