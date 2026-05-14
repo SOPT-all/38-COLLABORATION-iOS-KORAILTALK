@@ -14,19 +14,24 @@ final class TrainTableViewCell: UITableViewCell {
     
     // MARK: - UI Components
     
+    private let containerView = UIView()
+    
     private let trainNameLabel = UILabel()
+    
+    private let timeStackView = UIStackView()
     private let departureTimeLabel = UILabel()
     private let arrivalTimeLabel = UILabel()
-    private let durationLabel = UILabel()
     private let arrowImageView = UIImageView()
+    
+    private let durationLabel = UILabel()
+    
+    private let benefitStackView = UIStackView()
     private let benefitImageView = UIImageView()
     private let benefitLabel = UILabel()
-    private let benefitStackView = UIStackView()
-    private let containerVeiw = UIView()
     
+    private let fareButtonStackView = UIStackView()
     private let standardButton = FareOptionButton(fareOption: FareOption(seatType: .standard, status: .available, fare: 34600))
     private let specialButton = FareOptionButton(fareOption: FareOption(seatType: .special, status: .available, fare: 70000))
-    private let fareButtonStackView = UIStackView()
     
     // MARK: - Initializer
     
@@ -37,51 +42,57 @@ final class TrainTableViewCell: UITableViewCell {
         setStyle()
         setLayout()
     }
-
-    required init?(coder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
-    }
     
-    // MARK: - Life Cycle
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Custom Methods
     
     private func setUI() {
         benefitStackView.addArrangedSubviews(benefitImageView, benefitLabel)
-        
+        timeStackView.addArrangedSubviews(departureTimeLabel, arrowImageView, arrivalTimeLabel)
         fareButtonStackView.addArrangedSubviews(standardButton, specialButton)
-
-        contentView.addSubview(containerVeiw)
         
-        containerVeiw.addSubviews(trainNameLabel, departureTimeLabel, arrowImageView, arrivalTimeLabel, durationLabel, benefitStackView, fareButtonStackView)
+        contentView.addSubview(containerView)
+        containerView.addSubviews(trainNameLabel, timeStackView, durationLabel, benefitStackView, fareButtonStackView)
     }
     
     private func setStyle() {
+        backgroundColor = .clear
+        selectionStyle = .none
+        
+        containerView.do {
+            $0.backgroundColor = .white
+            $0.layer.cornerRadius = 26
+            $0.layer.masksToBounds = true
+        }
+        
         trainNameLabel.do {
             $0.textColor = .secondary700
             $0.textAlignment = .left
             $0.font = .pretendard(.body3)
         }
         
+        timeStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 8
+        }
+        
         departureTimeLabel.do {
             $0.textColor = .neutral900
-            $0.textAlignment = .left
             $0.font = .pretendard(.body1)
+            $0.adjustsFontForContentSizeCategory = false
         }
         
         arrivalTimeLabel.do {
             $0.textColor = .neutral900
-            $0.textAlignment = .left
             $0.font = .pretendard(.body1)
+            $0.adjustsFontForContentSizeCategory = false
         }
         
         durationLabel.do {
             $0.textColor = .neutral500
-            $0.textAlignment = .left
             $0.font = .pretendard(.caption1)
         }
         
@@ -91,7 +102,6 @@ final class TrainTableViewCell: UITableViewCell {
         
         benefitStackView.do {
             $0.axis = .horizontal
-            $0.alignment = .leading
             $0.spacing = 3
         }
         
@@ -109,62 +119,60 @@ final class TrainTableViewCell: UITableViewCell {
         fareButtonStackView.do {
             $0.axis = .horizontal
             $0.spacing = 8
-            $0.alignment = .fill
+            $0.distribution = .fillEqually
         }
-        
-        backgroundColor = .clear
-        containerVeiw.layer.cornerRadius = 26
-        contentView.layer.masksToBounds = true
-        contentView.backgroundColor = .clear
-        containerVeiw.backgroundColor = .white
     }
     
     private func setLayout() {
-        containerVeiw.snp.makeConstraints {
-            $0.edges.equalTo(contentView).inset(UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
-        }
-        trainNameLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(13)
-            $0.top.equalToSuperview().offset(14)
+        containerView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(4)
+            $0.bottom.equalToSuperview().offset(-4)
+            $0.horizontalEdges.equalToSuperview().inset(16.adjustedW)
         }
         
-        departureTimeLabel.snp.makeConstraints {
-            $0.top.equalTo(trainNameLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().offset(13)
+        trainNameLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(13.adjustedW)
+            $0.top.equalToSuperview().inset(14)
         }
         
         arrowImageView.snp.makeConstraints {
-            $0.centerY.equalTo(departureTimeLabel)
-            $0.leading.equalTo(departureTimeLabel.snp.trailing).offset(8)
+            $0.width.equalTo(15.adjustedW)
+            $0.height.equalTo(12.adjustedW)
         }
         
-        arrivalTimeLabel.snp.makeConstraints {
-            $0.centerY.equalTo(departureTimeLabel)
-            $0.leading.equalTo(arrowImageView.snp.trailing).offset(8)
+        timeStackView.snp.makeConstraints {
+            $0.top.equalTo(trainNameLabel.snp.bottom).offset(14)
+            $0.leading.equalTo(trainNameLabel)
+            $0.height.equalTo(16)
         }
         
         durationLabel.snp.makeConstraints {
-            $0.top.equalTo(arrivalTimeLabel.snp.bottom).offset(8)
-            $0.leading.equalToSuperview().inset(13)
-            $0.bottom.equalToSuperview().inset(19)
+            $0.top.equalTo(timeStackView.snp.bottom).offset(8)
+            $0.bottom.equalToSuperview().inset(20)
+            $0.leading.equalTo(trainNameLabel)
         }
         
         benefitStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(13)
-            $0.trailing.equalToSuperview().inset(13)
+            $0.trailing.equalToSuperview().inset(13.adjustedW)
         }
         
         fareButtonStackView.snp.makeConstraints {
-            $0.top.equalTo(benefitStackView.snp.bottom).offset(8)
-            $0.trailing.equalToSuperview().inset(13)
-            $0.bottom.equalToSuperview().inset(19)
+            $0.top.equalToSuperview().inset(42)
+            $0.width.equalTo(170.adjustedW)
+            $0.trailing.equalToSuperview().inset(13.adjustedW)
+            $0.bottom.equalToSuperview().inset(14)
         }
-        
     }
     
     // MARK: - Public Methods
     
-    func configure(benefitText: String?) {
+    func configure(trainName: String, depTime: String, arrTime: String, benefitText: String?, durationTime: String) {
+        trainNameLabel.text = trainName
+        departureTimeLabel.text = depTime
+        arrivalTimeLabel.text = arrTime
+        durationLabel.text = durationTime
+        
         if let benefitText {
             benefitLabel.text = benefitText
             benefitStackView.isHidden = false
