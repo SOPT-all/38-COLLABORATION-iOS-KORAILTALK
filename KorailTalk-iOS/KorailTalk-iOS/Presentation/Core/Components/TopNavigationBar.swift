@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class TopNavigationBar : BaseUIView {
+final class TopNavigationBar: BaseUIView {
     
     // MARK: - Property
     
@@ -68,7 +68,7 @@ final class TopNavigationBar : BaseUIView {
             $0.size.equalTo(44)
         }
         
-        titleLabel.snp.makeConstraints{
+        titleLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.centerY.equalTo(backButton)
         }
@@ -106,5 +106,3 @@ final class TopNavigationBar : BaseUIView {
         backButtonAction?()
     }
 }
-
-
