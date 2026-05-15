@@ -82,7 +82,7 @@ final class TrainSearchView: BaseUIView {
         }
         
         nextButton.do {
-            $0.setImage(.icNext, for: .normal)
+            $0.setImage(.icNextActive, for: .normal)
         }
         
         dropDownStackView.do {
