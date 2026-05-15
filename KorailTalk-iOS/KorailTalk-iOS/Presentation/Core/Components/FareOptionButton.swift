@@ -10,33 +10,6 @@ import UIKit
 import SnapKit
 import Then
 
-enum SeatType {
-    case standard, special
-    
-    var radius: CGFloat {
-        return 8
-    }
-    
-    var title: String {
-        switch self {
-        case .standard: return "일반석"
-        case .special: return "특별석"
-        }
-    }
-    
-    var fare: Int? {
-        switch self {
-        case .standard: return 34700
-        case .special: return 61700
-        }
-    }
-}
-
-enum SeatStatus {
-    case available
-    case soldout
-}
-
 struct FareOption {
     let seatType: SeatType
     let status: SeatStatus
@@ -63,10 +36,11 @@ final class FareOptionButton: UIButton {
     init(fareOption: FareOption) {
         self.fareOption = fareOption
         super.init(frame: .zero)
+        
         setUI()
         setButtonStyle()
-        setButtonLable()
-        setButtonLayout()
+        setStyle()
+        setLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -74,43 +48,34 @@ final class FareOptionButton: UIButton {
     }
     
     private func setButtonStyle() {
-        self.layer.cornerRadius = fareOption.seatType.radius
-        self.clipsToBounds = true
-        layer.borderWidth = 1
-        
         switch fareOption.status {
         case .available:
             updateColor(isSelected: false)
             
         case .soldout:
-            self.backgroundColor = .neutral200
-            self.layer.borderColor = UIColor.neutral300.cgColor
-            optionLabel.textColor = .neutral300
-            fareLabel.textColor = .neutral300
+            setSoldoutStyle()
         }
     }
     
-    private func setButtonLable() {
+    private func setSoldoutStyle() {
+        self.backgroundColor = .neutral200
+        self.layer.borderColor = UIColor.neutral300.cgColor
+        optionLabel.textColor = .neutral300
+        fareLabel.textColor = .neutral300
+    }
+    
+    private func setStyle() {
         optionLabel.do {
             $0.font = .pretendard(.body2)
             $0.textAlignment = .center
             $0.text = fareOption.seatType.title
-            if fareOption.status == .soldout {
-                $0.text = "매진"
-            } else {
-                $0.text = fareOption.seatType.title
-            }
+            $0.text = (fareOption.status == .soldout) ? "매진" : fareOption.seatType.title
         }
         
         fareLabel.do {
             $0.font = .pretendard(.body4)
             $0.textAlignment = .center
-            if fareOption.status == .available,
-               let fare = fareOption.fare {
-                $0.text = "\(fare)원"
-            } else {
-                $0.text = nil
-            }
+            $0.text = (fareOption.status == .available) ? fareOption.fare.map { "\($0)원" } : nil
         }
         
         stackView.do {
@@ -118,9 +83,18 @@ final class FareOptionButton: UIButton {
             $0.alignment = .center
             $0.spacing = 1
         }
+        
+        self.layer.cornerRadius = fareOption.seatType.radius
+        self.clipsToBounds = true
+        layer.borderWidth = 1
     }
     
-    private func setButtonLayout() {
+    private func setUI() {
+        addSubview(stackView)
+        stackView.addArrangedSubviews(optionLabel, fareLabel)
+    }
+    
+    private func setLayout() {
         stackView.snp.makeConstraints {
             $0.edges.equalToSuperview().inset(8)
         }
@@ -128,11 +102,6 @@ final class FareOptionButton: UIButton {
         self.snp.makeConstraints {
             $0.height.equalTo(52)
         }
-    }
-    
-    private func setUI() {
-        addSubview(stackView)
-        stackView.addArrangedSubviews(optionLabel, fareLabel)
     }
     
     private func updateColor(isSelected: Bool) {
