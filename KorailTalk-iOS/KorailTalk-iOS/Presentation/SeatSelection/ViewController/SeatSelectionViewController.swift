@@ -14,6 +14,7 @@ final class SeatSelectionViewController: BaseUIViewController {
     
     // MARK: - Property
     
+    private let seatSelectionModel = SeatSelectionModel.mock
     private var paymentBottomView: PaymentBottomSheetView?
     
     // MARK: - Action
@@ -23,6 +24,10 @@ final class SeatSelectionViewController: BaseUIViewController {
         guard paymentBottomView == nil else { return }
         
         let paymentBottomSheetView = PaymentBottomSheetView()
+        paymentBottomSheetView.dataBind(
+            price: "\(seatSelectionModel.totalPrice)",
+            amount: "\(seatSelectionModel.selectedSeatCount)"
+        )
         
         view.addSubview(paymentBottomSheetView)
         
