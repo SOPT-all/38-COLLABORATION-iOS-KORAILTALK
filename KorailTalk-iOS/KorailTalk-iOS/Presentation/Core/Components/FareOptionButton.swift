@@ -11,7 +11,7 @@ import SnapKit
 import Then
 
 struct FareOption {
-    let seatType: SeatType
+    let seatType: KorailSeatType
     let status: SeatStatus
     let fare: Int?
 }
@@ -68,7 +68,6 @@ final class FareOptionButton: UIButton {
         optionLabel.do {
             $0.font = .pretendard(.body2)
             $0.textAlignment = .center
-            $0.text = fareOption.seatType.title
             $0.text = (fareOption.status == .soldout) ? "매진" : fareOption.seatType.title
         }
         

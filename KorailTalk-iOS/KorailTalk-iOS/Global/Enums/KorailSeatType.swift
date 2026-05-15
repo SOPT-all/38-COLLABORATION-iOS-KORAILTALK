@@ -6,7 +6,7 @@
 //
 import UIKit
 
-enum SeatType {
+enum KorailSeatType {
     case standard, special
     
     var radius: CGFloat {
