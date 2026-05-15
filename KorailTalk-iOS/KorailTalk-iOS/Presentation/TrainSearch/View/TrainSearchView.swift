@@ -16,19 +16,39 @@ final class TrainSearchView: BaseUIView {
     private let departureLabel = UILabel()
     private let arrivalLabel = UILabel()
     private let arrowImage = UIImageView()
+    private let titleStackView = UIStackView()
     
+    private let dateStackView = UIStackView()
     private let backButton = UIButton()
     private let nextButton = UIButton()
     private let dateLabel = UILabel()
     
+    private let dropDownStackView = UIStackView()
+    private let firstDropdownView = DropdownView(
+        items: ["전체", "무궁화호", "새마을호", "itx", "ktx", "srt"], placeholder: "전체"
+    )
+    private let secondDropdownView = DropdownView(
+        items: [
+                "일반석", "콘센트석", "유아동반", "수동휠체어", "전동휠체어", "2층석", "자전거", "대피도우미"
+            ],
+        placeholder: "일반석"
+    )
+    private let thirdDropdownView = DropdownView(
+        items: ["직통"], placeholder: "직통"
+    )
+        
     // MARK: - Custom Methods
     
     override func setStyle() {
         backgroundColor = .neutral100
 
+        titleStackView.do {
+            $0.spacing = 60
+            $0.axis = .horizontal
+        }
+        
         arrowImage.do {
             $0.image = .icArrowBlue
-            $0.contentMode = .scaleAspectFit
         }
         
         departureLabel.do {
@@ -45,10 +65,16 @@ final class TrainSearchView: BaseUIView {
             $0.textAlignment = .center
         }
         
+        dateStackView.do {
+            $0.spacing = 55
+            $0.axis = .horizontal
+        }
+        
         dateLabel.do {
             $0.text = "2026년 5월 5일 (월)"
             $0.font = .pretendard(.body2)
             $0.textColor = .neutral900
+            $0.textAlignment = .center
         }
         
         backButton.do {
@@ -58,47 +84,66 @@ final class TrainSearchView: BaseUIView {
         nextButton.do {
             $0.setImage(.icNext, for: .normal)
         }
+        
+        dropDownStackView.do {
+            $0.axis = .horizontal
+            $0.spacing = 8
+            $0.alignment = .top
+        }
     }
     
     override func setUI() {
-        addSubviews(departureLabel, arrowImage, arrivalLabel, backButton, nextButton, dateLabel)
+        titleStackView.addArrangedSubviews(departureLabel, arrivalLabel)
+        dateStackView.addArrangedSubviews(backButton, dateLabel, nextButton)
+        dropDownStackView.addArrangedSubviews(firstDropdownView, secondDropdownView, thirdDropdownView)
+        addSubviews(titleStackView, arrowImage, dateStackView, dropDownStackView)
     }
     
     override func setLayout() {
-        arrowImage.snp.makeConstraints {
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
-            $0.top.equalToSuperview().inset(25)
+        titleStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(19)
             $0.centerX.equalToSuperview()
         }
         
-        departureLabel.snp.makeConstraints {
-            $0.width.equalTo(64)
-            $0.height.equalTo(36)
-            $0.centerY.equalTo(arrowImage)
-            $0.trailing.equalTo(arrowImage.snp.leading).offset(-8)
-        }
-        
-        arrivalLabel.snp.makeConstraints {
-            $0.width.equalTo(64)
-            $0.height.equalTo(36)
-            $0.centerY.equalTo(arrowImage)
-            $0.leading.equalTo(arrowImage.snp.trailing).offset(8)
-        }
-        
-        dateLabel.snp.makeConstraints {
-            $0.top.equalTo(departureLabel.snp.bottom).offset(6.5)
+        arrowImage.snp.makeConstraints {
+            $0.width.equalTo(15)
+            $0.height.equalTo(12)
+            $0.centerY.equalTo(titleStackView)
             $0.centerX.equalToSuperview()
         }
         
         backButton.snp.makeConstraints {
-            $0.centerY.equalTo(dateLabel)
-            $0.trailing.equalTo(dateLabel.snp.leading).offset(-55)
+            $0.size.equalTo(44)
         }
         
         nextButton.snp.makeConstraints {
-            $0.centerY.equalTo(dateLabel)
-            $0.leading.equalTo(dateLabel.snp.trailing).offset(55)
+            $0.size.equalTo(44)
+        }
+        
+        dateStackView.snp.makeConstraints {
+            $0.top.equalTo(titleStackView.snp.bottom).offset(1)
+            $0.horizontalEdges.equalToSuperview().inset(18.5)
+        }
+        
+        dateLabel.snp.makeConstraints {
+            $0.width.equalTo(141)
+        }
+        
+        dropDownStackView.snp.makeConstraints {
+            $0.top.equalTo(dateStackView.snp.bottom).offset(7)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
+        firstDropdownView.snp.makeConstraints {
+            $0.width.equalTo(136)
+        }
+        
+        secondDropdownView.snp.makeConstraints {
+            $0.width.equalTo(92)
+        }
+        
+        thirdDropdownView.snp.makeConstraints {
+            $0.width.equalTo(92)
         }
     }
 }

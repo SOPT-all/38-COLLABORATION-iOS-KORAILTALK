@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 final class TrainSearchViewController: BaseUIViewController {
+    
     // MARK: - UI Components
     
     private let rootView = TrainSearchView()
@@ -17,7 +18,7 @@ final class TrainSearchViewController: BaseUIViewController {
     // MARK: - Custom Methods
     
     override func setUI() {
-        view.addSubview(rootView)
+        view.addSubviews(rootView)
         navigationBar.configure(title: "승차권 조회")
     }
     
