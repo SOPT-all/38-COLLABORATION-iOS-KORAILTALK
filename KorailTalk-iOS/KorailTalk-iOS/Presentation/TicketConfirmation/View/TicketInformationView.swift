@@ -17,20 +17,13 @@ class TicketInformationView: BaseUIView {
     private let ticketInformationView = UIView()
     private let blueLineView = UIView()
     
-    private let ticketInformationStackView = UIStackView()
-    private let payNoticeStackView = UIStackView()
+    private let payStackView = UIStackView()
     private let payPeriodStackView = UIStackView()
     
-    private let dateLabel = UILabel()
-    private let trainNumberLabel = UILabel()
-    private let ticketNumberLabel = UILabel()
-    private let ticketInformationLabel = UILabel()
     private let payPeriodLabel = UILabel()
     private let payNoticeLabel = UILabel()
     private let reservationNoticeLabel = UILabel()
     
-    private let firstSmallTag = StationTag(type: .small, title: "용산")
-    private let secondSmallTag = StationTag(type: .small, title: "순천")
     private let cancelButton = KorailButton(type: .outline, title: "예매 취소")
     private let cartButton = KorailButton(type: .outline, title: "장바구니")
     
@@ -44,6 +37,7 @@ class TicketInformationView: BaseUIView {
         blueLineView.do {
             $0.backgroundColor = .neutral100
         }
+        
         
         
     }
