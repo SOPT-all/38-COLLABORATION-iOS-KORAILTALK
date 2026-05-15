@@ -36,7 +36,9 @@ final class TrainSearchView: BaseUIView {
     private let thirdDropdownView = DropdownView(
         items: ["직통"], placeholder: "직통"
     )
-        
+    
+    let tableView = UITableView(frame: .zero, style: .plain)
+    
     // MARK: - Custom Methods
     
     override func setStyle() {
@@ -71,10 +73,11 @@ final class TrainSearchView: BaseUIView {
         }
         
         dateLabel.do {
-            $0.text = "2026년 5월 5일 (월)"
+            $0.text = "2026년  5월 5일 (월)"
             $0.font = .pretendard(.body2)
             $0.textColor = .neutral900
             $0.textAlignment = .center
+            $0.lineBreakMode = .byClipping
         }
         
         backButton.do {
@@ -90,13 +93,18 @@ final class TrainSearchView: BaseUIView {
             $0.spacing = 8
             $0.alignment = .top
         }
+        
+        tableView.do {
+            $0.backgroundColor = .clear
+            $0.separatorStyle = .none
+        }
     }
     
     override func setUI() {
         titleStackView.addArrangedSubviews(departureLabel, arrivalLabel)
         dateStackView.addArrangedSubviews(backButton, dateLabel, nextButton)
         dropDownStackView.addArrangedSubviews(firstDropdownView, secondDropdownView, thirdDropdownView)
-        addSubviews(titleStackView, arrowImage, dateStackView, dropDownStackView)
+        addSubviews(tableView, titleStackView, arrowImage, dateStackView, dropDownStackView)
     }
     
     override func setLayout() {
@@ -144,6 +152,12 @@ final class TrainSearchView: BaseUIView {
         
         thirdDropdownView.snp.makeConstraints {
             $0.width.equalTo(92)
+        }
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(dateStackView.snp.bottom).offset(42)
+            $0.horizontalEdges.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
 }
