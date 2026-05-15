@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class DropdownView: BaseUIView, UITableViewDelegate, UITableViewDataSource {
+final class DropdownView: BaseUIView {
     
     // MARK: - Properties
     
@@ -72,9 +72,7 @@ final class DropdownView: BaseUIView, UITableViewDelegate, UITableViewDataSource
             $0.separatorColor = .primary100
             $0.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
             
-            $0.register(
-                DropdownCell.self, forCellReuseIdentifier: "DropdownCell"
-            )
+            $0.register(DropdownCell.self, forCellReuseIdentifier: "DropdownCell")
         }
         
         dividerView.do {
@@ -141,8 +139,42 @@ final class DropdownView: BaseUIView, UITableViewDelegate, UITableViewDataSource
             for: [.touchUpInside, .touchDragExit, .touchCancel])
     }
     
-    // MARK: - Public Method
+    // MARK: - Action
     
+    @objc
+    private func selectButtonDidTap() {
+        isExpanded.toggle()
+        
+        dropdownTableView.snp.updateConstraints {
+            $0.height.equalTo(isExpanded ? CGFloat(items.count) * rowHeight : 0)
+        }
+        
+        dividerView.isHidden = !isExpanded
+
+        dropdownTableView.alpha = isExpanded ? 0 : 1
+        
+        UIView.animate(withDuration: 0.15) {
+            self.dropdownTableView.alpha =
+                self.isExpanded ? 1 : 0
+        }
+        
+        arrowImageView.transform = isExpanded ? CGAffineTransform(rotationAngle: .pi) : .identity
+    }
+    
+    @objc
+    private func buttonTouchDown() {
+        selectButton.backgroundColor = .primary100
+    }
+
+    @objc
+    private func buttonTouchUp() {
+        UIView.animate(withDuration: 0.15) {
+            self.selectButton.backgroundColor = .white
+        }
+    }
+}
+
+extension DropdownView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DropdownCell", for: indexPath) as? DropdownCell else {
@@ -180,43 +212,4 @@ final class DropdownView: BaseUIView, UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return rowHeight
     }
-    
-    // MARK: - Action
-    
-    @objc
-    private func selectButtonDidTap() {
-        isExpanded.toggle()
-        
-        dropdownTableView.snp.updateConstraints {
-            $0.height.equalTo(isExpanded ? CGFloat(items.count) * rowHeight : 0)
-        }
-        
-        dividerView.isHidden = !isExpanded
-
-        
-        dropdownTableView.alpha = isExpanded ? 0 : 1
-        
-        UIView.animate(withDuration: 0.15) {
-            self.dropdownTableView.alpha =
-                self.isExpanded ? 1 : 0
-        }
-        
-        arrowImageView.transform =
-            isExpanded
-            ? CGAffineTransform(rotationAngle: .pi)
-            : .identity
-    }
-    
-    @objc
-    private func buttonTouchDown() {
-        selectButton.backgroundColor = .primary100
-    }
-
-    @objc
-    private func buttonTouchUp() {
-        UIView.animate(withDuration: 0.15) {
-            self.selectButton.backgroundColor = .white
-        }
-    }
-    
 }

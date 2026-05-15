@@ -12,6 +12,8 @@ import Then
 
 final class DropdownCell: UITableViewCell {
     
+    // MARK: - Property
+    
     static let identifier = "DropdownCell"
     
     // MARK: - UI Components
@@ -25,8 +27,7 @@ final class DropdownCell: UITableViewCell {
         reuseIdentifier: String?
     ) {
         super.init(
-            style: style,
-            reuseIdentifier: reuseIdentifier
+            style: style, reuseIdentifier: reuseIdentifier
         )
 
         setStyle()
