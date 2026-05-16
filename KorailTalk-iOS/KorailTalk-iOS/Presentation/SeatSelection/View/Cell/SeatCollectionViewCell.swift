@@ -11,7 +11,9 @@ final class SeatCollectionViewCell: UICollectionViewCell {
     
     // MARK: - UI Components
     
+    private let seatImageView = UIImageView()
     private let seatNumberLabel = UILabel()
+    private let outletBadgeImageView = UIImageView()
     
     // MARK: - Initializer
     
@@ -32,21 +34,63 @@ final class SeatCollectionViewCell: UICollectionViewCell {
     private func setStyle() {
         contentView.backgroundColor = .clear
         
+        seatImageView.do {
+            $0.contentMode = .scaleAspectFit
+        }
+        
         seatNumberLabel.do {
-            $0.text = "1"
             $0.font = .pretendard(.body3)
             $0.textColor = .neutral900
             $0.textAlignment = .center
         }
+        
+        outletBadgeImageView.do {
+            $0.image = .icPower
+            $0.contentMode = .scaleAspectFit
+        }
     }
     
     private func setUI() {
-        contentView.addSubview(seatNumberLabel)
+        contentView.addSubviews(seatImageView, seatNumberLabel, outletBadgeImageView)
     }
     
     private func setLayout() {
-        seatNumberLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+        seatImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
+        
+        seatNumberLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
+        outletBadgeImageView.snp.makeConstraints {
+            $0.top.leading.equalToSuperview()
+            $0.size.equalTo(14)
+        }
+    }
+    
+    func configure(with seat: Seat) {
+        seatNumberLabel.text = "\(seat.number)"
+        outletBadgeImageView.isHidden = !seat.hasOutlet
+        
+        switch seat.state {
+        case .available:
+            seatImageView.image = .icSeatForward
+            seatNumberLabel.textColor = .neutral900
+        case .selected:
+            seatImageView.image = .icSeatForwardSelected
+            seatNumberLabel.textColor = .surfaceDefault
+        case .reserved:
+            seatImageView.image = .icSeatForwardDisabled
+            seatNumberLabel.textColor = .neutral300
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        seatNumberLabel.text = nil
+        outletBadgeImageView.isHidden = true
     }
 }
