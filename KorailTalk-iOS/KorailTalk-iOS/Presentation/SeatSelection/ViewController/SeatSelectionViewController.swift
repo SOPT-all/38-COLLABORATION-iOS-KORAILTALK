@@ -8,7 +8,6 @@
 import UIKit
 
 import SnapKit
-import Then
 
 final class SeatSelectionViewController: BaseUIViewController {
     
@@ -16,6 +15,24 @@ final class SeatSelectionViewController: BaseUIViewController {
     
     private let seatSelectionModel = SeatSelectionModel.mock
     private var paymentBottomView: PaymentBottomSheetView?
+    
+    // MARK: - UI Components
+    
+    private let rootView = SeatSelectionView()
+    
+    // MARK: - Custom Methods
+    
+    override func setUI() {
+        view.addSubview(rootView)
+        navigationBar.configure(title: "좌석 조회", showsRefreshButton: true)
+    }
+    
+    override func setLayout() {
+        rootView.snp.makeConstraints {
+            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+    }
     
     // MARK: - Action
     
