@@ -2,7 +2,7 @@ import UIKit
 
 // MARK: - CollectionView CompositionalLayout
 
-struct SeatSelectionCompositionalLayout {
+enum SeatSelectionCompositionalLayout {
     struct Metric {
         static let `default` = Metric(
             lineSpacing: 8,

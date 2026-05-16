@@ -33,7 +33,7 @@ extension SeatSelectionModel {
         reservedNumbers: Set<Int>,
         outletNumbers: Set<Int>
     ) -> [Seat] {
-        (1...72).map { number in
+        (1 ... 72).map { number in
             Seat(
                 number: number,
                 state: seatState(

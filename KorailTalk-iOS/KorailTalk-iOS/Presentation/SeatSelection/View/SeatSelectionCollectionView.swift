@@ -26,11 +26,12 @@ final class SeatSelectionCollectionView: BaseUIView {
     // MARK: - Initializer
 
     init(model: SeatSelectionModel) {
-        self.seatSelectionModel = model
+        seatSelectionModel = model
         super.init(frame: .zero)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -82,7 +83,7 @@ final class SeatSelectionCollectionView: BaseUIView {
 // MARK: - UICollectionViewDataSource
 
 extension SeatSelectionCollectionView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         return seatCollectionItems.count
     }
 
@@ -91,7 +92,7 @@ extension SeatSelectionCollectionView: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         switch seatCollectionItems[indexPath.item] {
-        case .seat(let seat):
+        case let .seat(seat):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: SeatCollectionViewCell.identifier,
                 for: indexPath
@@ -102,7 +103,7 @@ extension SeatSelectionCollectionView: UICollectionViewDataSource {
             cell.configure(with: seat)
             return cell
 
-        case .aisle(let showsArrow):
+        case let .aisle(showsArrow):
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: AisleCollectionViewCell.identifier,
                 for: indexPath
@@ -122,9 +123,9 @@ extension SeatSelectionCollectionView: UICollectionViewDataSource {
     ) -> UICollectionReusableView {
         guard kind == UICollectionView.elementKindSectionHeader,
               let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: SeatSelectionSectionHeaderView.identifier,
-                for: indexPath
+                  ofKind: kind,
+                  withReuseIdentifier: SeatSelectionSectionHeaderView.identifier,
+                  for: indexPath
               ) as? SeatSelectionSectionHeaderView
         else {
             return UICollectionReusableView()
@@ -139,7 +140,7 @@ extension SeatSelectionCollectionView: UICollectionViewDataSource {
 
 extension SeatSelectionCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard case .seat(let seat) = seatCollectionItems[indexPath.item],
+        guard case let .seat(seat) = seatCollectionItems[indexPath.item],
               seat.state != .reserved
         else {
             return
@@ -168,7 +169,7 @@ private extension SeatSelectionCollectionView {
         let seatsByNumber = Dictionary(uniqueKeysWithValues: currentCar.seats.map { ($0.number, $0) })
         let rowCount = Int(ceil(Double(currentCar.seats.count) / 4.0))
 
-        return (0..<rowCount).flatMap {
+        return (0 ..< rowCount).flatMap {
             makeSeatRowItems(rowIndex: $0, seatsByNumber: seatsByNumber)
         }
     }
@@ -215,7 +216,7 @@ private extension SeatSelectionCollectionView {
 
     var selectedSeatCount: Int {
         return seatCollectionItems.reduce(0) { count, item in
-            guard case .seat(let seat) = item, seat.state == .selected else {
+            guard case let .seat(seat) = item, seat.state == .selected else {
                 return count
             }
 
@@ -247,7 +248,8 @@ private final class SeatSelectionSectionHeaderView: UICollectionReusableView {
         setLayout()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -309,7 +311,8 @@ private final class DashedLineView: UIView {
         setStyle()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

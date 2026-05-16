@@ -20,12 +20,13 @@ final class SeatSelectionView: BaseUIView {
     // MARK: - Initializer
 
     init(model: SeatSelectionModel) {
-        self.headerView = SeatSelectionHeaderView(model: model)
-        self.seatSelectionCollectionView = SeatSelectionCollectionView(model: model)
+        headerView = SeatSelectionHeaderView(model: model)
+        seatSelectionCollectionView = SeatSelectionCollectionView(model: model)
         super.init(frame: .zero)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
