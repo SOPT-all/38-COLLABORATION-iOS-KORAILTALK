@@ -13,12 +13,14 @@ final class SeatSelectionViewController: BaseUIViewController {
     
     // MARK: - Property
     
+    private let paymentBottomSheetHeight: CGFloat = 150
     private let seatSelectionModel = SeatSelectionModel.mock
     private var paymentBottomView: PaymentBottomSheetView?
+    private var currentSelectedSeatCount = 0
     
     // MARK: - UI Components
     
-    private let rootView = SeatSelectionView()
+    private lazy var rootView = SeatSelectionView(model: seatSelectionModel)
     
     // MARK: - Custom Methods
     
@@ -34,36 +36,64 @@ final class SeatSelectionViewController: BaseUIViewController {
         }
     }
     
+    override func setAddTarget() {
+        rootView.selectedSeatCountDidChange = { [weak self] selectedSeatCount in
+            self?.updatePaymentBottomSheet(selectedSeatCount: selectedSeatCount)
+        }
+    }
+    
     // MARK: - Action
     
-    @objc
+    private func updatePaymentBottomSheet(selectedSeatCount: Int) {
+        currentSelectedSeatCount = selectedSeatCount
+        
+        if selectedSeatCount > 0 {
+            showPaymentBottomSheet()
+        } else {
+            hidePaymentBottomSheet()
+        }
+    }
+    
     private func showPaymentBottomSheet() {
-        guard paymentBottomView == nil else { return }
+        rootView.updateSeatCollectionBottomInset(paymentBottomSheetHeight)
+        
+        if let paymentBottomView {
+            paymentBottomView.dataBind(
+                price: "\(totalPrice(for: currentSelectedSeatCount))",
+                amount: "\(currentSelectedSeatCount)"
+            )
+            return
+        }
         
         let paymentBottomSheetView = PaymentBottomSheetView()
         paymentBottomSheetView.dataBind(
-            price: "\(seatSelectionModel.totalPrice)",
-            amount: "\(seatSelectionModel.selectedSeatCount)"
+            price: "\(totalPrice(for: currentSelectedSeatCount))",
+            amount: "\(currentSelectedSeatCount)"
         )
         
         view.addSubview(paymentBottomSheetView)
         
         paymentBottomSheetView.snp.makeConstraints {
             $0.horizontalEdges.bottom.equalToSuperview()
-            $0.height.equalTo(150)
+            $0.height.equalTo(paymentBottomSheetHeight)
         }
         
         paymentBottomSheetView.show()
         paymentBottomView = paymentBottomSheetView
     }
     
-    @objc
     private func hidePaymentBottomSheet() {
         guard let paymentBottomSheetView = paymentBottomView else { return }
+        rootView.updateSeatCollectionBottomInset(0)
         
         paymentBottomSheetView.hide { [weak self] in
             paymentBottomSheetView.removeFromSuperview()
             self?.paymentBottomView = nil
         }
+    }
+    
+    private func totalPrice(for selectedSeatCount: Int) -> Int {
+        let seatPrice = seatSelectionModel.selectedSeatFare?.price ?? 0
+        return seatPrice * selectedSeatCount
     }
 }

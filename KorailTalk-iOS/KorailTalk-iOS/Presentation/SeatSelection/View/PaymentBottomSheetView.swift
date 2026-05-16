@@ -61,6 +61,7 @@ final class PaymentBottomSheetView: BaseUIView {
         }
         
         totalPriceLabel.do {
+            $0.text = "총 금액"
             $0.font = .pretendard(.header4)
             $0.textColor = .neutral900
         }
@@ -152,8 +153,6 @@ final class PaymentBottomSheetView: BaseUIView {
             }
         )
     }
-    
-    // TODO: - 모델링 후 변경
     
     func dataBind(price: String, amount: String) {
         seatTypeLabel.text = "어른 \(amount)"
