@@ -113,7 +113,7 @@ class ReservationNoticeView: BaseUIView {
         
         bottomButtonStackView.do {
             $0.axis = .vertical
-            $0.spacing = -3
+            $0.spacing = -6
             $0.alignment = .fill
         }
         
@@ -203,11 +203,3 @@ class ReservationNoticeView: BaseUIView {
         onTapBaggageGuideButton?()
     }
 }
-
-// MARK: - To-Do
-// content 내부 행간, 글자색 함수 추가
-// 하단 버튼 클릭 가능하게
-// 버튼 라인 길이 조절
-// 열차 내 물품 휴대기준 확인이랑 다음 뷰 연결하기
-// 결제하기 버튼 올리기
-// 아이콘 이미지 화질 수정하기

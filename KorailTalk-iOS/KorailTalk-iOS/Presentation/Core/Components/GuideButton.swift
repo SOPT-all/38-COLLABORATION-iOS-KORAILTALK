@@ -70,19 +70,11 @@ final class GuideButton: UIButton {
         }
         
         underlineView.snp.makeConstraints {
-            $0.top.equalTo(titleLabelView.snp.bottom).offset(-4)
+            $0.top.equalTo(titleLabelView.snp.bottom).offset(-12)
             $0.leading.equalToSuperview()
             $0.trailing.equalTo(titleLabelView)
             $0.height.equalTo(1)
             $0.bottom.equalToSuperview()
         }
     }
-    
-    // MARK: - Public Method
-    
-//    @objc
-//    private func didTapBaggageGuideButton() {
-//        print("tap")
-//        onTapBaggageGuideButton?()
-//    }
 }
