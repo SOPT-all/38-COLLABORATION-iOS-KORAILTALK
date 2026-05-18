@@ -89,6 +89,7 @@ final class FareOptionButton: UIButton {
     }
     
     private func setUI() {
+        stackView.isUserInteractionEnabled = false
         addSubview(stackView)
         stackView.addArrangedSubviews(optionLabel, fareLabel)
     }
