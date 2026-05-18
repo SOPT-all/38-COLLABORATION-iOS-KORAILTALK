@@ -49,6 +49,7 @@ class ReservationNoticeView: BaseUIView {
         
         checkImageView.do {
             $0.image = .icCheck
+            $0.contentMode = .scaleAspectFit
         }
         
         checkTitleLabel.do {
@@ -91,7 +92,8 @@ class ReservationNoticeView: BaseUIView {
         }
 
         transferImageView.do {
-            $0.image = .icExclamation
+            $0.image = .icNoticeReservation
+            $0.contentMode = .scaleAspectFit
         }
 
         transferTitleLabel.do {
@@ -115,20 +117,54 @@ class ReservationNoticeView: BaseUIView {
         
         bottomButtonStackView.do {
             $0.axis = .vertical
-            $0.spacing = 1
+            $0.spacing = -3
         }
     }
     
     override func setUI() {
+        addSubviews(checkStackView, checkTitleStackView, transferStackView, transferTitleStackView, bottomButtonStackView)
+        
         checkStackView.addArrangedSubviews(checkTitleStackView, checkContentStackView)
         
-        checkTitleStackView.addArrangedSubviews(<#T##views: UIView...##UIView#>)
+        checkTitleStackView.addArrangedSubviews(checkImageView, checkTitleLabel)
+        
+        checkContentStackView.addArrangedSubviews(checkFirstContentLabel, checkSecondContentLabel)
+        
+        transferStackView.addArrangedSubviews(transferTitleStackView, transferContentLabel)
+        
+        transferTitleStackView.addArrangedSubviews(transferImageView, transferTitleLabel)
+        
+        bottomButtonStackView.addArrangedSubviews(refundPenaltyButton, baggageGuideButton)
     }
     
-
-    
+    override func setLayout() {
+        checkStackView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+        }
+        
+        transferStackView.snp.makeConstraints {
+            $0.top.equalTo(checkStackView.snp.bottom).offset(20)
+        }
+        
+        bottomButtonStackView.snp.makeConstraints {
+            $0.top.equalTo(transferStackView.snp.bottom).offset(51)
+        }
+        
+        transferImageView.snp.makeConstraints {
+            $0.size.equalTo(20)
+        }
+        
+        checkImageView.snp.makeConstraints {
+            $0.size.equalTo(20)
+        }
+    }
     // MARK: - Public Methods
-
-
-
 }
+
+// MARK: - To-Do
+// content 내부 행간, 글자색 함수 추가
+// 하단 버튼 클릭 가능하게
+// 버튼 라인 길이 조절
+// 열차 내 물품 휴대기준 확인이랑 다음 뷰 연결하기
+// 결제하기 버튼 올리기
+// 아이콘 이미지 화질 수정하기

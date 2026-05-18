@@ -27,6 +27,7 @@ class TicketInformationView: BaseUIView {
     private let buttonStackView = UIStackView()
     private let cancelButton = KorailButton(type: .outline, title: "예매 취소")
     private let cartButton = KorailButton(type: .outline, title: "장바구니")
+    private let reservationNoticeView = ReservationNoticeView()
     
     // MARK: - Custom Methods
     
@@ -99,7 +100,7 @@ class TicketInformationView: BaseUIView {
     }
     
     override func setUI() {
-        addSubviews(ticketInformationView, buttonStackView, grayLineView)
+        addSubviews(ticketInformationView, buttonStackView, grayLineView, reservationNoticeView)
         
         ticketInformationView.addSubviews(ticketStackView, payNoticeLabel, ticketNumberLabel, reservationNoticeLabel)
         
@@ -147,6 +148,12 @@ class TicketInformationView: BaseUIView {
         reservationNoticeLabel.snp.makeConstraints {
             $0.top.equalTo(grayLineView.snp.bottom).offset(10)
             $0.leading.equalTo(grayLineView)
+        }
+        
+        reservationNoticeView.snp.makeConstraints {
+            $0.top.equalTo(reservationNoticeLabel.snp.bottom).offset(40)
+            $0.horizontalEdges.equalToSuperview().inset(21)
+            $0.bottom.equalToSuperview()
         }
     }
 }
