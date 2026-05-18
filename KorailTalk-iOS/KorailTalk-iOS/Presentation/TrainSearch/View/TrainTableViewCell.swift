@@ -209,8 +209,8 @@ final class TrainTableViewCell: UITableViewCell {
     }
 }
 
-// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 구현
-// TODO: - 버튼 클릭 액션 처리를 위한 클로저 또는 Delegate 패턴 추가
+// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 업데이트
+
 extension TrainTableViewCell {
     func dataBind(_ data: TrainModel) {
         trainNameLabel.text = data.trainInfo.name
