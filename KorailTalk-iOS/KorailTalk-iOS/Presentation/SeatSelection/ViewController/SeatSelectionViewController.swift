@@ -8,7 +8,6 @@
 import UIKit
 
 import SnapKit
-import Then
 
 final class SeatSelectionViewController: BaseUIViewController {
 
@@ -16,10 +15,7 @@ final class SeatSelectionViewController: BaseUIViewController {
     private let seatSelectionModel = SeatSelectionModel.mock
     private var paymentBottomView: PaymentBottomSheetView?
     private var currentSelectedSeatCount = 0
-    private let priceFormatter = NumberFormatter().then {
-        $0.locale = Locale(identifier: "ko_KR")
-        $0.numberStyle = .decimal
-    }
+    private let priceFormatter = NumberFormatter.koreanDecimal()
 
     // MARK: - UI Components
 
@@ -103,6 +99,6 @@ final class SeatSelectionViewController: BaseUIViewController {
 
     private func formattedPrice(for selectedSeatCount: Int) -> String {
         let totalPrice = totalPrice(for: selectedSeatCount)
-        return priceFormatter.string(from: NSNumber(value: totalPrice)) ?? "\(totalPrice)"
+        return priceFormatter.string(from: totalPrice) ?? "\(totalPrice)원"
     }
 }

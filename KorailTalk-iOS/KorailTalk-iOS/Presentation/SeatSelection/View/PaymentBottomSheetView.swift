@@ -155,7 +155,7 @@ final class PaymentBottomSheetView: BaseUIView {
 
     func dataBind(price: String, amount: String) {
         seatTypeLabel.text = "어른 \(amount)"
-        priceLabel.text = "\(price)원"
+        priceLabel.text = price
         totalAmountLabel.text = "(\(amount)장)"
     }
 
