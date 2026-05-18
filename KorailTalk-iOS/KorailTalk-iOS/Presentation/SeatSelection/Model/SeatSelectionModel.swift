@@ -3,6 +3,25 @@ struct SeatSelectionModel {
     let fare: TrainFare
     let cars: [TrainCar]
 
+    static func makeModel(
+        train: TrainInfo,
+        fare: TrainFare,
+        selectedFare: SeatFare,
+        seats: [Seat]
+    ) -> SeatSelectionModel {
+        SeatSelectionModel(
+            train: train,
+            fare: fare,
+            cars: [
+                TrainCar(
+                    number: 4,
+                    seatType: selectedFare.type,
+                    seats: seats
+                )
+            ]
+        )
+    }
+
     var currentCar: TrainCar? {
         cars.first
     }
