@@ -13,8 +13,6 @@ import Then
 final class SeatSelectionViewController: BaseUIViewController {
 
     // MARK: - Property
-
-    private let paymentBottomSheetHeight: CGFloat = 150
     private let seatSelectionModel = SeatSelectionModel.mock
     private var paymentBottomView: PaymentBottomSheetView?
     private var currentSelectedSeatCount = 0
@@ -25,6 +23,7 @@ final class SeatSelectionViewController: BaseUIViewController {
 
     // MARK: - UI Components
 
+    private let paymentBottomSheetHeight: CGFloat = 150
     private lazy var rootView = SeatSelectionView(model: seatSelectionModel)
 
     // MARK: - Custom Methods
