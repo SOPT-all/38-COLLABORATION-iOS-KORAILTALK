@@ -97,6 +97,7 @@ final class TrainSearchView: BaseUIView {
         tableView.do {
             $0.backgroundColor = .clear
             $0.separatorStyle = .none
+            $0.showsVerticalScrollIndicator = false
         }
     }
     
