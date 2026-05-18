@@ -50,11 +50,7 @@ final class GuideButton: UIButton {
     }
     
     private func setUI() {
-        addSubviews(
-            arrowImageView,
-            titleLabelView,
-            underlineView
-        )
+        addSubviews(arrowImageView, titleLabelView, underlineView)
     }
     
     private func setLayout() {

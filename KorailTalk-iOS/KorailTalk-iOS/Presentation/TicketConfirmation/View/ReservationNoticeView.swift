@@ -33,10 +33,8 @@ class ReservationNoticeView: BaseUIView {
     private let transferContentLabel = UILabel()
     
     private let bottomButtonStackView = UIStackView()
-    private let refundPenaltyButton =
-    GuideButton(title: "승차권 환불 위약금 확인")
-    private let baggageGuideButton =
-    GuideButton(title: "열차 내 물품 휴대기준 확인")
+    private let refundPenaltyButton = GuideButton(title: "승차권 환불 위약금 확인")
+    private let baggageGuideButton = GuideButton(title: "열차 내 물품 휴대기준 확인")
     
     // MARK: - Custom Methods
     
@@ -75,11 +73,7 @@ class ReservationNoticeView: BaseUIView {
         }
         
         checkSecondContentLabel.do {
-            $0.text =
-            """
-            할인 승차권을 구매하신 고객님은 열차 탑승시 신분증 또는
-            증명서 휴대
-            """
+            $0.text = "할인 승차권을 구매하신 고객님은 열차 탑승시 신분증 또는\n증명서 휴대"
             $0.font = .pretendard(.body4)
             $0.textColor = .black
             $0.numberOfLines = 0
@@ -116,8 +110,6 @@ class ReservationNoticeView: BaseUIView {
             $0.spacing = -6
             $0.alignment = .fill
         }
-        
-        baggageGuideButton.addTarget(self, action: #selector(didTapBaggageGuideButton), for: .touchUpInside)
     }
     
     override func setUI() {
@@ -158,16 +150,15 @@ class ReservationNoticeView: BaseUIView {
             $0.size.equalTo(20)
         }
     }
+    
+    override func setAddTarget() {
+        baggageGuideButton.addTarget(self, action: #selector(didTapBaggageGuideButton), for: .touchUpInside)
+    }
+    
     // MARK: - Public Methods
     
     private func makeAttributedText() -> NSAttributedString {
-        let text =
-            """
-            좌석을 지정하지 않은 입석, 자유석 승차권
-            본인만 사용 가능한 할인 상품
-            힘내라 청춘, 청소년드림, 정기 승차권 등
-            반려동물 동반 으로 좌석이 필요한 경우 어른 승차권 구매
-            """
+        let text = "좌석을 지정하지 않은 입석, 자유석 승차권\n본인만 사용 가능한 할인 상품\n힘내라 청춘, 청소년드림, 정기 승차권 등\n반려동물 동반 으로 좌석이 필요한 경우 어른 승차권 구매"
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
@@ -198,6 +189,8 @@ class ReservationNoticeView: BaseUIView {
         return attributedString
     }
     
+    // MARK: - Action
+
     @objc
     private func didTapBaggageGuideButton() {
         onTapBaggageGuideButton?()
