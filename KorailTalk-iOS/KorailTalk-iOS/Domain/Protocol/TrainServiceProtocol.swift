@@ -11,7 +11,7 @@ protocol TrainServiceProtocol {
     
     /// 1. 열차편 조회 (GET /api/v1/schedules)
     func fetchSchedules(
-        completion: @escaping (Result<[TrainInfo], Error>) -> Void
+        completion: @escaping (Result<[ScheduleInfo], Error>) -> Void
     )
     
     /// 2. 열차 좌석 조회 (GET /api/v1/schedules/{scheduleId}/seats)

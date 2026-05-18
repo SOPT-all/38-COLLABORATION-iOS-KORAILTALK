@@ -8,7 +8,7 @@
 import Foundation
 
 final class TrainService: BaseService, TrainServiceProtocol {
-    func fetchSchedules(completion: @escaping (Result<[TrainInfo], any Error>) -> Void) {
+    func fetchSchedules(completion: @escaping (Result<[ScheduleInfo], any Error>) -> Void) {
         
     }
     
