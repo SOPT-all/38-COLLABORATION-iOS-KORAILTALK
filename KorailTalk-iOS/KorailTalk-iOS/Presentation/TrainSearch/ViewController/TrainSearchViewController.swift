@@ -58,7 +58,23 @@ extension TrainSearchViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TrainTableViewCell.identifier,
             for: indexPath) as? TrainTableViewCell else { return UITableViewCell() }
+        
         cell.dataBind(trainList[indexPath.row])
+        
+        cell.standardButtonDidTap = { [weak self] in
+            self?.navigationController?.pushViewController(
+                SeatSelectionViewController(),
+                animated: true
+            )
+        }
+        
+        cell.specialButtonDidTap = { [weak self] in
+            self?.navigationController?.pushViewController(
+                SeatSelectionViewController(),
+                animated: true
+            )
+        }
+        
         return cell
     }
     
