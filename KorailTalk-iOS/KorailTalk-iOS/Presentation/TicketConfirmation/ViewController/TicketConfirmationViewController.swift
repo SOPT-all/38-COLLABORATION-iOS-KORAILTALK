@@ -16,11 +16,21 @@ final class TicketConfirmationViewController: BaseUIViewController {
     
     private let rootView = TicketInformationView()
     private let primaryButton = KorailButton(type: .primary)
+    private let modalView = PaymentSuccessModalView()
+    
+    // MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setButtonAction()
+    }
     
     // MARK: - Custom Methods
     
     override func setUI() {
         view.addSubviews(rootView, primaryButton)
+        
         navigationBar.configure(title: "승차권 정보 확인")
         
         rootView.onTapBaggageGuideButton = { [weak self] in
@@ -39,6 +49,49 @@ final class TicketConfirmationViewController: BaseUIViewController {
             $0.horizontalEdges.equalToSuperview().inset(20.adjustedW)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(5)
             $0.height.equalTo(53.adjustedW)
+        }
+    }
+    
+    // MARK: - Actions
+    
+    private func setButtonAction() {
+        primaryButton.addTarget(self, action: #selector(didTapPrimaryButton), for: .touchUpInside)
+    }
+    
+    @objc
+    private func didTapPrimaryButton() {
+        showPaymentSuccessPopup()
+    }
+    
+    private func showPaymentSuccessPopup() {
+        view.addSubview(modalView)
+        
+        modalView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+
+        view.layoutIfNeeded()
+
+            modalView.alpha = 0
+            
+            modalView.popupView.transform =
+                CGAffineTransform(scaleX: 0.8, y: 0.8)
+            
+            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5) {
+                
+                self.modalView.alpha = 1
+                
+                self.modalView.popupView.transform = .identity
+            }
+        
+        modalView.popupView.onTapConfirmButton = { [weak self] in self?.modalView.removeFromSuperview()
+        }
+        
+        modalView.popupView.onTapTicketButton = { [weak self] in self?.modalView.removeFromSuperview()
+            
+            let vc = MyTicketViewController()
+            
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
