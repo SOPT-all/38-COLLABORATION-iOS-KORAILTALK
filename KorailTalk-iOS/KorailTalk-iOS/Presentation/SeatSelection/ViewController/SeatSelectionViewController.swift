@@ -14,6 +14,7 @@ final class SeatSelectionViewController: BaseUIViewController {
     // MARK: - Property
     private let scheduleId: Int
     private let selectedFare: SeatFare
+    // TODO: - 서버 연동 안정화 후 mock 초기 렌더링 제거
     private var seatSelectionModel = SeatSelectionModel.mock
     private var paymentBottomView: PaymentBottomSheetView?
     private var currentSelectedSeatCount = 0
