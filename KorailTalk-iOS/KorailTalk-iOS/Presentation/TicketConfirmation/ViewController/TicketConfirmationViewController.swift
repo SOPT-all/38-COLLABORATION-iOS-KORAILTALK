@@ -31,9 +31,9 @@ final class TicketConfirmationViewController: BaseUIViewController {
         }
         
         primaryButton.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.horizontalEdges.equalToSuperview().inset(20.adjustedW)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(5)
-            $0.height.equalTo(53)
+            $0.height.equalTo(53.adjustedW)
         }
     }
 }
