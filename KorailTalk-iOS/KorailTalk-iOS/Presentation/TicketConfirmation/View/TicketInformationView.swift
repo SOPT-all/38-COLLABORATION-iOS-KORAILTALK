@@ -12,6 +12,10 @@ import Then
 
 class TicketInformationView: BaseUIView {
     
+    // MARK: - Property
+
+    var onTapBaggageGuideButton: (() -> Void)?
+    
     // MARK: - UI Components
     
     private let ticketInformationView = UIView()
@@ -27,6 +31,7 @@ class TicketInformationView: BaseUIView {
     private let buttonStackView = UIStackView()
     private let cancelButton = KorailButton(type: .outline, title: "예매 취소")
     private let cartButton = KorailButton(type: .outline, title: "장바구니")
+    private let reservationNoticeView = ReservationNoticeView()
     
     // MARK: - Custom Methods
     
@@ -99,7 +104,7 @@ class TicketInformationView: BaseUIView {
     }
     
     override func setUI() {
-        addSubviews(ticketInformationView, buttonStackView, grayLineView)
+        addSubviews(ticketInformationView, buttonStackView, grayLineView, reservationNoticeView)
         
         ticketInformationView.addSubviews(ticketStackView, payNoticeLabel, ticketNumberLabel, reservationNoticeLabel)
         
@@ -108,13 +113,17 @@ class TicketInformationView: BaseUIView {
         ticketStackView.addArrangedSubviews(trainInformationView, payPeriodStackView)
         
         buttonStackView.addArrangedSubviews(cancelButton, cartButton)
+        
+        reservationNoticeView.onTapBaggageGuideButton = { [weak self] in
+            self?.onTapBaggageGuideButton?()
+        }
     }
     
     override func setLayout() {
         ticketInformationView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(19)
             $0.horizontalEdges.equalToSuperview().inset(21)
-            $0.height.equalTo(152)
+            $0.height.equalTo(152.adjustedW)
         }
         
         ticketStackView.snp.makeConstraints {
@@ -135,7 +144,7 @@ class TicketInformationView: BaseUIView {
         buttonStackView.snp.makeConstraints {
             $0.top.equalTo(ticketInformationView.snp.bottom).offset(16)
             $0.horizontalEdges.equalTo(ticketInformationView)
-            $0.height.equalTo(36)
+            $0.height.equalTo(36.adjustedW)
         }
         
         grayLineView.snp.makeConstraints {
@@ -147,6 +156,12 @@ class TicketInformationView: BaseUIView {
         reservationNoticeLabel.snp.makeConstraints {
             $0.top.equalTo(grayLineView.snp.bottom).offset(10)
             $0.leading.equalTo(grayLineView)
+        }
+        
+        reservationNoticeView.snp.makeConstraints {
+            $0.top.equalTo(reservationNoticeLabel.snp.bottom).offset(30.adjustedW)
+            $0.horizontalEdges.equalToSuperview().inset(21)
+            $0.bottom.equalToSuperview()
         }
     }
 }
