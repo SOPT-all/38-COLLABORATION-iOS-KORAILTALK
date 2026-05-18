@@ -184,11 +184,13 @@ final class TrainTableViewCell: UITableViewCell {
         )
     }
     
-    @objc private func standardButtonTapped() {
+    @objc
+    private func standardButtonTapped() {
         standardButtonDidTap?()
     }
 
-    @objc private func specialButtonTapped() {
+    @objc
+    private func specialButtonTapped() {
         specialButtonDidTap?()
     }
     

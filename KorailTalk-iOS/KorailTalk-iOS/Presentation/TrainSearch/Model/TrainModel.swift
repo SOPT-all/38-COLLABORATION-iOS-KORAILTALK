@@ -157,4 +157,3 @@ extension TrainModel {
         return Calendar.current.date(from: components) ?? Date()
     }
 }
-
