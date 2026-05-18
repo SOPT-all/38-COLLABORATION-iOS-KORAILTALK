@@ -3,8 +3,8 @@ import Foundation
 extension SeatSelectionModel {
     static let mock = SeatSelectionModel(
         train: TrainInfo(
-            type: .ktx,
-            name: "KTX 001",
+            type: .mugunghwa,
+            name: "무궁화호 1284",
             time: TrainTime(
                 departureTime: Date(timeIntervalSince1970: 1778765400),
                 arrivalTime: Date(timeIntervalSince1970: 1778772600)
@@ -17,12 +17,12 @@ extension SeatSelectionModel {
         ),
         cars: [
             TrainCar(
-                number: 1,
+                number: 4,
                 seatType: .general,
                 seats: makeSeats(
                     selectedNumbers: [],
-                    reservedNumbers: [1, 7, 12, 16],
-                    outletNumbers: [3, 4, 11, 12, 19, 20]
+                    reservedNumbers: [5, 6, 7, 8, 17, 33, 34, 39, 44, 49, 58, 63],
+                    outletNumbers: [1, 3, 17, 19, 21, 35, 42, 57]
                 )
             )
         ]
@@ -33,7 +33,7 @@ extension SeatSelectionModel {
         reservedNumbers: Set<Int>,
         outletNumbers: Set<Int>
     ) -> [Seat] {
-        (1...20).map { number in
+        (1 ... 72).map { number in
             Seat(
                 number: number,
                 state: seatState(
