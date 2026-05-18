@@ -12,4 +12,21 @@ import Then
 
 final class TicketConfirmationViewController: BaseUIViewController {
     
+    // MARK: - UI Components
+    
+    private let rootView = TicketInformationView()
+    
+    // MARK: - Custom Methods
+    
+    override func setUI() {
+        view.addSubview(rootView)
+        navigationBar.configure(title: "승차권 정보 확인")
+    }
+    
+    override func setLayout() {
+        rootView.snp.makeConstraints {
+            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.horizontalEdges.bottom.equalToSuperview()
+        }
+    }
 }
