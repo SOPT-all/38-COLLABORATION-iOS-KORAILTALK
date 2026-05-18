@@ -12,6 +12,10 @@ import Then
 
 class ReservationNoticeView: BaseUIView {
     
+    // MARK: - Property
+    
+    var onTapBaggageGuideButton: (() -> Void)?
+    
     // MARK: - UI Components
     
     private let checkStackView = UIStackView()
@@ -92,7 +96,7 @@ class ReservationNoticeView: BaseUIView {
         }
 
         transferImageView.do {
-            $0.image = .icNoticeReservation
+            $0.image = .icNotice
             $0.contentMode = .scaleAspectFit
         }
 
@@ -103,22 +107,17 @@ class ReservationNoticeView: BaseUIView {
         }
 
         transferContentLabel.do {
-            $0.text =
-            """
-            좌석을 지정하지 않은 입석, 자유석 승차권
-            본인만 사용 가능한 할인 상품
-            힘내라 청춘, 청소년드림, 정기 승차권 등
-            반려동물 동반 으로 좌석이 필요한 경우 어른 승차권 구매
-            """
-            $0.font = .pretendard(.body4)
-            $0.textColor = .black
+            $0.attributedText = makeAttributedText()
             $0.numberOfLines = 0
         }
         
         bottomButtonStackView.do {
             $0.axis = .vertical
             $0.spacing = -3
+            $0.alignment = .fill
         }
+        
+        baggageGuideButton.addTarget(self, action: #selector(didTapBaggageGuideButton), for: .touchUpInside)
     }
     
     override func setUI() {
@@ -147,7 +146,8 @@ class ReservationNoticeView: BaseUIView {
         }
         
         bottomButtonStackView.snp.makeConstraints {
-            $0.top.equalTo(transferStackView.snp.bottom).offset(51)
+            $0.top.equalTo(transferStackView.snp.bottom).offset(30.adjustedW)
+            $0.horizontalEdges.equalToSuperview()
         }
         
         transferImageView.snp.makeConstraints {
@@ -159,6 +159,49 @@ class ReservationNoticeView: BaseUIView {
         }
     }
     // MARK: - Public Methods
+    
+    private func makeAttributedText() -> NSAttributedString {
+         let text =
+             """
+             좌석을 지정하지 않은 입석, 자유석 승차권
+             본인만 사용 가능한 할인 상품
+             힘내라 청춘, 청소년드림, 정기 승차권 등
+             반려동물 동반 으로 좌석이 필요한 경우 어른 승차권 구매
+             """
+         
+         let paragraphStyle = NSMutableParagraphStyle()
+         paragraphStyle.lineSpacing = 5
+         
+         let attributedString = NSMutableAttributedString(
+             string: text,
+             attributes: [
+                 .font: UIFont.pretendard(.body4),
+                 .foregroundColor: UIColor.black,
+                 .paragraphStyle: paragraphStyle
+             ]
+         )
+         
+         let grayText = "힘내라 청춘, 청소년드림, 정기 승차권 등"
+
+         let range = (text as NSString).range(of: grayText)
+
+         if range.location != NSNotFound {
+             attributedString.addAttributes(
+                 [
+                     .foregroundColor: UIColor.neutral700,
+                     .font: UIFont.pretendard(.body4)
+                 ],
+                 range: range
+             )
+         }
+         
+         return attributedString
+     }
+    
+    @objc
+    private func didTapBaggageGuideButton() {
+        onTapBaggageGuideButton?()
+    }
 }
 
 // MARK: - To-Do
