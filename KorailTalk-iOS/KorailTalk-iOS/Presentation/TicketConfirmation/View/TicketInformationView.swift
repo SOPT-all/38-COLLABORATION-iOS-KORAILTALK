@@ -13,7 +13,7 @@ import Then
 class TicketInformationView: BaseUIView {
     
     // MARK: - Property
-
+    
     var onTapBaggageGuideButton: (() -> Void)?
     
     // MARK: - UI Components
@@ -97,7 +97,6 @@ class TicketInformationView: BaseUIView {
         }
         
         ticketNumberLabel.do {
-            $0.text = "2매"
             $0.font = .pretendard(.body3)
             $0.textColor = .primary500
         }
@@ -163,5 +162,12 @@ class TicketInformationView: BaseUIView {
             $0.horizontalEdges.equalToSuperview().inset(21)
             $0.bottom.equalToSuperview()
         }
+    }
+    
+    // MARK: - Public Method
+    
+    func configure(with model: TicketInformationModel) {
+        ticketNumberLabel.text = "\(model.totalTicketCount)매"
+        trainInformationView.configure(with: model)
     }
 }
