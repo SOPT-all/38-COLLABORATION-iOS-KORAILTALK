@@ -34,7 +34,7 @@ class TrainInformationView: BaseUIView {
     override func setStyle() {
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
-
+        
         trainInformationStackView.do {
             $0.axis = .vertical
             $0.spacing = 5
@@ -58,49 +58,45 @@ class TrainInformationView: BaseUIView {
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }
-
+        
         monthLabel.do {
             $0.text = "4월"
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }
-
+        
         dayLabel.do {
             $0.text = "24일"
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }
-
+        
         dayOfWeekLabel.do {
             $0.text = "(금)"
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }
-
+        
         trainNumberLabel.do {
-            $0.text = "[KTX 581]"
             $0.font = .pretendard(.body3)
             $0.textColor = .black
         }
-
+        
         departureTimeLabel.do {
-            $0.text = "07 : 43"
             $0.font = .pretendard(.body3)
             $0.textColor = .neutral900
         }
-
+        
         arrivalTimeLabel.do {
-            $0.text = "10 : 59"
             $0.font = .pretendard(.body3)
             $0.textColor = .neutral900
         }
-
+        
         roomLabel.do {
-            $0.text = "일반실  16호차  5B  역방향"
             $0.font = .pretendard(.caption1)
             $0.textColor = .neutral700
         }
-
+        
         arrowIcon.do {
             $0.text = "→"
             $0.font = .pretendard(.body3)
@@ -125,5 +121,14 @@ class TrainInformationView: BaseUIView {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.lessThanOrEqualToSuperview()
         }
+    }
+    
+    // MARK: - Public Method
+    
+    func configure(with model: TicketInformationModel) {
+        trainNumberLabel.text = "[\(model.trainName)]"
+        departureTimeLabel.text = model.departureTime
+        arrivalTimeLabel.text = model.arrivalTime
+        roomLabel.text = model.seatInfo
     }
 }

@@ -25,7 +25,7 @@ protocol TrainServiceProtocol {
         scheduleId: Int,
         userId: Int,
         seatNumbers: [Int],
-        completion: @escaping (Result<Reservation, Error>) -> Void
+        completion: @escaping (Result<Void, Error>) -> Void
     )
     
     /// 4. 예매 내역 조회 (GET /api/v1/users/{userId}/reservations)

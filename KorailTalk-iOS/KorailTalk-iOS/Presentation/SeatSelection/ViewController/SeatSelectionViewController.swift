@@ -12,6 +12,7 @@ import SnapKit
 final class SeatSelectionViewController: BaseUIViewController {
 
     // MARK: - Property
+    
     private let scheduleId: Int
     private let selectedFare: SeatFare
     private let trainService: TrainServiceProtocol
@@ -130,7 +131,7 @@ private extension SeatSelectionViewController {
 
             do {
                 async let schedulesResponse = fetchSchedules()
-                async let seatsResponse = fetchSeats(scheduleId: self.scheduleId)
+                async let seatsResponse = fetchSeats(scheduleId: scheduleId)
 
                 let schedules = try await schedulesResponse
                 let seats = try await seatsResponse

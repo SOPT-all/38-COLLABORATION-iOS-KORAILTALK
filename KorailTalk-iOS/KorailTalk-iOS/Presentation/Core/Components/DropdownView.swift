@@ -19,7 +19,7 @@ final class DropdownView: BaseUIView {
     private let rowHeight: CGFloat = 22
     private let items: [String]
     private var selectedItem: String?
-    public var onItemSelected: ((String) -> Void)?
+    var onItemSelected: ((String) -> Void)?
     
     // MARK: - UI Components
     
