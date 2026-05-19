@@ -36,12 +36,12 @@ final class MyTicketCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         setStyle()
         setUI()
         setLayout()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -133,11 +133,13 @@ final class MyTicketCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Method
     
-    func configure(date: String, trainName: String, passengerCount: String, departureStation: String, departureTime: String, destinationStation: String, destinationTime: String) {
-        dateLabel.text = date
-        trainLabel.text = trainName
-        seatTypeLabel.text = passengerCount
-        departureTimeLabel.text = departureTime
-        destinationTimeLabel.text = destinationTime
+    func configure(with model: ReservationModel) {
+        dateLabel.text = model.date
+        trainLabel.text = model.trainName
+        seatTypeLabel.text = model.passengerCount
+        departureTimeLabel.text = model.departureTime
+        destinationTimeLabel.text = model.destinationTime
+        
+        ticketDetailView.configure(carNumber: model.carNumber, seats: model.seatNames)
     }
 }

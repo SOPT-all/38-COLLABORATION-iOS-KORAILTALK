@@ -81,9 +81,9 @@ final class TicketDetailView: BaseUIView {
         }
     }
     
-    // MARK: - Publick Method
+    // MARK: - Public Method
     
-    func configure(platform: String?, carNumber: Int, seats: [String]) {
+    func configure(carNumber: Int, seats: [String]) {
         contentBodyView.bindData(carNumber: carNumber, seats: seats)
     }
 }

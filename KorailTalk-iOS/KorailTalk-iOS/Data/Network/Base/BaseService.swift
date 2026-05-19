@@ -8,35 +8,6 @@
 import Foundation
 
 class BaseService {
-    
-    struct BaseResponse<T: Decodable>: Decodable {
-        let message: String
-        let data: T?
-    }
-    
-    struct APIErrorResponse: Decodable, Error {
-        private let code: String
-        let message: String
-        let errors: [ValidationError]?
-        
-        var errorCode: APIErrorCode {
-            return APIErrorCode(rawValue: code) ?? .unknown
-        }
-        
-        struct ValidationError: Decodable {
-            let field: String
-            let value: String
-            let reason: String
-        }
-    }
-    
-    enum NetworkError: Error {
-        case invalidURL
-        case noData
-        case decodingError
-        case unknownError
-    }
-    
     func request<Req: Encodable, Res: Decodable>(
         urlString: String,
         method: String = "GET",
@@ -55,7 +26,7 @@ class BaseService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         headers?.forEach { request.setValue($1, forHTTPHeaderField: $0) }
         
-        if let body = body {
+        if let body {
             do {
                 let encoder = JSONEncoder()
                 request.httpBody = try encoder.encode(body)
@@ -72,7 +43,7 @@ class BaseService {
         decoder.dateDecodingStrategy = .formatted(formatter)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
+            if let error {
                 completion(.failure(error))
                 return
             }
@@ -82,7 +53,7 @@ class BaseService {
                 return
             }
             
-            guard let data = data else {
+            guard let data else {
                 completion(.failure(NetworkError.noData))
                 return
             }
