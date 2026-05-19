@@ -8,8 +8,19 @@
 import Foundation
 
 final class TrainService: BaseService, TrainServiceProtocol {
-    func fetchSchedules(completion: @escaping (Result<[ScheduleInfo], any Error>) -> Void) {
-        
+    func fetchSchedules(completion: @escaping (Result<[ScheduleInfo], Error>) -> Void) {
+        let url = APIConfiguration.fetchSchedules.urlString
+
+        request(urlString: url, method: "GET") { (result: Result<ScheduledListEntity, Error>) in
+            switch result {
+            case .success(let entity):
+                let schedules = entity.schedules.map { $0.toDomain() }
+                completion(.success(schedules))
+
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     func fetchSeats(scheduleId: Int, completion: @escaping (Result<[Seat], any Error>) -> Void) {

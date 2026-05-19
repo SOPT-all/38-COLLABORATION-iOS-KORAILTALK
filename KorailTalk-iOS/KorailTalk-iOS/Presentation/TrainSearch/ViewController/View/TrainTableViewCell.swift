@@ -191,24 +191,7 @@ final class TrainTableViewCell: UITableViewCell {
         specialButtonDidTap?()
     }
     
-    // MARK: - Public Methods
-    
-    func configure(trainName: String, departureTime: String, arrivalTime: String, benefitText: String?, durationTime: String) {
-        trainNameLabel.text = trainName
-        departureTimeLabel.text = departureTime
-        arrivalTimeLabel.text = arrivalTime
-        durationLabel.text = durationTime
-        
-        if let benefitText {
-            benefitLabel.text = benefitText
-            benefitStackView.isHidden = false
-        } else {
-            benefitStackView.isHidden = true
-        }
-    }
 }
-
-// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 업데이트
 
 extension TrainTableViewCell {
     func dataBind(_ data: TrainModel) {
