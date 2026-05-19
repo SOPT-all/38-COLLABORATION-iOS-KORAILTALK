@@ -12,6 +12,31 @@ import Then
 
 final class TicketConfirmationViewController: BaseUIViewController {
     
+    // MARK: - Properties
+    
+    private let trainService: TrainServiceProtocol
+    private let scheduleId: Int
+    private let seatNumbers: [Int]
+    private let userId: Int = 1
+    
+    // MARK: - Initializer
+    
+    init(
+        scheduleId: Int,
+        seatNumbers: [Int],
+        trainService: TrainServiceProtocol = TrainService()
+    ) {
+        self.scheduleId = scheduleId
+        self.seatNumbers = seatNumbers
+        self.trainService = trainService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     // MARK: - UI Components
     
     private let rootView = TicketInformationView()
@@ -61,7 +86,7 @@ final class TicketConfirmationViewController: BaseUIViewController {
     
     @objc
     private func didTapPrimaryButton() {
-        showPaymentSuccessPopup()
+        requestSeatReservation()
     }
     
     // MARK: - Private Method
@@ -81,6 +106,54 @@ final class TicketConfirmationViewController: BaseUIViewController {
         UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5) {
             self.modalView.alpha = 1
             self.modalView.popupView.transform = .identity
+        }
+    }
+}
+
+// MARK: - API Calls
+
+private extension TicketConfirmationViewController {
+    
+    func requestSeatReservation() {
+        primaryButton.isEnabled = false
+        
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            
+            do {
+                let reservationResult = try await reserveSeats(
+                    scheduleId: self.scheduleId,
+                    userId: self.userId,
+                    seatNumbers: self.seatNumbers
+                )
+                
+                print("🎉 좌석 예약 성공!: \(reservationResult)")
+                
+                self.primaryButton.isEnabled = true
+                self.showPaymentSuccessPopup()
+                
+            } catch {
+                self.primaryButton.isEnabled = true
+                
+                if let apiError = error as? APIErrorResponse {
+                    print("🚨 예약 에러 코드: \(apiError.errorCode), 메시지: \(apiError.message)")
+                    
+                } else {
+                    print("🚨 일반 에러 발생: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func reserveSeats(scheduleId: Int, userId: Int, seatNumbers: [Int]) async throws -> Reservation {
+        try await withCheckedThrowingContinuation { continuation in
+            trainService.reserveSeats(
+                scheduleId: scheduleId,
+                userId: userId,
+                seatNumbers: seatNumbers
+            ) { result in
+                continuation.resume(with: result)
+            }
         }
     }
 }
