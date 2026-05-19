@@ -14,25 +14,31 @@ final class SeatSelectionViewController: BaseUIViewController {
     // MARK: - Property
     private let scheduleId: Int
     private let selectedFare: SeatFare
-    // TODO: - 서버 연동 안정화 후 mock 초기 렌더링 제거
-    private var seatSelectionModel = SeatSelectionModel.mock
+    private let trainService: TrainServiceProtocol
     private var paymentBottomView: PaymentBottomSheetView?
-    private var currentSelectedSeatCount = 0
     private let priceFormatter = NumberFormatter.koreanDecimal()
 
     // MARK: - UI Components
 
     private let paymentBottomSheetHeight: CGFloat = 150
-    private lazy var rootView = makeRootView(model: seatSelectionModel)
+    private lazy var rootView = {
+        let rootView = SeatSelectionView(model: SeatSelectionModel.placeholder)
+        rootView.selectedSeatCountDidChange = { [weak self] selectedSeatCount in
+            self?.updatePaymentBottomSheet(selectedSeatCount: selectedSeatCount)
+        }
+        return rootView
+    }()
 
     // MARK: - Initializer
 
     init(
         scheduleId: Int = 1,
-        selectedFare: SeatFare = SeatSelectionModel.mock.fare.general
+        selectedFare: SeatFare = SeatSelectionModel.placeholder.fare.general,
+        trainService: TrainServiceProtocol = TrainService()
     ) {
         self.scheduleId = scheduleId
         self.selectedFare = selectedFare
+        self.trainService = trainService
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,12 +47,18 @@ final class SeatSelectionViewController: BaseUIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Life Cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchSeatSelectionModel()
+    }
+
     // MARK: - Custom Methods
 
     override func setUI() {
         view.addSubview(rootView)
         navigationBar.configure(title: "좌석 조회", showsRefreshButton: true)
-        fetchSchedule()
     }
 
     override func setLayout() {
@@ -59,30 +71,28 @@ final class SeatSelectionViewController: BaseUIViewController {
     // MARK: - Action
 
     private func updatePaymentBottomSheet(selectedSeatCount: Int) {
-        currentSelectedSeatCount = selectedSeatCount
-
         if selectedSeatCount > 0 {
-            showPaymentBottomSheet()
+            showPaymentBottomSheet(selectedSeatCount: selectedSeatCount)
         } else {
             hidePaymentBottomSheet()
         }
     }
 
-    private func showPaymentBottomSheet() {
+    private func showPaymentBottomSheet(selectedSeatCount: Int) {
         rootView.updateSeatCollectionBottomInset(paymentBottomSheetHeight)
 
         if let paymentBottomView {
             paymentBottomView.dataBind(
-                price: formattedPrice(for: currentSelectedSeatCount),
-                amount: "\(currentSelectedSeatCount)"
+                price: formattedPrice(for: selectedSeatCount),
+                amount: "\(selectedSeatCount)"
             )
             return
         }
 
         let paymentBottomSheetView = PaymentBottomSheetView()
         paymentBottomSheetView.dataBind(
-            price: formattedPrice(for: currentSelectedSeatCount),
-            amount: "\(currentSelectedSeatCount)"
+            price: formattedPrice(for: selectedSeatCount),
+            amount: "\(selectedSeatCount)"
         )
 
         view.addSubview(paymentBottomSheetView)
@@ -106,37 +116,34 @@ final class SeatSelectionViewController: BaseUIViewController {
         }
     }
 
-    private func totalPrice(for selectedSeatCount: Int) -> Int {
-        let seatPrice = seatSelectionModel.selectedSeatFare?.price ?? 0
-        return seatPrice * selectedSeatCount
-    }
-
     private func formattedPrice(for selectedSeatCount: Int) -> String {
-        let totalPrice = totalPrice(for: selectedSeatCount)
+        let totalPrice = selectedFare.price * selectedSeatCount
         return priceFormatter.string(from: totalPrice) ?? "\(totalPrice)원"
     }
 }
 
 private extension SeatSelectionViewController {
 
-    func fetchSchedule() {
+    func fetchSeatSelectionModel() {
         Task { @MainActor [weak self] in
             guard let self else { return }
 
             do {
-                let schedules = try await fetchSchedules()
+                async let schedulesResponse = fetchSchedules()
+                async let seatsResponse = fetchSeats(scheduleId: self.scheduleId)
+
+                let schedules = try await schedulesResponse
+                let seats = try await seatsResponse
                 guard let scheduleInfo = schedules.first(where: { $0.scheduleId == self.scheduleId }) else {
                     return
                 }
-                let seats = try await fetchSeats(scheduleId: scheduleInfo.scheduleId)
-                updateRootView(
-                    with: SeatSelectionModel.makeModel(
-                        train: scheduleInfo.trainInfo,
-                        fare: scheduleInfo.trainFare,
-                        selectedFare: selectedFare,
-                        seats: seats
-                    )
+                let seatSelectionModel = SeatSelectionModel.makeModel(
+                    train: scheduleInfo.trainInfo,
+                    fare: scheduleInfo.trainFare,
+                    selectedFare: selectedFare,
+                    seats: seats
                 )
+                rootView.configure(model: seatSelectionModel)
             } catch {
                 return
             }
@@ -145,7 +152,7 @@ private extension SeatSelectionViewController {
 
     func fetchSchedules() async throws -> [ScheduleInfo] {
         try await withCheckedThrowingContinuation { continuation in
-            TrainService().fetchSchedules { result in
+            trainService.fetchSchedules { result in
                 continuation.resume(with: result)
             }
         }
@@ -153,31 +160,10 @@ private extension SeatSelectionViewController {
 
     func fetchSeats(scheduleId: Int) async throws -> [Seat] {
         try await withCheckedThrowingContinuation { continuation in
-            TrainService().fetchSeats(scheduleId: scheduleId) { result in
+            trainService.fetchSeats(scheduleId: scheduleId) { result in
                 continuation.resume(with: result)
             }
         }
     }
 
-    func updateRootView(with seatSelectionModel: SeatSelectionModel) {
-        self.seatSelectionModel = seatSelectionModel
-
-        rootView.removeFromSuperview()
-
-        rootView = makeRootView(model: seatSelectionModel)
-        view.addSubview(rootView)
-        rootView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
-            $0.horizontalEdges.bottom.equalToSuperview()
-        }
-    }
-
-    func makeRootView(model: SeatSelectionModel) -> SeatSelectionView {
-        let rootView = SeatSelectionView(model: model)
-        rootView.selectedSeatCountDidChange = { [weak self] selectedSeatCount in
-            self?.updatePaymentBottomSheet(selectedSeatCount: selectedSeatCount)
-        }
-
-        return rootView
-    }
 }

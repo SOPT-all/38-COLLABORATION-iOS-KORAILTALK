@@ -7,14 +7,11 @@ final class SeatSelectionHeaderView: BaseUIView {
 
     // MARK: - Property
 
-    private let seatSelectionModel: SeatSelectionModel
+    private var seatSelectionModel: SeatSelectionModel
 
     // MARK: - UI Components
 
-    private lazy var carDropdownView = DropdownView(
-        items: seatSelectionModel.carDropdownItems,
-        placeholder: seatSelectionModel.currentCarTitle
-    )
+    private lazy var carDropdownView = makeCarDropdownView(model: seatSelectionModel)
 
     private let trainInfoStackView = UIStackView()
     private let previousCarButton = UIButton()
@@ -122,6 +119,40 @@ final class SeatSelectionHeaderView: BaseUIView {
             $0.top.equalTo(vrGuideView.snp.bottom).offset(8)
             $0.horizontalEdges.equalToSuperview().inset(24)
             $0.height.equalTo(14)
+        }
+    }
+
+    func configure(model: SeatSelectionModel) {
+        seatSelectionModel = model
+        configureCarDropdownView(model: model)
+        trainNameLabel.text = model.trainTitle
+        remainingSeatLabel.text = model.remainingSeatText
+    }
+
+    private func makeCarDropdownView(model: SeatSelectionModel) -> DropdownView {
+        let dropdownView = DropdownView(
+            items: model.carDropdownItems,
+            placeholder: model.currentCarTitle
+        )
+        dropdownView.isUserInteractionEnabled = false
+        return dropdownView
+    }
+
+    private func configureCarDropdownView(model: SeatSelectionModel) {
+        carDropdownView.removeFromSuperview()
+        carDropdownView = makeCarDropdownView(model: model)
+        addSubview(carDropdownView)
+
+        carDropdownView.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(18)
+            $0.horizontalEdges.equalToSuperview().inset(18)
+            $0.height.equalTo(32)
+        }
+
+        trainInfoStackView.snp.remakeConstraints {
+            $0.top.equalTo(carDropdownView.snp.bottom).offset(8)
+            $0.horizontalEdges.equalToSuperview().inset(18)
+            $0.height.equalTo(63)
         }
     }
 }
