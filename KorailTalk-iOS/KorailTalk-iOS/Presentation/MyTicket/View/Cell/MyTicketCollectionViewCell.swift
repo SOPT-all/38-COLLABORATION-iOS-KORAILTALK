@@ -99,8 +99,8 @@ final class MyTicketCollectionViewCell: UICollectionViewCell {
         contentView.addSubviews(dateLabel, trainLabel, seatTypeLabel,
                                 informationStackView, ticketDetailView)
         
-        informationStackView.addArrangedSubviews(departureStationLabel, departureTimeLabel,arrowLabel,
-                                                 destinationStationLabel, destinationTimeLabel)
+        informationStackView.addArrangedSubviews(departureStationLabel, departureTimeLabel,
+                                                 arrowLabel, destinationStationLabel, destinationTimeLabel)
     }
     
     private func setLayout() {

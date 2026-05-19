@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import Then
 
+//TODO: - 서버 데이터로 변경 예정
+
 struct TicketDummyModel {
     let date: String
     let trainName: String
@@ -43,9 +45,8 @@ private var ticketList: [TicketDummyModel] = [
 
 final class MyTicketCollectionView: BaseUIView {
     
-    // MARK: - UI Components
+    // MARK: - UI Component
     
-    private let gradientView = GradientGuideView(type: .myTicket)
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -83,18 +84,12 @@ final class MyTicketCollectionView: BaseUIView {
     }
     
     override func setUI() {
-        addSubviews(gradientView, collectionView)
+        addSubviews(collectionView)
     }
     
     override func setLayout() {
-        gradientView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(20)
-            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.height.equalTo(32)
-        }
-        
         collectionView.snp.makeConstraints {
-            $0.top.equalTo(gradientView.snp.bottom).offset(26)
+            $0.top.equalToSuperview()
             $0.horizontalEdges.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-10)
         }
@@ -109,7 +104,11 @@ final class MyTicketCollectionView: BaseUIView {
     
     private func setRegister() {
         collectionView.register(MyTicketCollectionViewCell.self,
-            forCellWithReuseIdentifier: MyTicketCollectionViewCell.identifier)
+                                forCellWithReuseIdentifier: MyTicketCollectionViewCell.identifier)
+        
+        collectionView.register(MyTicketCollectionHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: MyTicketCollectionHeaderView.identifier)
     }
 }
 
@@ -141,6 +140,18 @@ extension MyTicketCollectionView: UICollectionViewDataSource {
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: MyTicketCollectionHeaderView.identifier,
+                for: indexPath
+            ) as? MyTicketCollectionHeaderView else { return UICollectionReusableView() }
+            return header
+        }
+        return UICollectionReusableView()
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -153,6 +164,11 @@ extension MyTicketCollectionView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        return UIEdgeInsets(top: 26, left: 20, bottom: 0, right: 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let width = collectionView.bounds.width
+        return CGSize(width: width, height: 52)
     }
 }
