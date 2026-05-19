@@ -15,26 +15,23 @@ final class PaymentSuccessModalView: BaseUIView {
     // MARK: - UI Components
     
     private let dimmedView = UIView()
-    
     let popupView = PopupView()
     
     // MARK: - Custom Methods
 
     override func setStyle() {
-        
         backgroundColor = .clear
         
-        dimmedView.backgroundColor =
-            UIColor.black.withAlphaComponent(0.6)
+        dimmedView.do {
+            $0.backgroundColor = UIColor.dimmedBlack.withAlphaComponent(0.6)
+        }
     }
 
     override func setUI() {
-        
         addSubviews(dimmedView, popupView)
     }
 
     override func setLayout() {
-        
         dimmedView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

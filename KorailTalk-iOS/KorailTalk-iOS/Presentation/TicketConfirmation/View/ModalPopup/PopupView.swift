@@ -66,12 +66,8 @@ class PopupView: BaseUIView {
         addSubview(paymentView)
         
         paymentView.addSubviews(paymentImageView, paymentStackView, buttonStackView)
-        
         paymentStackView.addArrangedSubviews(succeessIconView, paymentTitleLabel)
-        
         buttonStackView.addArrangedSubviews(ticketButton, confirmButton)
-        
-        setButtonAction()
     }
     
     override func setLayout() {
@@ -109,22 +105,12 @@ class PopupView: BaseUIView {
         }
     }
     
-    // MARK: - Action
-
-    private func setButtonAction() {
-        
-        confirmButton.addTarget(
-            self,
-            action: #selector(didTapConfirmButton),
-            for: .touchUpInside
-        )
-        
-        ticketButton.addTarget(
-            self,
-            action: #selector(didTapTicketButton),
-            for: .touchUpInside
-        )
+    override func setAddTarget() {
+        confirmButton.addTarget(self, action: #selector(didTapConfirmButton), for: .touchUpInside)
+        ticketButton.addTarget(self, action: #selector(didTapTicketButton), for: .touchUpInside)
     }
+    
+    // MARK: - Actions
     
     @objc
     private func didTapConfirmButton() {

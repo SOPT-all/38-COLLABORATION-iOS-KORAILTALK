@@ -18,25 +18,11 @@ final class TicketConfirmationViewController: BaseUIViewController {
     private let primaryButton = KorailButton(type: .primary)
     private let modalView = PaymentSuccessModalView()
     
-    // MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setButtonAction()
-    }
-    
     // MARK: - Custom Methods
     
     override func setUI() {
         view.addSubviews(rootView, primaryButton)
-        
         navigationBar.configure(title: "승차권 정보 확인")
-        
-        rootView.onTapBaggageGuideButton = { [weak self] in
-            let vc = LuggagePolicyViewController()
-            self?.navigationController?.pushViewController(vc, animated: true)
-        }
     }
     
     override func setLayout() {
@@ -52,16 +38,33 @@ final class TicketConfirmationViewController: BaseUIViewController {
         }
     }
     
-    // MARK: - Actions
-    
-    private func setButtonAction() {
+    override func setAddTarget() {
         primaryButton.addTarget(self, action: #selector(didTapPrimaryButton), for: .touchUpInside)
+        
+        rootView.onTapBaggageGuideButton = { [weak self] in
+            let viewController = LuggagePolicyViewController()
+            self?.navigationController?.pushViewController(viewController, animated: true)
+        }
+        
+        modalView.popupView.onTapConfirmButton = { [weak self] in
+            self?.modalView.removeFromSuperview()
+        }
+        
+        modalView.popupView.onTapTicketButton = { [weak self] in
+            self?.modalView.removeFromSuperview()
+            let viewController = MyTicketViewController()
+            self?.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
+    
+    // MARK: - Action
     
     @objc
     private func didTapPrimaryButton() {
         showPaymentSuccessPopup()
     }
+    
+    // MARK: - Private Method
     
     private func showPaymentSuccessPopup() {
         view.addSubview(modalView)
@@ -69,29 +72,15 @@ final class TicketConfirmationViewController: BaseUIViewController {
         modalView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-
+        
         view.layoutIfNeeded()
-
-            modalView.alpha = 0
-            
-            modalView.popupView.transform =
-                CGAffineTransform(scaleX: 0.8, y: 0.8)
-            
-            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5) {
-                
-                self.modalView.alpha = 1
-                
-                self.modalView.popupView.transform = .identity
-            }
         
-        modalView.popupView.onTapConfirmButton = { [weak self] in self?.modalView.removeFromSuperview()
-        }
+        modalView.alpha = 0
+        modalView.popupView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
-        modalView.popupView.onTapTicketButton = { [weak self] in self?.modalView.removeFromSuperview()
-            
-            let vc = MyTicketViewController()
-            
-            self?.navigationController?.pushViewController(vc, animated: true)
+        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5) {
+            self.modalView.alpha = 1
+            self.modalView.popupView.transform = .identity
         }
     }
 }
