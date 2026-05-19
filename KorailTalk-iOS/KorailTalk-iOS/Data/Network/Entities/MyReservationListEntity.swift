@@ -29,7 +29,10 @@ struct MyReservationEntity: Decodable {
             time: TrainTime(departureTime: departureTime, arrivalTime: arrivalTime),
             availability: nil
         )
-        let seats = seatNumbers.map { Seat(number: $0, state: .reserved, hasOutlet: false) }
+        
+        let seats = seatNumbers.map { number -> Seat in
+            return Seat(number: number, state: .reserved, hasOutlet: false)
+        }
         
         return Reservation(
             id: scheduleId,
