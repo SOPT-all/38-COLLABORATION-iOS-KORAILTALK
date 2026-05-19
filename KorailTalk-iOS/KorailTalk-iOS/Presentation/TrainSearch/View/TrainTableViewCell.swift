@@ -11,6 +11,9 @@ import SnapKit
 import Then
 
 final class TrainTableViewCell: UITableViewCell {
+    
+    // MARK: - Property
+    
     static let identifier = "TrainTableViewCell"
     
     // MARK: - UI Components
@@ -170,20 +173,14 @@ final class TrainTableViewCell: UITableViewCell {
         }
     }
     
-    private func setAction() {
-        standardButton.addTarget(
-            self,
-            action: #selector(standardButtonTapped),
-            for: .touchUpInside
-        )
-
-        specialButton.addTarget(
-            self,
-            action: #selector(specialButtonTapped),
-            for: .touchUpInside
-        )
-    }
+    // MARK: - Actions
     
+    private func setAction() {
+        standardButton.addTarget(self, action: #selector(standardButtonTapped), for: .touchUpInside)
+
+        specialButton.addTarget(self, action: #selector(specialButtonTapped), for: .touchUpInside)
+    }
+        
     @objc
     private func standardButtonTapped() {
         standardButtonDidTap?()

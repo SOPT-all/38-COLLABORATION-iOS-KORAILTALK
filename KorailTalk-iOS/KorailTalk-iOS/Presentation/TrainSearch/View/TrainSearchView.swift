@@ -28,10 +28,7 @@ final class TrainSearchView: BaseUIView {
         items: ["전체", "무궁화호", "새마을호", "itx", "ktx", "srt"], placeholder: "전체"
     )
     private let secondDropdownView = DropdownView(
-        items: [
-                "일반석", "콘센트석", "유아동반", "수동휠체어", "전동휠체어", "2층석", "자전거", "대피도우미"
-            ],
-        placeholder: "일반석"
+        items: [ "일반석", "콘센트석", "유아동반", "수동휠체어", "전동휠체어", "2층석", "자전거", "대피도우미"], placeholder: "일반석"
     )
     private let thirdDropdownView = DropdownView(
         items: ["직통"], placeholder: "직통"

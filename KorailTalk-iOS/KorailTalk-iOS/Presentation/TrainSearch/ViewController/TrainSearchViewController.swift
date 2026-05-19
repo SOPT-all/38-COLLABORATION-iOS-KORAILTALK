@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 final class TrainSearchViewController: BaseUIViewController {
+    
     // MARK: - UI Components
     
     private let rootView = TrainSearchView()
