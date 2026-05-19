@@ -20,7 +20,7 @@ final class FareOptionButton: UIButton {
     
     // MARK: - Properties
     
-    private let fareOption: FareOption
+    private var fareOption: FareOption
     internal let optionLabel = UILabel()
     private let fareLabel = UILabel()
     private let stackView = UIStackView()
@@ -89,6 +89,7 @@ final class FareOptionButton: UIButton {
     }
     
     private func setUI() {
+        stackView.isUserInteractionEnabled = false
         addSubview(stackView)
         stackView.addArrangedSubviews(optionLabel, fareLabel)
     }
@@ -124,5 +125,26 @@ final class FareOptionButton: UIButton {
                 optionLabel.textColor = .neutral300
             }
         }
+    }
+    
+    func updateConfig(fare: Int) {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        if let formattedFare = formatter.string(from: NSNumber(value: fare)) {
+            fareLabel.text = "\(formattedFare)원"
+        }
+    }
+    
+    func updateSoldOut() {
+        fareOption = FareOption(
+            seatType: fareOption.seatType,
+            status: .soldout,
+            fare: nil
+        )
+
+        optionLabel.text = "매진"
+        fareLabel.text = nil
+        isEnabled = false
+        setSoldoutStyle()
     }
 }
