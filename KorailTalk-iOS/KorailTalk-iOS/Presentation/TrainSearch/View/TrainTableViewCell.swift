@@ -12,6 +12,10 @@ import Then
 
 final class TrainTableViewCell: UITableViewCell {
     
+    // MARK: - Property
+    
+    static let identifier = "TrainTableViewCell"
+    
     // MARK: - UI Components
     
     private let containerView = UIView()
@@ -33,6 +37,9 @@ final class TrainTableViewCell: UITableViewCell {
     private let standardButton = FareOptionButton(fareOption: FareOption(seatType: .standard, status: .available, fare: 34600))
     private let specialButton = FareOptionButton(fareOption: FareOption(seatType: .special, status: .available, fare: 70000))
     
+    var standardButtonDidTap: (() -> Void)?
+    var specialButtonDidTap: (() -> Void)?
+    
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -41,6 +48,7 @@ final class TrainTableViewCell: UITableViewCell {
         setUI()
         setStyle()
         setLayout()
+        setAction()
     }
     
     required init?(coder: NSCoder) {
@@ -165,12 +173,30 @@ final class TrainTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Actions
+    
+    private func setAction() {
+        standardButton.addTarget(self, action: #selector(standardButtonTapped), for: .touchUpInside)
+
+        specialButton.addTarget(self, action: #selector(specialButtonTapped), for: .touchUpInside)
+    }
+        
+    @objc
+    private func standardButtonTapped() {
+        standardButtonDidTap?()
+    }
+
+    @objc
+    private func specialButtonTapped() {
+        specialButtonDidTap?()
+    }
+    
     // MARK: - Public Methods
     
-    func configure(trainName: String, depTime: String, arrTime: String, benefitText: String?, durationTime: String) {
+    func configure(trainName: String, departureTime: String, arrivalTime: String, benefitText: String?, durationTime: String) {
         trainNameLabel.text = trainName
-        departureTimeLabel.text = depTime
-        arrivalTimeLabel.text = arrTime
+        departureTimeLabel.text = departureTime
+        arrivalTimeLabel.text = arrivalTime
         durationLabel.text = durationTime
         
         if let benefitText {
@@ -182,5 +208,22 @@ final class TrainTableViewCell: UITableViewCell {
     }
 }
 
-// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 구현
-// TODO: - 버튼 클릭 액션 처리를 위한 클로저 또는 Delegate 패턴 추가
+// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 업데이트
+
+extension TrainTableViewCell {
+    func dataBind(_ data: TrainModel) {
+        trainNameLabel.text = data.trainInfo.name
+        departureTimeLabel.text = data.departureTime
+        arrivalTimeLabel.text = data.arrivalTime
+        durationLabel.text = "약 \(data.durationTime) 소요"
+        standardButton.updateConfig(fare: data.fareInfo.general.price)
+        
+        if let specialFare = data.fareInfo.special {
+            specialButton.updateConfig(fare: specialFare.price)
+        } else {
+            specialButton.updateSoldOut()
+        }
+        
+        benefitStackView.isHidden = true
+    }
+}
