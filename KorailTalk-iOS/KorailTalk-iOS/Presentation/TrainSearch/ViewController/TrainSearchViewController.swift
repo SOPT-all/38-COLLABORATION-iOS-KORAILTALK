@@ -10,11 +10,12 @@ import UIKit
 import SnapKit
 final class TrainSearchViewController: BaseUIViewController {
     
+    private let trainService = TrainService()
+    
     // MARK: - UI Components
     
     private let rootView = TrainSearchView()
-    private let trainList = TrainModel.dummy()
-    
+    private var trainList: [TrainModel] = []
     // MARK: - Custom Methods
     
     override func viewDidLoad() {
@@ -24,6 +25,7 @@ final class TrainSearchViewController: BaseUIViewController {
         setLayout()
         setDelegate()
         register()
+        fetchTrainList()
     }
     
     override func setUI() {
@@ -81,5 +83,48 @@ extension TrainSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return trainList.count
+    }
+}
+    
+private extension TrainSearchViewController {
+    
+    func fetchTrainList() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            
+            do {
+                let fetchedData = try await requestSchedules()
+                
+                trainList = fetchedData.map {
+                    TrainModel(
+                        trainInfo: $0.trainInfo,
+                        fareInfo: $0.trainFare,
+                        hasOutletSeat: false
+                    )
+                }
+                
+                rootView.tableView.reloadData()
+                
+            } catch {
+                print("🚨 열차 조회 실패: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func requestSchedules() async throws -> [ScheduleInfo] {
+        
+        return try await withCheckedThrowingContinuation { continuation in
+            
+            trainService.fetchSchedules { result in
+                
+                switch result {
+                case .success(let schedules):
+                    continuation.resume(returning: schedules)
+                    
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
     }
 }
