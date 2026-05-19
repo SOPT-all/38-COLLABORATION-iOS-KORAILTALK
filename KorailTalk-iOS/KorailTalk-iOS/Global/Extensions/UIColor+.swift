@@ -33,6 +33,8 @@ extension UIColor {
     static let semanticWarning = UIColor(hex: 0xFF4D00)
     static let semanticInfo = UIColor(hex: 0x70DFF8)
     static let semanticCaution = UIColor(hex: 0xFEDF64)
+    
+    static let dimmedBlack = UIColor(hex: 0x151515)
 }
 
 extension CAGradientLayer {
