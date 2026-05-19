@@ -27,7 +27,7 @@ final class GradientGuideView: BaseUIView {
         self.type = type
         super.init(frame: .zero)
         
-        if let text = text {
+        if let text {
             self.guideLabel.text = text
         }
     }
