@@ -58,6 +58,11 @@ final class SeatSelectionCollectionView: BaseUIView {
             $0.edges.equalToSuperview()
         }
     }
+    
+    override func setDelegate() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
+    }
 
     func updateBottomInset(_ bottomInset: CGFloat) {
         collectionView.contentInset.bottom = bottomInset
@@ -72,11 +77,6 @@ final class SeatSelectionCollectionView: BaseUIView {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: SeatSelectionSectionHeaderView.identifier
         )
-    }
-
-    private func setDelegate() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
     }
 }
 

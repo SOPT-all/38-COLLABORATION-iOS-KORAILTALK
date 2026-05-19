@@ -23,7 +23,7 @@ final class SeatSelectionHeaderView: BaseUIView {
     private let remainingSeatLabel = UILabel()
     private let nextCarButton = UIButton()
 
-    private let vrGuideView = VRGuideView()
+    private let vrGuideView = GradientGuideView()
     private let seatLegendView = SeatLegendView()
 
     // MARK: - Initializer
