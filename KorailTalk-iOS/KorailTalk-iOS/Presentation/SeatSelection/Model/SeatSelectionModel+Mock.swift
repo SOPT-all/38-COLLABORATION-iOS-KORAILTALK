@@ -1,6 +1,29 @@
 import Foundation
 
 extension SeatSelectionModel {
+    static let placeholder = SeatSelectionModel(
+        train: TrainInfo(
+            type: .ktx,
+            name: "-",
+            time: TrainTime(
+                departureTime: Date(timeIntervalSince1970: 0),
+                arrivalTime: Date(timeIntervalSince1970: 0)
+            ),
+            availability: nil
+        ),
+        fare: TrainFare(
+            general: SeatFare(type: .general, price: 0, isAvailable: false),
+            special: nil
+        ),
+        cars: [
+            TrainCar(
+                number: 4,
+                seatType: .general,
+                seats: []
+            )
+        ]
+    )
+
     static let mock = SeatSelectionModel(
         train: TrainInfo(
             type: .mugunghwa,
