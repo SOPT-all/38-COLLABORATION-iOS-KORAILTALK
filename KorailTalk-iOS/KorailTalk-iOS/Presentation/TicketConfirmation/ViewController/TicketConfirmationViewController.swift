@@ -131,13 +131,14 @@ private extension TicketConfirmationViewController {
             
             do {
                 let seatNumbers = selectedSeats.map { $0.number }
-                let reservationResult = try await reserveSeats(
+                
+                try await reserveSeats(
                     scheduleId: scheduleId,
                     userId: userId,
                     seatNumbers: seatNumbers
                 )
                 
-                print("🎉 좌석 예약 성공: \(reservationResult)")
+                print("🎉 좌석 예약 성공")
                 
                 primaryButton.isEnabled = true
                 showPaymentSuccessPopup()
@@ -155,7 +156,7 @@ private extension TicketConfirmationViewController {
         }
     }
     
-    func reserveSeats(scheduleId: Int, userId: Int, seatNumbers: [Int]) async throws -> Reservation {
+    func reserveSeats(scheduleId: Int, userId: Int, seatNumbers: [Int]) async throws {
         try await withCheckedThrowingContinuation { continuation in
             trainService.reserveSeats(
                 scheduleId: scheduleId,

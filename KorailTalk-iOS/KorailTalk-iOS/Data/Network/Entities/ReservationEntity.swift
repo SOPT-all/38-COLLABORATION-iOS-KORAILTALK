@@ -24,23 +24,4 @@ struct ReservationDataEntity: Decodable {
     let scheduleId: Int
     let userId: Int
     let seatNumbers: [Int]
-    
-    func toDomain() -> Reservation {
-        let train = TrainInfo(
-            type: .ktx,
-            name: "",
-            time: TrainTime(departureTime: Date(), arrivalTime: Date()),
-            availability: nil
-        )
-        
-        let seats = seatNumbers.map { number in
-            return Seat(number: number, state: .reserved, hasOutlet: false)
-        }
-        
-        return Reservation(
-            id: scheduleId,
-            train: train,
-            seats: seats
-        )
-    }
 }

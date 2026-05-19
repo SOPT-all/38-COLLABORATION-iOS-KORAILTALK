@@ -26,7 +26,7 @@ final class TrainService: BaseService, TrainServiceProtocol {
         }
     }
     
-    func reserveSeats(scheduleId: Int, userId: Int, seatNumbers: [Int], completion: @escaping (Result<Reservation, any Error>) -> Void) {
+    func reserveSeats(scheduleId: Int, userId: Int, seatNumbers: [Int], completion: @escaping (Result<Void, any Error>) -> Void) {
         let url = APIConfiguration.reserveSeats.urlString
         
         let requestBody = ReservationRequestEntity(
@@ -35,11 +35,10 @@ final class TrainService: BaseService, TrainServiceProtocol {
             seatNumbers: seatNumbers
         )
         
-        request(urlString: url, method: "POST", body: requestBody) { (result: Result<ReservationDataEntity, Error>) in
+        request(urlString: url, method: "POST", body: requestBody) { (result: Result<ReservationResponseEntity, Error>) in
             switch result {
-            case .success(let entity):
-                let domainReservation = entity.toDomain()
-                completion(.success(domainReservation))
+            case .success:
+                completion(.success(()))
                 
             case .failure(let error):
                 completion(.failure(error))
