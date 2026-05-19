@@ -10,40 +10,11 @@ import UIKit
 import SnapKit
 import Then
 
-//TODO: - 서버 데이터로 변경 예정
-
-struct TicketDummyModel {
-    let date: String
-    let trainName: String
-    let passengerCount: String
-    let departureStation: String
-    let departureTime: String
-    let destinationStation: String
-    let destinationTime: String
-}
-
-private var ticketList: [TicketDummyModel] = [
-    TicketDummyModel(
-        date: "2026년 5월 5일 (월)",
-        trainName: "[무궁화호 1248]",
-        passengerCount: "어른 2명",
-        departureStation: "용산",
-        departureTime: "15: 04",
-        destinationStation: "순천",
-        destinationTime: "19: 55"
-    ),
-    TicketDummyModel(
-        date: "2026년 5월 15일 (금)",
-        trainName: "[KTX 021]",
-        passengerCount: "어른 1명",
-        departureStation: "서울",
-        departureTime: "09: 30",
-        destinationStation: "부산",
-        destinationTime: "12: 15"
-    )
-]
-
 final class MyTicketCollectionView: BaseUIView {
+    
+    // MARK: - Property
+    
+    private var reservations: [Reservation] = []
     
     // MARK: - UI Component
     
@@ -110,6 +81,13 @@ final class MyTicketCollectionView: BaseUIView {
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: MyTicketCollectionHeaderView.identifier)
     }
+    
+    // MARK: - Publice Method
+    
+    func configure(with reservations: [Reservation]) {
+        self.reservations = reservations
+        self.collectionView.reloadData()
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -117,7 +95,7 @@ final class MyTicketCollectionView: BaseUIView {
 extension MyTicketCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ticketList.count
+        return reservations.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -126,17 +104,27 @@ extension MyTicketCollectionView: UICollectionViewDataSource {
             for: indexPath
         ) as? MyTicketCollectionViewCell else { return UICollectionViewCell() }
         
-        let data = ticketList[indexPath.item]
+        let reservation = reservations[indexPath.item]
+        let train = reservation.train
         
-        cell.configure(
-            date: data.date,
-            trainName: data.trainName,
-            passengerCount: data.passengerCount,
-            departureStation: data.departureStation,
-            departureTime: data.departureTime,
-            destinationStation: data.destinationStation,
-            destinationTime: data.destinationTime
+        let randomCarNumber = Int.random(in: 1...18)
+        
+        let seatNames = reservation.seats.map { seat -> String in
+            let letter = (seat.number % 2 == 1) ? "A" : "B"
+            return "\(seat.number)\(letter)"
+        }
+        
+        let cellModel = ReservationModel(
+            date: train.time.departureTime.toKoreanFullDateString,
+            trainName: "[\(train.name)]",
+            passengerCount: "어른 \(reservation.seats.count)명",
+            departureTime: train.time.departureTime.toTimeString,
+            destinationTime: train.time.arrivalTime.toTimeString,
+            carNumber: randomCarNumber,
+            seatNames: seatNames
         )
+        
+        cell.configure(with: cellModel)
         
         return cell
     }
