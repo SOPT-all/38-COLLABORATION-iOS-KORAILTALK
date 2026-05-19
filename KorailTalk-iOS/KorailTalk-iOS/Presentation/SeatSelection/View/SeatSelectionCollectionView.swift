@@ -12,7 +12,7 @@ final class SeatSelectionCollectionView: BaseUIView {
 
     // MARK: - Property
 
-    private let seatSelectionModel: SeatSelectionModel
+    private var seatSelectionModel: SeatSelectionModel
     private lazy var seatCollectionItems = makeSeatCollectionItems()
     var selectedSeatCountDidChange: ((Int) -> Void)?
 
@@ -67,6 +67,13 @@ final class SeatSelectionCollectionView: BaseUIView {
     func updateBottomInset(_ bottomInset: CGFloat) {
         collectionView.contentInset.bottom = bottomInset
         collectionView.verticalScrollIndicatorInsets.bottom = bottomInset
+    }
+
+    func configure(model: SeatSelectionModel) {
+        seatSelectionModel = model
+        seatCollectionItems = makeSeatCollectionItems()
+        collectionView.reloadData()
+        selectedSeatCountDidChange?(selectedSeatCount)
     }
 
     private func register() {

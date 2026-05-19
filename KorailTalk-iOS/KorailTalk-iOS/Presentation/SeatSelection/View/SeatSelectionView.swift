@@ -51,4 +51,9 @@ final class SeatSelectionView: BaseUIView {
     func updateSeatCollectionBottomInset(_ bottomInset: CGFloat) {
         seatSelectionCollectionView.updateBottomInset(bottomInset)
     }
+
+    func configure(model: SeatSelectionModel) {
+        headerView.configure(model: model)
+        seatSelectionCollectionView.configure(model: model)
+    }
 }
