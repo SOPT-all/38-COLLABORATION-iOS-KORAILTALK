@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let viewController = KorailTabBarController()
         let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.isHidden = true
         
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = navigationController

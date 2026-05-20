@@ -73,20 +73,28 @@ extension TrainSearchViewController: UITableViewDataSource {
             withIdentifier: TrainTableViewCell.identifier,
             for: indexPath) as? TrainTableViewCell else { return UITableViewCell() }
         
-        cell.dataBind(trainList[indexPath.row])
+        let train = trainList[indexPath.row]
+        cell.dataBind(train)
         
         cell.standardButtonDidTap = { [weak self] in
-            self?.navigationController?.pushViewController(
-                SeatSelectionViewController(),
-                animated: true
+            guard let self else { return }
+            let viewController = SeatSelectionViewController(
+                scheduleId: train.scheduleId,
+                selectedFare: train.fareInfo.general,
+                trainService: trainService
             )
+            navigationController?.pushViewController(viewController, animated: true)
         }
         
         cell.specialButtonDidTap = { [weak self] in
-            self?.navigationController?.pushViewController(
-                SeatSelectionViewController(),
-                animated: true
+            guard let self else { return }
+            guard let specialFare = train.fareInfo.special else { return }
+            let viewController = SeatSelectionViewController(
+                scheduleId: train.scheduleId,
+                selectedFare: specialFare,
+                trainService: trainService
             )
+            navigationController?.pushViewController(viewController, animated: true)
         }
         
         return cell
@@ -96,7 +104,7 @@ extension TrainSearchViewController: UITableViewDataSource {
         return trainList.count
     }
 }
-    
+
 private extension TrainSearchViewController {
     
     func fetchTrainList() {
@@ -108,6 +116,7 @@ private extension TrainSearchViewController {
                 
                 trainList = fetchedData.map {
                     TrainModel(
+                        scheduleId: $0.scheduleId,
                         trainInfo: $0.trainInfo,
                         fareInfo: $0.trainFare,
                         hasOutletSeat: false
@@ -129,4 +138,5 @@ private extension TrainSearchViewController {
             }
         }
     }
+    
 }

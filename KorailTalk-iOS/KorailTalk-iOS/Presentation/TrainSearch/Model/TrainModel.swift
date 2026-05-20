@@ -8,10 +8,11 @@
 import UIKit
 
 struct TrainModel {
+    let scheduleId: Int
     let trainInfo: TrainInfo
     let fareInfo: TrainFare
     let hasOutletSeat: Bool
-
+    
     var departureTime: String {
         return formatDate(trainInfo.time.departureTime)
     }
