@@ -10,20 +10,33 @@ import UIKit
 import SnapKit
 final class TrainSearchViewController: BaseUIViewController {
     
+    // MARK: - Properties
+    
+    private let trainService: TrainServiceProtocol
+    private var trainList: [TrainModel] = []
+    
     // MARK: - UI Components
     
     private let rootView = TrainSearchView()
-    private let trainList = TrainModel.dummy()
+    
+    // MARK: - Initializer
+    
+    init(trainService: TrainServiceProtocol = TrainService()) {
+        self.trainService = trainService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Custom Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
-        setLayout()
-        setDelegate()
         register()
+        fetchTrainList()
     }
     
     override func setUI() {
@@ -81,5 +94,39 @@ extension TrainSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return trainList.count
+    }
+}
+    
+private extension TrainSearchViewController {
+    
+    func fetchTrainList() {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            
+            do {
+                let fetchedData = try await requestSchedules()
+                
+                trainList = fetchedData.map {
+                    TrainModel(
+                        trainInfo: $0.trainInfo,
+                        fareInfo: $0.trainFare,
+                        hasOutletSeat: false
+                    )
+                }
+                
+                rootView.tableView.reloadData()
+                
+            } catch {
+                print("🚨 열차 조회 실패: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func requestSchedules() async throws -> [ScheduleInfo] {
+        try await withCheckedThrowingContinuation { continuation in
+            trainService.fetchSchedules { result in
+                continuation.resume(with: result)
+            }
+        }
     }
 }

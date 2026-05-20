@@ -15,6 +15,8 @@ final class TrainTableViewCell: UITableViewCell {
     // MARK: - Property
     
     static let identifier = "TrainTableViewCell"
+    var standardButtonDidTap: (() -> Void)?
+    var specialButtonDidTap: (() -> Void)?
     
     // MARK: - UI Components
     
@@ -36,9 +38,6 @@ final class TrainTableViewCell: UITableViewCell {
     private let fareButtonStackView = UIStackView()
     private let standardButton = FareOptionButton(fareOption: FareOption(seatType: .standard, status: .available, fare: 34600))
     private let specialButton = FareOptionButton(fareOption: FareOption(seatType: .special, status: .available, fare: 70000))
-    
-    var standardButtonDidTap: (() -> Void)?
-    var specialButtonDidTap: (() -> Void)?
     
     // MARK: - Initializer
     
@@ -177,7 +176,6 @@ final class TrainTableViewCell: UITableViewCell {
     
     private func setAction() {
         standardButton.addTarget(self, action: #selector(standardButtonTapped), for: .touchUpInside)
-
         specialButton.addTarget(self, action: #selector(specialButtonTapped), for: .touchUpInside)
     }
         
@@ -191,24 +189,7 @@ final class TrainTableViewCell: UITableViewCell {
         specialButtonDidTap?()
     }
     
-    // MARK: - Public Methods
-    
-    func configure(trainName: String, departureTime: String, arrivalTime: String, benefitText: String?, durationTime: String) {
-        trainNameLabel.text = trainName
-        departureTimeLabel.text = departureTime
-        arrivalTimeLabel.text = arrivalTime
-        durationLabel.text = durationTime
-        
-        if let benefitText {
-            benefitLabel.text = benefitText
-            benefitStackView.isHidden = false
-        } else {
-            benefitStackView.isHidden = true
-        }
-    }
 }
-
-// TODO: - 서버 통신 API 연결 및 데이터 바인딩 로직 업데이트
 
 extension TrainTableViewCell {
     func dataBind(_ data: TrainModel) {
