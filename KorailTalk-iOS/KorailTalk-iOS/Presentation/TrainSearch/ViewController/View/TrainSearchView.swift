@@ -11,6 +11,14 @@ import Then
 
 final class TrainSearchView: BaseUIView {
     
+    // MARK: - Properties
+    
+    var seatOptionDidSelect: ((String) -> Void)? {
+        didSet {
+            secondDropdownView.onItemSelected = seatOptionDidSelect
+        }
+    }
+    
     // MARK: - UI Components
     
     private let departureLabel = UILabel()

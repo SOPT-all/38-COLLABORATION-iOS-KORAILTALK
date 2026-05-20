@@ -14,6 +14,7 @@ final class TrainSearchViewController: BaseUIViewController {
     
     private let trainService: TrainServiceProtocol
     private var trainList: [TrainModel] = []
+    private var filteredTrainList: [TrainModel] = []
     
     // MARK: - UI Components
     
@@ -34,7 +35,7 @@ final class TrainSearchViewController: BaseUIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        filteredTrainList = trainList
         register()
         fetchTrainList()
     }
@@ -54,6 +55,16 @@ final class TrainSearchViewController: BaseUIViewController {
     override func setDelegate() {
         rootView.tableView.delegate = self
         rootView.tableView.dataSource = self
+        
+        rootView.seatOptionDidSelect = { [weak self] selectedTitle in
+            guard let self else { return }
+            
+            if selectedTitle == "콘센트석" {
+                applyOutletFilter()
+            } else {
+                resetFilter()
+            }
+        }
     }
     
     private func register() {
@@ -72,39 +83,40 @@ extension TrainSearchViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TrainTableViewCell.identifier,
             for: indexPath) as? TrainTableViewCell else { return UITableViewCell() }
+        let train = filteredTrainList[indexPath.row]
         
-        let train = trainList[indexPath.row]
         cell.dataBind(train)
         
         cell.standardButtonDidTap = { [weak self] in
-            guard let self else { return }
-            let viewController = SeatSelectionViewController(
-                scheduleId: train.scheduleId,
-                selectedFare: train.fareInfo.general,
-                trainService: trainService
+            self?.navigationController?.pushViewController(
+                SeatSelectionViewController(
+                    scheduleId: train.scheduleId,
+                    selectedFare: train.fareInfo.general
+                ),
+                animated: true
             )
-            navigationController?.pushViewController(viewController, animated: true)
         }
         
         cell.specialButtonDidTap = { [weak self] in
-            guard let self else { return }
             guard let specialFare = train.fareInfo.special else { return }
-            let viewController = SeatSelectionViewController(
-                scheduleId: train.scheduleId,
-                selectedFare: specialFare,
-                trainService: trainService
+            
+            self?.navigationController?.pushViewController(
+                SeatSelectionViewController(
+                    scheduleId: train.scheduleId,
+                    selectedFare: specialFare
+                ),
+                animated: true
             )
-            navigationController?.pushViewController(viewController, animated: true)
         }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trainList.count
+        return filteredTrainList.count
     }
 }
-
+    
 private extension TrainSearchViewController {
     
     func fetchTrainList() {
@@ -119,11 +131,11 @@ private extension TrainSearchViewController {
                         scheduleId: $0.scheduleId,
                         trainInfo: $0.trainInfo,
                         fareInfo: $0.trainFare,
-                        hasOutletSeat: false
+                        hasOutletSeat: true
                     )
                 }
                 
-                rootView.tableView.reloadData()
+                resetFilter()
                 
             } catch {
                 print("🚨 열차 조회 실패: \(error.localizedDescription)")
@@ -139,4 +151,16 @@ private extension TrainSearchViewController {
         }
     }
     
+    func applyOutletFilter() {
+        filteredTrainList = trainList.filter { train in
+            return train.canSelectOutletSeat
+        }
+
+        rootView.tableView.reloadData()
+    }
+    
+    func resetFilter() {
+        filteredTrainList = trainList
+        rootView.tableView.reloadData()
+    }
 }

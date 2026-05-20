@@ -128,6 +128,17 @@ final class FareOptionButton: UIButton {
     }
     
     func updateConfig(fare: Int) {
+        fareOption = FareOption(
+            seatType: fareOption.seatType,
+            status: .available,
+            fare: fare
+        )
+        
+        optionLabel.text = fareOption.seatType.title
+        fareLabel.isHidden = false
+        isEnabled = true
+        updateColor(isSelected: false)
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         if let formattedFare = formatter.string(from: NSNumber(value: fare)) {
@@ -144,6 +155,7 @@ final class FareOptionButton: UIButton {
 
         optionLabel.text = "매진"
         fareLabel.text = nil
+        fareLabel.isHidden = true
         isEnabled = false
         setSoldoutStyle()
     }

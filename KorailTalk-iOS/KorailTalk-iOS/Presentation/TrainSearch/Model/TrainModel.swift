@@ -12,7 +12,7 @@ struct TrainModel {
     let trainInfo: TrainInfo
     let fareInfo: TrainFare
     let hasOutletSeat: Bool
-    
+
     var departureTime: String {
         return formatDate(trainInfo.time.departureTime)
     }
@@ -23,6 +23,14 @@ struct TrainModel {
     
     var durationTime: String {
         return formatDuration(from: trainInfo.time.departureTime, to: trainInfo.time.arrivalTime)
+    }
+    
+    var canSelectOutletSeat: Bool {
+        guard let availability = trainInfo.availability else {
+            return false
+        }
+
+        return hasOutletSeat && !availability.isOutletSoldOut
     }
     
     private func formatDate(_ date: Date) -> String {
