@@ -10,20 +10,31 @@ import UIKit
 import SnapKit
 final class TrainSearchViewController: BaseUIViewController {
     
-    private let trainService = TrainService()
+    // MARK: - Properties
+    
+    private let trainService: TrainServiceProtocol
+    private var trainList: [TrainModel] = []
     
     // MARK: - UI Components
     
     private let rootView = TrainSearchView()
-    private var trainList: [TrainModel] = []
+    
+    // MARK: - Initializer
+    
+    init(trainService: TrainServiceProtocol = TrainService()) {
+        self.trainService = trainService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Custom Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
-        setLayout()
-        setDelegate()
         register()
         fetchTrainList()
     }
@@ -112,18 +123,9 @@ private extension TrainSearchViewController {
     }
     
     func requestSchedules() async throws -> [ScheduleInfo] {
-        
-        return try await withCheckedThrowingContinuation { continuation in
-            
+        try await withCheckedThrowingContinuation { continuation in
             trainService.fetchSchedules { result in
-                
-                switch result {
-                case .success(let schedules):
-                    continuation.resume(returning: schedules)
-                    
-                case .failure(let error):
-                    continuation.resume(throwing: error)
-                }
+                continuation.resume(with: result)
             }
         }
     }

@@ -11,12 +11,6 @@ struct ScheduledListEntity: Decodable {
     let schedules: [ScheduledEntity]
 }
 
-struct ScheduleInfo {
-    let scheduleId: Int
-    let trainInfo: TrainInfo
-    let trainFare: TrainFare
-}
-
 struct ScheduledEntity: Decodable {
     let scheduleId: Int
     let trainType: String
