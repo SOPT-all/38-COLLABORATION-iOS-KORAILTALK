@@ -5,17 +5,17 @@
 //  Created by mandoo on 5/10/26.
 //
 
+import SnapKit
 import UIKit
 
-import SnapKit
-
 final class SeatSelectionViewController: BaseUIViewController {
-    
     // MARK: - Property
     
     private let scheduleId: Int
     private let selectedFare: SeatFare
     private let trainService: TrainServiceProtocol
+    private var scheduleInfo: ScheduleInfo?
+    private var selectedSeats: [Seat] = []
     private var paymentBottomView: PaymentBottomSheetView?
     private let priceFormatter = NumberFormatter.koreanDecimal()
     
@@ -24,8 +24,8 @@ final class SeatSelectionViewController: BaseUIViewController {
     private let paymentBottomSheetHeight: CGFloat = 150
     private lazy var rootView = {
         let rootView = SeatSelectionView(model: SeatSelectionModel.placeholder)
-        rootView.selectedSeatCountDidChange = { [weak self] selectedSeatCount in
-            self?.updatePaymentBottomSheet(selectedSeatCount: selectedSeatCount)
+        rootView.selectedSeatsDidChange = { [weak self] selectedSeats in
+            self?.updatePaymentBottomSheet(selectedSeats: selectedSeats)
         }
         return rootView
     }()
@@ -72,9 +72,11 @@ final class SeatSelectionViewController: BaseUIViewController {
     
     // MARK: - Action
     
-    private func updatePaymentBottomSheet(selectedSeatCount: Int) {
-        if selectedSeatCount > 0 {
-            showPaymentBottomSheet(selectedSeatCount: selectedSeatCount)
+    private func updatePaymentBottomSheet(selectedSeats: [Seat]) {
+        self.selectedSeats = selectedSeats
+        
+        if !self.selectedSeats.isEmpty {
+            showPaymentBottomSheet(selectedSeatCount: self.selectedSeats.count)
         } else {
             hidePaymentBottomSheet()
         }
@@ -125,7 +127,6 @@ final class SeatSelectionViewController: BaseUIViewController {
 }
 
 private extension SeatSelectionViewController {
-    
     func fetchSeatSelectionModel() {
         Task { @MainActor [weak self] in
             guard let self else { return }
@@ -139,6 +140,7 @@ private extension SeatSelectionViewController {
                 guard let scheduleInfo = schedules.first(where: { $0.scheduleId == self.scheduleId }) else {
                     return
                 }
+                self.scheduleInfo = scheduleInfo
                 let seatSelectionModel = SeatSelectionModel.makeModel(
                     train: scheduleInfo.trainInfo,
                     fare: scheduleInfo.trainFare,
@@ -167,5 +169,4 @@ private extension SeatSelectionViewController {
             }
         }
     }
-    
 }
