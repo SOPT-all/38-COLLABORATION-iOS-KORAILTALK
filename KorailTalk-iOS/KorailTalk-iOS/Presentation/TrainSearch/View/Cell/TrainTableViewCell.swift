@@ -192,7 +192,7 @@ final class TrainTableViewCell: UITableViewCell {
 }
 
 extension TrainTableViewCell {
-    func dataBind(_ data: TrainModel) {
+    func dataBind(_ data: TrainModel, showBenefit: Bool) {
         trainNameLabel.text = data.trainInfo.name
         departureTimeLabel.text = data.departureTime
         arrivalTimeLabel.text = data.arrivalTime
@@ -205,6 +205,6 @@ extension TrainTableViewCell {
             specialButton.updateSoldOut()
         }
         
-        benefitStackView.isHidden = true
+        benefitStackView.isHidden = !showBenefit
     }
 }
