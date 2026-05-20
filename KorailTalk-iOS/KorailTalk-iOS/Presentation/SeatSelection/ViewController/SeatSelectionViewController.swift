@@ -41,6 +41,7 @@ final class SeatSelectionViewController: BaseUIViewController {
         self.selectedFare = selectedFare
         self.trainService = trainService
         super.init(nibName: nil, bundle: nil)
+        hidesBottomBarWhenPushed = true
     }
     
     @available(*, unavailable)
