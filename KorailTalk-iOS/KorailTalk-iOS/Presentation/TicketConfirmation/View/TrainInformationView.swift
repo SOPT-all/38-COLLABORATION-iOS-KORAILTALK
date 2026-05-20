@@ -60,19 +60,19 @@ class TrainInformationView: BaseUIView {
         }
         
         monthLabel.do {
-            $0.text = "4월"
+            $0.text = "5월"
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }
         
         dayLabel.do {
-            $0.text = "24일"
+            $0.text = "10일"
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }
         
         dayOfWeekLabel.do {
-            $0.text = "(금)"
+            $0.text = "(일)"
             $0.font = .pretendard(.body3)
             $0.textColor = .secondary700
         }

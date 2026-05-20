@@ -13,6 +13,12 @@ final class TrainSearchView: BaseUIView {
     
     // MARK: - Properties
     
+    var trainTypeDidSelect: ((String) -> Void)? {
+        didSet {
+            firstDropdownView.onItemSelected = trainTypeDidSelect
+        }
+    }
+    
     var seatOptionDidSelect: ((String) -> Void)? {
         didSet {
             secondDropdownView.onItemSelected = seatOptionDidSelect
@@ -48,7 +54,7 @@ final class TrainSearchView: BaseUIView {
     
     override func setStyle() {
         backgroundColor = .neutral100
-
+        
         titleStackView.do {
             $0.spacing = 60
             $0.axis = .horizontal
@@ -78,7 +84,7 @@ final class TrainSearchView: BaseUIView {
         }
         
         dateLabel.do {
-            $0.text = "2026년  5월 5일 (월)"
+            $0.text = "2026년  5월 10일 (일)"
             $0.font = .pretendard(.body2)
             $0.textColor = .neutral900
             $0.textAlignment = .center

@@ -86,9 +86,13 @@ final class TicketConfirmationViewController: BaseUIViewController {
         }
         
         modalView.popupView.onTapTicketButton = { [weak self] in
-            self?.modalView.removeFromSuperview()
-            let viewController = MyTicketViewController()
-            self?.navigationController?.pushViewController(viewController, animated: true)
+            guard let self else { return }
+            modalView.removeFromSuperview()
+            
+            if let tabBarController {
+                tabBarController.selectedIndex = KorailTab.myticket.rawValue
+                navigationController?.popToRootViewController(animated: false)
+            }
         }
     }
     

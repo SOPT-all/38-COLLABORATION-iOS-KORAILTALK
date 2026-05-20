@@ -34,8 +34,8 @@ final class MyTicketViewController: BaseUIViewController {
     
     // MARK: - Lify Cycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         fetchMyTickets()
     }
