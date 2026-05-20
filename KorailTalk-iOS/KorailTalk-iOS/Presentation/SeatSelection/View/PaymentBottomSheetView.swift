@@ -15,6 +15,7 @@ final class PaymentBottomSheetView: BaseUIView {
     // MARK: - Property
 
     private let sheetHeight: CGFloat = 150
+    var onTapPaymentButton: (() -> Void)?
 
     // MARK: - UI Components
 
@@ -163,6 +164,6 @@ final class PaymentBottomSheetView: BaseUIView {
 
     @objc
     private func paymentButtonDidTap() {
-        // TODO: - 승차권 정보 확인 View로 이동
+        onTapPaymentButton?()
     }
 }

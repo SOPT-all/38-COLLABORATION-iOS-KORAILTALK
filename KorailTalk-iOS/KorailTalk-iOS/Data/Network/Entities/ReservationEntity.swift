@@ -15,11 +15,6 @@ struct ReservationRequestEntity: Encodable {
     let seatNumbers: [Int]
 }
 
-struct ReservationResponseEntity: Decodable {
-    let message: String
-    let data: ReservationDataEntity
-}
-
 struct ReservationDataEntity: Decodable {
     let scheduleId: Int
     let userId: Int

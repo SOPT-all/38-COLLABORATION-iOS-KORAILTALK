@@ -189,7 +189,7 @@ private extension SeatSelectionCollectionView {
             seatCollectionItem(for: seatNumbers[1], seatsByNumber: seatsByNumber),
             .aisle(showsArrow: showsAisleArrow(rowIndex: rowIndex)),
             seatCollectionItem(for: seatNumbers[2], seatsByNumber: seatsByNumber),
-            seatCollectionItem(for: seatNumbers[3], seatsByNumber: seatsByNumber),
+            seatCollectionItem(for: seatNumbers[3], seatsByNumber: seatsByNumber)
         ]
     }
     
@@ -200,7 +200,7 @@ private extension SeatSelectionCollectionView {
             firstSeatNumber + 2,
             firstSeatNumber + 3,
             firstSeatNumber + 1,
-            firstSeatNumber,
+            firstSeatNumber
         ]
     }
     

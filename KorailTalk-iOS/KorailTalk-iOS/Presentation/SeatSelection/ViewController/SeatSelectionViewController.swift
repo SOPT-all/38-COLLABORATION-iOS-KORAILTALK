@@ -5,10 +5,12 @@
 //  Created by mandoo on 5/10/26.
 //
 
-import SnapKit
 import UIKit
 
+import SnapKit
+
 final class SeatSelectionViewController: BaseUIViewController {
+    
     // MARK: - Property
     
     private let scheduleId: Int
@@ -99,6 +101,10 @@ final class SeatSelectionViewController: BaseUIViewController {
             amount: "\(selectedSeatCount)"
         )
         
+        paymentBottomSheetView.onTapPaymentButton = { [weak self] in
+            self?.navigateToTicketConfirmation()
+        }
+        
         view.addSubview(paymentBottomSheetView)
         
         paymentBottomSheetView.snp.makeConstraints {
@@ -123,6 +129,24 @@ final class SeatSelectionViewController: BaseUIViewController {
     private func formattedPrice(for selectedSeatCount: Int) -> String {
         let totalPrice = selectedFare.price * selectedSeatCount
         return priceFormatter.string(from: totalPrice) ?? "\(totalPrice)원"
+    }
+    
+    private func navigateToTicketConfirmation() {
+        guard let scheduleInfo = self.scheduleInfo else { return }
+        
+        let ticketInfoModel = TicketInformationModel(
+            scheduleInfo: scheduleInfo,
+            selectedSeats: self.selectedSeats
+        )
+        
+        let ticketConfirmationVC = TicketConfirmationViewController(
+            scheduleId: self.scheduleId,
+            selectedSeats: self.selectedSeats,
+            ticketInfoModel: ticketInfoModel,
+            trainService: self.trainService
+        )
+        
+        self.navigationController?.pushViewController(ticketConfirmationVC, animated: true)
     }
 }
 

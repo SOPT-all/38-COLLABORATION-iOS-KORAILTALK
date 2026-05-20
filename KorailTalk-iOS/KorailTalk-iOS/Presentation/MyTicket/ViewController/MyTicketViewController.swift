@@ -70,7 +70,6 @@ private extension MyTicketViewController {
             do {
                 let fetchedData = try await fetchMyReservations(userId: 1)
                 reservations = fetchedData
-                
                 myTicketCollectionView.configure(with: fetchedData)
                 
             } catch {

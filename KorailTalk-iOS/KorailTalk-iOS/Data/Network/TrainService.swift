@@ -46,7 +46,7 @@ final class TrainService: BaseService, TrainServiceProtocol {
             seatNumbers: seatNumbers
         )
         
-        request(urlString: url, method: "POST", body: requestBody) { (result: Result<ReservationResponseEntity, Error>) in
+        request(urlString: url, method: "POST", body: requestBody) { (result: Result<ReservationDataEntity, Error>) in
             switch result {
             case .success:
                 completion(.success(()))
