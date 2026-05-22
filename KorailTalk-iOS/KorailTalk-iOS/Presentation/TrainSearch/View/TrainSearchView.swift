@@ -4,6 +4,7 @@
 //
 //  Created by 장지인 on 5/15/26.
 //
+
 import UIKit
 
 import SnapKit
@@ -39,13 +40,13 @@ final class TrainSearchView: BaseUIView {
     
     private let dropDownStackView = UIStackView()
     private let firstDropdownView = DropdownView(
-        items: ["전체", "무궁화호", "새마을호", "itx", "ktx", "srt"], placeholder: "전체"
+        items: ["전체", "KTX", "새마을", "무궁화", "ITX"], placeholder: "전체"
     )
     private let secondDropdownView = DropdownView(
         items: [ "일반석", "콘센트석", "유아동반", "수동휠체어", "전동휠체어", "2층석", "자전거", "대피도우미"], placeholder: "일반석"
     )
     private let thirdDropdownView = DropdownView(
-        items: ["직통"], placeholder: "직통"
+        items: ["직통", "환승"], placeholder: "직통"
     )
     
     let tableView = UITableView(frame: .zero, style: .plain)
