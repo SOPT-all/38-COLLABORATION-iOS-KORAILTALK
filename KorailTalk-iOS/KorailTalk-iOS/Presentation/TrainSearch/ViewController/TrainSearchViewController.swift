@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+
 final class TrainSearchViewController: BaseUIViewController {
     
     // MARK: - Properties
@@ -15,6 +16,9 @@ final class TrainSearchViewController: BaseUIViewController {
     private let trainService: TrainServiceProtocol
     private var trainList: [TrainModel] = []
     private var filteredTrainList: [TrainModel] = []
+    
+    private var currentTrainType: String = "전체"
+    private var currentSeatOption: String = "일반석"
     
     // MARK: - UI Components
     
@@ -56,14 +60,17 @@ final class TrainSearchViewController: BaseUIViewController {
         rootView.tableView.delegate = self
         rootView.tableView.dataSource = self
         
-        rootView.seatOptionDidSelect = { [weak self] selectedTitle in
+        rootView.trainTypeDidSelect = { [weak self] selectedType in
+            guard let self else { return }
+            currentTrainType = selectedType
+            applyFilters()
+        }
+        
+        rootView.seatOptionDidSelect = { [weak self] selectedOption in
             guard let self else { return }
             
-            if selectedTitle == "콘센트석" {
-                applyOutletFilter()
-            } else {
-                resetFilter()
-            }
+            currentSeatOption = selectedOption
+            applyFilters()
         }
     }
     
@@ -83,9 +90,11 @@ extension TrainSearchViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: TrainTableViewCell.identifier,
             for: indexPath) as? TrainTableViewCell else { return UITableViewCell() }
-        let train = filteredTrainList[indexPath.row]
         
-        cell.dataBind(train)
+        let train = filteredTrainList[indexPath.row]
+        let shouldShowBenefit = (indexPath.row == 1 || indexPath.row == 3 || indexPath.row == 6)
+        
+        cell.dataBind(train, showBenefit: shouldShowBenefit)
         
         cell.standardButtonDidTap = { [weak self] in
             self?.navigationController?.pushViewController(
@@ -116,9 +125,8 @@ extension TrainSearchViewController: UITableViewDataSource {
         return filteredTrainList.count
     }
 }
-    
+
 private extension TrainSearchViewController {
-    
     func fetchTrainList() {
         Task { @MainActor [weak self] in
             guard let self else { return }
@@ -151,15 +159,31 @@ private extension TrainSearchViewController {
         }
     }
     
-    func applyOutletFilter() {
+    func applyFilters() {
         filteredTrainList = trainList.filter { train in
-            return train.canSelectOutletSeat
+            let matchesTrainType: Bool
+            if currentTrainType == "전체" {
+                matchesTrainType = true
+            } else {
+                matchesTrainType = train.trainInfo.name.lowercased().contains(currentTrainType.lowercased())
+            }
+            
+            let matchesSeatOption: Bool
+            if currentSeatOption == "콘센트석" {
+                matchesSeatOption = train.canSelectOutletSeat
+            } else {
+                matchesSeatOption = true
+            }
+            
+            return matchesTrainType && matchesSeatOption
         }
-
+        
         rootView.tableView.reloadData()
     }
     
     func resetFilter() {
+        currentTrainType = "전체"
+        currentSeatOption = "일반석"
         filteredTrainList = trainList
         rootView.tableView.reloadData()
     }

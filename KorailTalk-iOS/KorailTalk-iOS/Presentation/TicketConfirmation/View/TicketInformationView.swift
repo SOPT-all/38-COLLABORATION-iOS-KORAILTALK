@@ -75,7 +75,7 @@ class TicketInformationView: BaseUIView {
         }
         
         payPeriodDateLabel.do {
-            $0.text = "2026. 4. 23. 금 23 : 56"
+            $0.text = "2026. 5. 9. 토 23 : 56"
             $0.font = .pretendard(.caption1)
             $0.textColor = .neutral900
         }
