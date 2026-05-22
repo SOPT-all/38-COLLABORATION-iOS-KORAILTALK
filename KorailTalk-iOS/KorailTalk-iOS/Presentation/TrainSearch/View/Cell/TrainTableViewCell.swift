@@ -10,11 +10,10 @@ import UIKit
 import SnapKit
 import Then
 
-final class TrainTableViewCell: UITableViewCell {
+final class TrainTableViewCell: BaseTableViewCell {
     
     // MARK: - Property
     
-    static let identifier = "TrainTableViewCell"
     var standardButtonDidTap: (() -> Void)?
     var specialButtonDidTap: (() -> Void)?
     
@@ -39,24 +38,9 @@ final class TrainTableViewCell: UITableViewCell {
     private let standardButton = FareOptionButton(fareOption: FareOption(seatType: .standard, status: .available, fare: 34600))
     private let specialButton = FareOptionButton(fareOption: FareOption(seatType: .special, status: .available, fare: 70000))
     
-    // MARK: - Initializer
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setUI()
-        setStyle()
-        setLayout()
-        setAction()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Custom Methods
     
-    private func setUI() {
+    override func setUI() {
         benefitStackView.addArrangedSubviews(benefitImageView, benefitLabel)
         timeStackView.addArrangedSubviews(departureTimeLabel, arrowImageView, arrivalTimeLabel)
         fareButtonStackView.addArrangedSubviews(standardButton, specialButton)
@@ -65,7 +49,7 @@ final class TrainTableViewCell: UITableViewCell {
         containerView.addSubviews(trainNameLabel, timeStackView, durationLabel, benefitStackView, fareButtonStackView)
     }
     
-    private func setStyle() {
+    override func setStyle() {
         backgroundColor = .clear
         selectionStyle = .none
         
@@ -130,7 +114,7 @@ final class TrainTableViewCell: UITableViewCell {
         }
     }
     
-    private func setLayout() {
+    override func setLayout() {
         containerView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(4)
             $0.bottom.equalToSuperview().offset(-4)
@@ -172,13 +156,13 @@ final class TrainTableViewCell: UITableViewCell {
         }
     }
     
-    // MARK: - Actions
-    
-    private func setAction() {
+    override func setAddTarget() {
         standardButton.addTarget(self, action: #selector(standardButtonTapped), for: .touchUpInside)
         specialButton.addTarget(self, action: #selector(specialButtonTapped), for: .touchUpInside)
     }
         
+    // MARK: - Actions
+    
     @objc
     private func standardButtonTapped() {
         standardButtonDidTap?()

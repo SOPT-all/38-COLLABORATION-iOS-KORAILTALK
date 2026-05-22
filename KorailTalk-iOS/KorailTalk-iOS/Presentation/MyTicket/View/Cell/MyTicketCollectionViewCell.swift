@@ -10,11 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class MyTicketCollectionViewCell: UICollectionViewCell {
-    
-    // MARK: - Property
-    
-    static let identifier = "MyTicketCollectionViewCell"
+final class MyTicketCollectionViewCell: BaseUICollectionViewCell {
     
     // MARK: - UI Components
     
@@ -32,23 +28,9 @@ final class MyTicketCollectionViewCell: UICollectionViewCell {
     
     private let ticketDetailView = TicketDetailView()
     
-    // MARK: - Initializer
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setStyle()
-        setUI()
-        setLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Custom Methods
     
-    private func setStyle() {
+    override func setStyle() {
         contentView.backgroundColor = .neutral100
         
         dateLabel.do {
@@ -95,7 +77,7 @@ final class MyTicketCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func setUI() {
+    override func setUI() {
         contentView.addSubviews(dateLabel, trainLabel, seatTypeLabel,
                                 informationStackView, ticketDetailView)
         
@@ -103,7 +85,7 @@ final class MyTicketCollectionViewCell: UICollectionViewCell {
                                                  arrowLabel, destinationStationLabel, destinationTimeLabel)
     }
     
-    private func setLayout() {
+    override func setLayout() {
         dateLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview()

@@ -3,34 +3,15 @@ import UIKit
 import SnapKit
 import Then
 
-final class AisleCollectionViewCell: UICollectionViewCell {
-
-    // MARK: - Property
-
-    static let identifier = "AisleCollectionViewCell"
+final class AisleCollectionViewCell: BaseUICollectionViewCell {
 
     // MARK: - UI Components
 
     private let arrowImageView = UIImageView()
 
-    // MARK: - Initializer
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        setStyle()
-        setUI()
-        setLayout()
-    }
-
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     // MARK: - Custom Methods
 
-    private func setStyle() {
+    override func setStyle() {
         contentView.backgroundColor = .clear
 
         arrowImageView.do {
@@ -40,11 +21,11 @@ final class AisleCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    private func setUI() {
+    override func setUI() {
         contentView.addSubview(arrowImageView)
     }
 
-    private func setLayout() {
+    override func setLayout() {
         arrowImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.size.equalTo(44)

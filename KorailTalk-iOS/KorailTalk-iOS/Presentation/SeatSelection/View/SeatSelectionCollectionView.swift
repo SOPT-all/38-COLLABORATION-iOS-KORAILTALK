@@ -44,9 +44,6 @@ final class SeatSelectionCollectionView: BaseUIView {
             $0.backgroundColor = .clear
             $0.showsVerticalScrollIndicator = false
         }
-        
-        register()
-        setDelegate()
     }
     
     override func setUI() {
@@ -64,6 +61,16 @@ final class SeatSelectionCollectionView: BaseUIView {
         collectionView.delegate = self
     }
     
+    override func setRegister() {
+        collectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
+        collectionView.register(AisleCollectionViewCell.self, forCellWithReuseIdentifier: AisleCollectionViewCell.identifier)
+        collectionView.register(
+            SeatSelectionSectionHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SeatSelectionSectionHeaderView.identifier
+        )
+    }
+    
     func updateBottomInset(_ bottomInset: CGFloat) {
         collectionView.contentInset.bottom = bottomInset
         collectionView.verticalScrollIndicatorInsets.bottom = bottomInset
@@ -74,16 +81,6 @@ final class SeatSelectionCollectionView: BaseUIView {
         seatCollectionItems = makeSeatCollectionItems()
         collectionView.reloadData()
         selectedSeatsDidChange?(selectedSeats)
-    }
-    
-    private func register() {
-        collectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
-        collectionView.register(AisleCollectionViewCell.self, forCellWithReuseIdentifier: AisleCollectionViewCell.identifier)
-        collectionView.register(
-            SeatSelectionSectionHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: SeatSelectionSectionHeaderView.identifier
-        )
     }
 }
 
@@ -233,11 +230,7 @@ private extension SeatSelectionCollectionView {
     }
 }
 
-private final class SeatSelectionSectionHeaderView: UICollectionReusableView {
-    
-    // MARK: - Property
-    
-    static let identifier = "SeatSelectionSectionHeaderView"
+private final class SeatSelectionSectionHeaderView: BaseUICollectionReusableView {
     
     // MARK: - UI Components
     
@@ -246,24 +239,9 @@ private final class SeatSelectionSectionHeaderView: UICollectionReusableView {
     private let directionLabel = UILabel()
     private let rightDashedLineView = DashedLineView()
     
-    // MARK: - Initializer
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setStyle()
-        setUI()
-        setLayout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Custom Methods
     
-    private func setStyle() {
+    override func setStyle() {
         headerStackView.do {
             $0.axis = .horizontal
             $0.alignment = .center
@@ -279,12 +257,12 @@ private final class SeatSelectionSectionHeaderView: UICollectionReusableView {
         }
     }
     
-    private func setUI() {
+    override func setUI() {
         addSubview(headerStackView)
         headerStackView.addArrangedSubviews(leftDashedLineView, directionLabel, rightDashedLineView)
     }
     
-    private func setLayout() {
+    override func setLayout() {
         headerStackView.snp.makeConstraints {
             $0.top.horizontalEdges.equalToSuperview()
             $0.height.equalTo(17)
@@ -305,25 +283,12 @@ private final class SeatSelectionSectionHeaderView: UICollectionReusableView {
     }
 }
 
-private final class DashedLineView: UIView {
+private final class DashedLineView: BaseUIView {
     
     // MARK: - Property
     
     private let dashedLayer = CAShapeLayer()
-    
-    // MARK: - Initializer
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setStyle()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     // MARK: - Life Cycle
     
     override func layoutSubviews() {
@@ -335,7 +300,7 @@ private final class DashedLineView: UIView {
     
     // MARK: - Custom Methods
     
-    private func setStyle() {
+    override func setStyle() {
         backgroundColor = .clear
         
         dashedLayer.do {

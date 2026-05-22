@@ -29,6 +29,7 @@ class BaseUIViewController: UIViewController {
         setLayout()
         setAddTarget()
         setDelegate()
+        setRegister()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,4 +68,6 @@ class BaseUIViewController: UIViewController {
     func setAddTarget() {}
     
     func setDelegate() {}
+    
+    func setRegister() {}
 }

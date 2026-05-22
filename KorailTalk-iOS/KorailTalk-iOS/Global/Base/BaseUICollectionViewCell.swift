@@ -1,14 +1,20 @@
 //
-//  BaseUIViewController.swift
+//  BaseUICollectionViewCell.swift
 //  KorailTalk-iOS
 //
-//  Created by mandoo on 5/10/26.
+//  Created by mandoo on 5/22/26.
 //
 
 import UIKit
 
-class BaseUIView: UIView {
-
+class BaseUICollectionViewCell: UICollectionViewCell {
+    
+    // MARK: - Property
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     // MARK: - Initializer
     
     override init(frame: CGRect) {
@@ -17,28 +23,17 @@ class BaseUIView: UIView {
         setStyle()
         setUI()
         setLayout()
-        setAddTarget()
-        setDelegate()
-        setRegister()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup Methods
+    // MARK: - Custom Methods
     
-    func setStyle() {
-        backgroundColor = .surfaceDefault
-    }
+    func setStyle() {}
     
     func setUI() {}
     
     func setLayout() {}
-    
-    func setAddTarget() {}
-    
-    func setDelegate() {}
-    
-    func setRegister() {}
 }
