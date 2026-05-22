@@ -40,7 +40,6 @@ final class TrainSearchViewController: BaseUIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         filteredTrainList = trainList
-        register()
         fetchTrainList()
     }
     
@@ -74,7 +73,7 @@ final class TrainSearchViewController: BaseUIViewController {
         }
     }
     
-    private func register() {
+    override func setRegister() {
         rootView.tableView.register(TrainTableViewCell.self, forCellReuseIdentifier: TrainTableViewCell.identifier)
     }
 }

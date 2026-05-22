@@ -23,22 +23,6 @@ final class MyTicketCollectionView: BaseUIView {
         collectionViewLayout: UICollectionViewFlowLayout()
     )
     
-    // MARK: - Initializer
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setStyle()
-        setUI()
-        setLayout()
-        setDelegate()
-        setRegister()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Custom Methods
     
     override func setStyle() {
@@ -71,9 +55,7 @@ final class MyTicketCollectionView: BaseUIView {
         collectionView.dataSource = self
     }
     
-    // MARK: - Private Method
-    
-    private func setRegister() {
+    override func setRegister() {
         collectionView.register(MyTicketCollectionViewCell.self,
                                 forCellWithReuseIdentifier: MyTicketCollectionViewCell.identifier)
         

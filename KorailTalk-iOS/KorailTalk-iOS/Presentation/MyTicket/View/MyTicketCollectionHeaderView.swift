@@ -10,36 +10,19 @@ import UIKit
 import SnapKit
 import Then
 
-final class MyTicketCollectionHeaderView: UICollectionReusableView {
-    
-    // MARK: - Propety
-    
-    static let identifier = "MyTicketCollectionHeaderView"
+final class MyTicketCollectionHeaderView: BaseUICollectionReusableView {
     
     // MARK: - UI Component
     
     private let gradientView = GradientGuideView(type: .myTicket)
     
-    // MARK: - Initializer
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setUI()
-        setLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     // MARK: - Custom Methods
     
-    private func setUI() {
+    override func setUI() {
         addSubview(gradientView)
     }
     
-    private func setLayout() {
+    override func setLayout() {
         gradientView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.horizontalEdges.equalToSuperview().inset(20)
