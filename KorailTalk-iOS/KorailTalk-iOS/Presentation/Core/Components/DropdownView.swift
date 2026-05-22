@@ -28,7 +28,6 @@ final class DropdownView: BaseUIView {
     private let arrowImageView = UIImageView()
     private let dropdownTableView = UITableView()
     private let containerView = UIView()
-    private let dividerView = UIView()
     
     init(items: [String], placeholder: String) {
         self.items = items
@@ -46,7 +45,9 @@ final class DropdownView: BaseUIView {
     override func setStyle() {
         selectButton.do {
             $0.backgroundColor = .white
-            $0.layer.cornerRadius = 14
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.primary100.cgColor
+            $0.layer.cornerRadius = 15
             $0.clipsToBounds = true
         }
         
@@ -57,40 +58,39 @@ final class DropdownView: BaseUIView {
         }
         
         arrowImageView.do {
-            $0.image = UIImage(named: "ic_chevrondown")
+            $0.image = .icChevrondown
             $0.tintColor = .gray
             $0.contentMode = .scaleAspectFit
         }
         
         dropdownTableView.do {
-            $0.layer.cornerRadius = 14
-            $0.clipsToBounds = true
             $0.delegate = self
             $0.dataSource = self
             $0.isScrollEnabled = false
+            
             $0.separatorStyle = .singleLine
             $0.separatorColor = .primary100
             $0.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
             
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor.primary100.cgColor
+            $0.layer.cornerRadius = 5
+            $0.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            $0.clipsToBounds = true
+            
+            $0.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 8))
+            $0.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 8))
             $0.register(DropdownCell.self, forCellReuseIdentifier: "DropdownCell")
         }
         
-        dividerView.do {
-            $0.backgroundColor = .primary100
-            $0.isHidden = true
-        }
-        
         containerView.do {
-            $0.layer.cornerRadius = 14
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor.primary100.cgColor
-            $0.clipsToBounds = true
+            $0.backgroundColor = .clear
         }
     }
     
     override func setUI() {
         addSubviews(containerView)
-        containerView.addSubviews(selectButton, dividerView, dropdownTableView)
+        containerView.addSubviews(selectButton, dropdownTableView)
         selectButton.addSubviews(titleLabel, arrowImageView)
     }
     
@@ -102,12 +102,6 @@ final class DropdownView: BaseUIView {
         selectButton.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(28)
-        }
-        
-        dividerView.snp.makeConstraints {
-            $0.top.equalTo(selectButton.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1)
         }
         
         titleLabel.snp.makeConstraints {
@@ -123,20 +117,18 @@ final class DropdownView: BaseUIView {
         }
         
         dropdownTableView.snp.makeConstraints {
-            $0.top.equalTo(dividerView.snp.bottom)
+            $0.top.equalTo(selectButton.snp.bottom).offset(-1)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(0)
+            $0.height.equalTo(isExpanded ? CGFloat(items.count) * rowHeight + 16 : 0)
             $0.bottom.equalToSuperview()
         }
     }
     
     override func setAddTarget() {
         selectButton.addTarget(self, action: #selector(selectButtonDidTap), for: .touchUpInside)
-        
         selectButton.addTarget(self, action: #selector(buttonTouchDown), for: .touchDown)
-        
         selectButton.addTarget(self, action: #selector(buttonTouchUp),
-            for: [.touchUpInside, .touchDragExit, .touchCancel])
+                               for: [.touchUpInside, .touchDragExit, .touchCancel])
     }
     
     // MARK: - Action
@@ -146,26 +138,35 @@ final class DropdownView: BaseUIView {
         isExpanded.toggle()
         
         dropdownTableView.snp.updateConstraints {
-            $0.height.equalTo(isExpanded ? CGFloat(items.count) * rowHeight : 0)
+            $0.height.equalTo(isExpanded ? (CGFloat(items.count) * rowHeight) + 16 : 0)
         }
         
-        dividerView.isHidden = !isExpanded
-
         dropdownTableView.alpha = isExpanded ? 0 : 1
         
         UIView.animate(withDuration: 0.15) {
-            self.dropdownTableView.alpha =
-                self.isExpanded ? 1 : 0
+            self.dropdownTableView.alpha = self.isExpanded ? 1 : 0
         }
         
         arrowImageView.transform = isExpanded ? CGAffineTransform(rotationAngle: .pi) : .identity
+        
+        if isExpanded {
+            selectButton.layer.cornerRadius = 15
+            selectButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            
+            dropdownTableView.layer.cornerRadius = 5
+            dropdownTableView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        } else {
+            selectButton.layer.cornerRadius = 15
+            selectButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner,
+                                                .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
     }
     
     @objc
     private func buttonTouchDown() {
         selectButton.backgroundColor = .primary100
     }
-
+    
     @objc
     private func buttonTouchUp() {
         UIView.animate(withDuration: 0.15) {
@@ -185,9 +186,13 @@ extension DropdownView: UITableViewDelegate, UITableViewDataSource {
         
         cell.dataBind(text: item)
         
-        cell.updateTextColor(
-            isSelected: item == selectedItem
-        )
+        cell.updateTextColor(isSelected: item == selectedItem)
+        
+        if indexPath.row == items.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width + 100)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        }
         
         return cell
     }
