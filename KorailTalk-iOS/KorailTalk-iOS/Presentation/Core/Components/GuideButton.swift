@@ -13,10 +13,21 @@ import Then
 final class GuideButton: UIButton {
     
     // MARK: - UI Components
-
+    
     private let arrowImageView = UIImageView()
     private let titleLabelView = UILabel()
     private let underlineView = UIView()
+    override var isHighlighted: Bool {
+        didSet {
+            let isPressed = isHighlighted
+            
+            arrowImageView.image = isPressed ? .icCaretBesidePressed : .icCaretBeside
+            titleLabelView.textColor = isPressed ? .primary500 : .secondary700
+            underlineView.backgroundColor = isPressed ? .primary500 : .secondary700
+        }
+    }
+    
+    // MARK: - Initializer
     
     init(title: String) {
         super.init(frame: .zero)
@@ -31,11 +42,11 @@ final class GuideButton: UIButton {
     }
     
     // MARK: - Custom Methods
-
+    
     private func setStyle(title: String) {
         arrowImageView.do {
             $0.image = .icCaretBeside
-            $0.tintColor = .primary500
+            $0.tintColor = .secondary700
         }
         
         titleLabelView.do {
